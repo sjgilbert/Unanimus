@@ -18,7 +18,7 @@
         android:textSize="70sp"/>
 
     <TextView
-        android:id="@+id/group_id"
+        android:id="@+id/echo_group_id"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:textAlignment="gravity"

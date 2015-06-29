@@ -8,4 +8,6 @@
 * Make group with parse
 * Echo object id locally
 
+###v0.1.0 -- Added group object
+* User is assigned to the group
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->
