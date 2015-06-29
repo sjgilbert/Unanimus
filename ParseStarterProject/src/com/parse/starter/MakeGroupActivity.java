@@ -5,12 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.ParseACL;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * A button that creates a group.
@@ -32,30 +37,32 @@ public class MakeGroupActivity extends Activity {
 		groupID.setVisibility(View.INVISIBLE);
 
 		final UnanimusGroup newGroup = new UnanimusGroup();
-		newGroup.setMember(ParseUser.getCurrentUser());
+        ParseACL acl = new ParseACL();
+        acl.setPublicWriteAccess(true);
+        acl.setPublicReadAccess(true);
+        newGroup.setACL(acl);
+        ArrayList<String> members = new ArrayList<String>();
+        members.add(ParseUser.getCurrentUser().toString());
+		newGroup.put("members", members);
 		newGroup.saveInBackground(new SaveCallback() {
-			public void done(ParseException e) {
-				if (e == null) {
-					Button makeGroupButton1 = (Button) findViewById(R.id.make_group);
-					makeGroupButton1.setText("Group Made!");
+            public void done(ParseException e) {
+                if (e == null) {
+                    Button makeGroupButton = (Button) findViewById(R.id.make_group);
+                    makeGroupButton.setText("Group Made!");
 
-					displayGroupID(newGroup);
-				} else {
-					Button makeGroupButton1 = (Button) findViewById(R.id.make_group);
-					makeGroupButton1.setEnabled(true);
-					makeGroupButton1.setText("Make Group");
+                    displayGroupID(newGroup);
+                    Toast toast = Toast.makeText(MakeGroupActivity.this, newGroup.getMember(0).toString(), Toast.LENGTH_LONG);
+                    toast.show();
+                } else {
+                    Button makeGroupButton1 = (Button) findViewById(R.id.make_group);
+                    makeGroupButton1.setEnabled(true);
+                    makeGroupButton1.setText("Make Group");
 
-					displayError();
-				}
-			}
-		});
-	}
-
-	private void displayError() {
-		String text = "ERROR: GROUP NOT CREATED";
-		TextView idTextView = (TextView) findViewById(R.id.echo_group_id);
-		idTextView.setText(text);
-		idTextView.setVisibility(View.VISIBLE);
+                    Toast toast = Toast.makeText(MakeGroupActivity.this, e.getMessage(), Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
 	}
 
 	private void displayGroupID(ParseObject group) {
