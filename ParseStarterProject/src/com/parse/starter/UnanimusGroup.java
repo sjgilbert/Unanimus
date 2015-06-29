@@ -5,6 +5,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -12,9 +13,19 @@ import java.util.ArrayList;
  */
 @ParseClassName("UnanimusGroup")
 public class UnanimusGroup extends ParseObject {
-    public ParseUser getMember() { return getParseUser("user"); }
+    public ArrayList<String> getMembers() {
+        if(get("members") != null) {
+            return (ArrayList<String>) get("members");
+        }
+        else return null;
+    }
 
-    public void setMember(ParseUser usr) { put("user", usr); }
+    public String getMember(int ind) {
+        ArrayList<String> members = (ArrayList<String>) get("members");
+        return members.get(ind);
+    }
+
+    public void setMember(String usr) { add("members",ParseUser.getCurrentUser().toString()); }
 
     public static ParseQuery<UnanimusGroup> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
