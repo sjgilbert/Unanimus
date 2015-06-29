@@ -9,9 +9,12 @@ import android.widget.TextView;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-
+/**
+ * A button that creates a group.
+ */
 public class MakeGroupActivity extends Activity {
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
@@ -25,11 +28,11 @@ public class MakeGroupActivity extends Activity {
 		Button makeGroupButton = (Button) findViewById(R.id.make_group);
 		makeGroupButton.setEnabled(false);
 		makeGroupButton.setText("Creating ...");
-		TextView groupID = (TextView) findViewById(R.id.group_id);
+		TextView groupID = (TextView) findViewById(R.id.echo_group_id);
 		groupID.setVisibility(View.INVISIBLE);
 
-		final ParseObject newGroup = new ParseObject("NewGroup");
-		newGroup.put("user", "testUser");
+		final UnanimusGroup newGroup = new UnanimusGroup();
+		newGroup.setMember(ParseUser.getCurrentUser());
 		newGroup.saveInBackground(new SaveCallback() {
 			public void done(ParseException e) {
 				if (e == null) {
@@ -50,7 +53,7 @@ public class MakeGroupActivity extends Activity {
 
 	private void displayError() {
 		String text = "ERROR: GROUP NOT CREATED";
-		TextView idTextView = (TextView) findViewById(R.id.group_id);
+		TextView idTextView = (TextView) findViewById(R.id.echo_group_id);
 		idTextView.setText(text);
 		idTextView.setVisibility(View.VISIBLE);
 	}
@@ -58,7 +61,7 @@ public class MakeGroupActivity extends Activity {
 	private void displayGroupID(ParseObject group) {
 		String groupID = group.getObjectId();
 		String text = "Group ID: " + groupID;
-		TextView idTextView = (TextView) findViewById(R.id.group_id);
+		TextView idTextView = (TextView) findViewById(R.id.echo_group_id);
 		idTextView.setText(text);
 		idTextView.setVisibility(View.VISIBLE);
 	}
