@@ -13,19 +13,19 @@ import java.util.ArrayList;
  */
 @ParseClassName("UnanimusGroup")
 public class UnanimusGroup extends ParseObject {
-    public ArrayList<String> getMembers() {
+    public ArrayList<ParseUser> getMembers() {
         if(get("members") != null) {
-            return (ArrayList<String>) get("members");
+            return (ArrayList<ParseUser>) get("members");
         }
         else return null;
     }
 
-    public String getMember(int ind) {
-        ArrayList<String> members = (ArrayList<String>) get("members");
+    public ParseUser getMember(int ind) {
+        ArrayList<ParseUser> members = (ArrayList<ParseUser>) get("members");
         return members.get(ind);
     }
 
-    public void setMember(String usr) { add("members",ParseUser.getCurrentUser().toString()); }
+    public void setMember(ParseUser usr) { add("members", usr); }
 
     public static ParseQuery<UnanimusGroup> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
