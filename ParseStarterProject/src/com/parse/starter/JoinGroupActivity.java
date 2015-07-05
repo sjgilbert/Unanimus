@@ -45,7 +45,7 @@ public class JoinGroupActivity extends Activity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UnanimusGroup");
         try {
             first = (UnanimusGroup) query.get(groupIDStr);
-            first.setMember(ParseUser.getCurrentUser().toString());
+            first.setMember(ParseUser.getCurrentUser());
             first.save();
         }
         catch(ParseException e) {

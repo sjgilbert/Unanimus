@@ -27,13 +27,33 @@
         </activity>
 
         <activity
-            android:name=".JoinGroupActivity"
-            android:label="@string/join_group" >
+            android:name=".IntroPageActivity"
+            android:label="@string/intro" >
+        </activity>
+
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/login" >
+        </activity>
+
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/register" >
+        </activity>
+
+        <activity
+            android:name=".StartupActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".JoinGroupActivity"
+            android:label="@string/join_group" >
         </activity>
     </application>
 
