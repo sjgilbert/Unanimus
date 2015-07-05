@@ -1,6 +1,7 @@
 package com.parse.starter;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,6 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -24,42 +24,37 @@ public class MakeGroupActivity extends Activity {
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.make_group);
 
 		ParseAnalytics.trackAppOpenedInBackground(getIntent());
+
+		TextView groupIDTextView = (TextView) findViewById(R.id.echo_group_id);
+		groupIDTextView.setVisibility(View.INVISIBLE);
 	}
 
 	public void makeGroup(View v) throws ParseException {
-		Button makeGroupButton = (Button) findViewById(R.id.make_group);
-		makeGroupButton.setEnabled(false);
-		makeGroupButton.setText("Creating ...");
-		TextView groupID = (TextView) findViewById(R.id.echo_group_id);
-		groupID.setVisibility(View.INVISIBLE);
+		final ProgressDialog wait = new ProgressDialog(MakeGroupActivity.this);
+		wait.setMessage(getString(R.string.wait));
+		wait.show();
 
 		final UnanimusGroup newGroup = new UnanimusGroup();
         ParseACL acl = new ParseACL();
         acl.setPublicWriteAccess(true);
         acl.setPublicReadAccess(true);
         newGroup.setACL(acl);
-        ArrayList<String> members = new ArrayList<String>();
-        members.add(ParseUser.getCurrentUser().toString());
+		newGroup.put("user",ParseUser.getCurrentUser());
+        ArrayList<ParseUser> members = new ArrayList<ParseUser>();
+        members.add(ParseUser.getCurrentUser());
 		newGroup.put("members", members);
 		newGroup.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
+				wait.dismiss();
                 if (e == null) {
-                    Button makeGroupButton = (Button) findViewById(R.id.make_group);
-                    makeGroupButton.setText("Group Made!");
+					Toast.makeText(MakeGroupActivity.this, "Success!", Toast.LENGTH_LONG).show();
 
                     displayGroupID(newGroup);
-                    Toast toast = Toast.makeText(MakeGroupActivity.this, newGroup.getMember(0).toString(), Toast.LENGTH_LONG);
-                    toast.show();
                 } else {
-                    Button makeGroupButton1 = (Button) findViewById(R.id.make_group);
-                    makeGroupButton1.setEnabled(true);
-                    makeGroupButton1.setText("Make Group");
-
-                    Toast toast = Toast.makeText(MakeGroupActivity.this, e.getMessage(), Toast.LENGTH_LONG);
-                    toast.show();
+                    Toast.makeText(MakeGroupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

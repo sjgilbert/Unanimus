@@ -11,4 +11,19 @@
 
     <string name="enter_group_ID_hint">Enter Group ID</string>
     <string name="submit_button">Submit</string>
+
+    <string name="intro">Welcome to\nUnanimus!</string>
+    <string name="login">Log In</string>
+    <string name="register">Register</string>
+
+    <string name="register_username">Username</string>
+    <string name="register_password">Password</string>
+    <string name="repeatpassword">Repeat Password</string>
+    <string name="or">or</string>
+
+    <string name="intro_register">Register</string>
+    <string name="wait">Wait&#8230;</string>
+
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
 </resources>
