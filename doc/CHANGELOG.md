@@ -21,4 +21,9 @@
 * App directs users to screen based on cached user (or lack of)
 * Cleaned up code in MakeGroupActivity
 
+###v0.5.0 -- Settings and User data
+* Framework for settings and user data in place
+* Default settings json created
+* Settings load at StartupActivity
+
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->

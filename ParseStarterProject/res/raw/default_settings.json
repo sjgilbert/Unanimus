@@ -1,0 +1,10 @@
+{
+  "@profile": "!user",
+  "!user": {
+    "@user_name": "guest",
+    "@password": "",
+    "@registered": "false",
+    "#favorites": [],
+    "#friends": []
+  }
+}

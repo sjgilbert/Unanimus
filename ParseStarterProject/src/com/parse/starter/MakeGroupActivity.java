@@ -14,6 +14,9 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.starter.setting.SettingException;
+import com.parse.starter.setting.SettingNode;
+import com.parse.starter.setting.SettingPath;
 
 import java.util.ArrayList;
 

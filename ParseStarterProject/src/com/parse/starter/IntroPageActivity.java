@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.parse.starter.setting.SettingException;
+import com.parse.starter.setting.SettingNode;
+import com.parse.starter.setting.SettingPath;
+
 /**
  * The page that allows the user to either log-in or register.
  */
 public class IntroPageActivity extends Activity{
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
