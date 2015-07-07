@@ -45,16 +45,20 @@ public class JoinGroupActivity extends Activity {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UnanimusGroup");
         try {
             first = (UnanimusGroup) query.get(groupIDStr);
-            first.setMember(ParseUser.getCurrentUser());
-            first.save();
+            if(first.setMember(ParseUser.getCurrentUser().getUsername())) {
+                first.save();
+                Toast.makeText(JoinGroupActivity.this,"Success!",Toast.LENGTH_LONG).show();
+                return;
+            }
+            else{
+                Toast.makeText(JoinGroupActivity.this,"Already a member of this group!", Toast.LENGTH_LONG);
+                return;
+            }
         }
         catch(ParseException e) {
-            Toast toast = Toast.makeText(JoinGroupActivity.this,e.getMessage(),Toast.LENGTH_LONG);
-            toast.show();
+            Toast.makeText(JoinGroupActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
             return;
         }
-        Toast toast = Toast.makeText(JoinGroupActivity.this,first.getObjectId(),Toast.LENGTH_LONG);
-        toast.show();
 
     }
 }
