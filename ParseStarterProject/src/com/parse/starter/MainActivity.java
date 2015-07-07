@@ -27,7 +27,7 @@ public class MainActivity extends Activity{
 
         setContentView(R.layout.main);
 
-//Button to join group
+        //Button to join group
         Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,7 +37,7 @@ public class MainActivity extends Activity{
             }
         });
 
-//Button to make group
+        //Button to make group
         Button makeGroupButton = (Button) findViewById(R.id.main_make_group);
         makeGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +47,7 @@ public class MainActivity extends Activity{
             }
         });
 
+        //Shows all the groups user is a member of
         ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
             new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
                 public ParseQuery<UnanimusGroup> create() {

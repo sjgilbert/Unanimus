@@ -11,7 +11,7 @@
 <!-- JoinGroupActivity --> 
     <string name="join_group">Join Group</string>
     <string name="enter_group_ID_hint">Enter Group ID</string>
-    <string name="submit_button">Submit</string>
+    <string name="join_group_button">Join</string>
 
 <!-- IntroPageActivity -->    
     <string name="intro">Welcome to Unanimus!</string>

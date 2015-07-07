@@ -40,7 +40,7 @@ public class LoginActivity extends Activity{
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        if(username.length() != 0 && password.length() != 0) {
+        if(username.length() != 0 && password.length() != 0) {  //requires user and pass not empty
             final ProgressDialog wait = new ProgressDialog(LoginActivity.this);
             wait.setMessage(getString(R.string.wait));
             wait.show();
