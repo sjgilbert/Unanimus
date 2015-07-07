@@ -10,4 +10,15 @@
 
 ###v0.1.0 -- Added group object
 * User is assigned to the group
+
+###v0.2.0 -- Users can join groups
+* Groups can have multiple users
+* Users can join groups with the objectID
+
+###v0.3.0 -- Register Users
+* Users can register accounts
+* Users can login to existing acccounts
+* App directs users to screen based on cached user (or lack of)
+* Cleaned up code in MakeGroupActivity
+
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->
