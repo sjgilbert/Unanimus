@@ -21,6 +21,14 @@
 * App directs users to screen based on cached user (or lack of)
 * Cleaned up code in MakeGroupActivity
 
+###v0.4.0 -- Group View
+* New Main view links to Join and Make
+* Main shows all groups user is a member of
+* New Group view shows groupID, creator and members
+* Renamed ParseApplication to UnanimusApplication
+* Touched up logic in Join activity
+* Changed "members" in UnanimusGroup to array of Strings (usernames)
+
 ###v0.5.0 -- Settings and User data
 * Framework for settings and user data in place
 * Default settings json created

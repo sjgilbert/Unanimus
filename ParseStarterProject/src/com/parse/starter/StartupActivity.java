@@ -20,6 +20,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 /**
  * This activity is the activity specified to begin on startup in AndroidManifest.xml.
  * It checks for a stored user, and if there isn't one, sends them to log-in/register.
