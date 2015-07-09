@@ -41,10 +41,8 @@ public class StartupActivity extends Activity {
                 getResources().getString(R.string.setting_load_error),
                 Toast.LENGTH_LONG).show();
 
-        final SettingPath<SettingNode<String>> userNamePath = new SettingPath<>(getResources().getString(R.string.user_name_path));
-
         if (ParseUser.getCurrentUser() != null) {
-            startActivity(new Intent(this, MakeGroupActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         } else {
             startActivity(new Intent(this, IntroPageActivity.class));
         }

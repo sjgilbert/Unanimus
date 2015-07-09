@@ -36,25 +36,30 @@ public class JoinGroupActivity extends Activity {
         groupID = (EditText) findViewById(R.id.join_group_id);
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+
+        Button joinButton = (Button) findViewById(R.id.join_group_button);
+        joinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String groupIDStr = groupID.getText().toString().trim();
+
+                UnanimusGroup first;
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("UnanimusGroup");
+                try {
+                    first = (UnanimusGroup) query.get(groupIDStr);
+                    if(first.setMember(ParseUser.getCurrentUser())) {
+                        first.save();
+                        Toast.makeText(JoinGroupActivity.this,"Success!",Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(JoinGroupActivity.this,"Already a member of this group!", Toast.LENGTH_LONG);
+                    }
+                }
+                catch(ParseException e) {
+                    Toast.makeText(JoinGroupActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
-    public void joinGroup(View v) {
-        String groupIDStr = groupID.getText().toString().trim();
-
-        UnanimusGroup first;
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UnanimusGroup");
-        try {
-            first = (UnanimusGroup) query.get(groupIDStr);
-            first.setMember(ParseUser.getCurrentUser());
-            first.save();
-        }
-        catch(ParseException e) {
-            Toast toast = Toast.makeText(JoinGroupActivity.this,e.getMessage(),Toast.LENGTH_LONG);
-            toast.show();
-            return;
-        }
-        Toast toast = Toast.makeText(JoinGroupActivity.this,first.getObjectId(),Toast.LENGTH_LONG);
-        toast.show();
-
-    }
 }

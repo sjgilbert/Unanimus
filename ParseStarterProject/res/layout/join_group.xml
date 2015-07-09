@@ -11,10 +11,9 @@
         android:hint="@string/enter_group_ID_hint"/>
 
     <Button
-        android:id="@+id/submit_button"
+        android:id="@+id/join_group_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="joinGroup"
-        android:text="@string/submit_button"/>
+        android:text="@string/join_group_button"/>
 
 </LinearLayout>

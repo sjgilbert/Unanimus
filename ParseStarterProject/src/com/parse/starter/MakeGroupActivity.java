@@ -47,7 +47,7 @@ public class MakeGroupActivity extends Activity {
         newGroup.setACL(acl);
 		newGroup.put("user",ParseUser.getCurrentUser());
         ArrayList<ParseUser> members = new ArrayList<ParseUser>();
-        members.add(ParseUser.getCurrentUser());
+        members.add( ParseUser.getCurrentUser());
 		newGroup.put("members", members);
 		newGroup.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {

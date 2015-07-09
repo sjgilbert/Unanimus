@@ -13,6 +13,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import javax.security.auth.login.LoginException;
+
 /**
  * Activity for registering for an account.  Started from IntroPageActivity.
  */
@@ -32,48 +34,76 @@ public class RegisterActivity extends Activity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                register();
+                try {
+                    register();
+                }
+                catch (LoginException e) {
+                    Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
-    private void register() {
+    private void register() throws LoginException{
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String repeatPassword = repeatPasswordEditText.getText().toString().trim();
 
-        if(username.length() != 0 && password.length() != 0 && password.equals(repeatPassword)) {
-            final ProgressDialog wait = new ProgressDialog(RegisterActivity.this);
-            wait.setMessage(getString(R.string.wait));
-            wait.show();
+        boolean isError = false;
+        StringBuilder errorMessage = new StringBuilder();
+        if (username.length() < minUserLen) {
+            isError = true;
+            errorMessage.append(String.format("Username must be at least %d characters in length", minUserLen));
+        }
+        if (password.length() < minPassLen) {
+            if (isError) {
+                errorMessage.append(", and ");
+            }
+            isError = true;
+            errorMessage.append(String.format("Password must be at least %d characters in length", minPassLen));
+        }
+        if ( !password.equals(repeatPassword) ) {
+            if (isError) {
+                errorMessage.append(", and ");
+            }
+            isError = true;
+            errorMessage.append("Passwords must match");
+        }
+        errorMessage.append(".");
 
-            ParseUser user = new ParseUser();
-            user.setUsername(username);
-            user.setPassword(password);
+        if (isError) {
+            throw new LoginException(errorMessage.toString());
+        }
 
-            user.signUpInBackground(new SignUpCallback() {
-                @Override
-                public void done(ParseException e) {
-                    wait.dismiss();
-                    if (e != null) {
-                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    else {
-                        Intent intent = new Intent(RegisterActivity.this, MakeGroupActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
+        final ProgressDialog wait = new ProgressDialog(RegisterActivity.this);
+        wait.setMessage(getString(R.string.wait));
+        wait.show();
+
+        ParseUser user = new ParseUser();
+        user.setUsername(username);
+        user.setPassword(password);
+
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                wait.dismiss();
+                if (e != null) {
+                    Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    return;
                 }
-            });
-        }
-        else {
-            Toast.makeText(RegisterActivity.this, "Error", Toast.LENGTH_LONG).show();
-            return;
-        }
+                else {
+                    Intent intent = new Intent(RegisterActivity.this, MakeGroupActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText repeatPasswordEditText;
+
+    private static final int minUserLen = 4;
+    private static final int minPassLen = 6;
 }

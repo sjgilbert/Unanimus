@@ -8,7 +8,7 @@ import com.parse.ParseCrashReporting;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-public class ParseApplication extends Application {
+public class UnanimusApplication extends Application {
 
   @Override
   public void onCreate() {

@@ -13,6 +13,8 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import javax.security.auth.login.LoginException;
+
 /**
  * Activity for logging in.  Started from IntroPageActivity.
  */
@@ -31,37 +33,62 @@ public class LoginActivity extends Activity{
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                try {
+                    login();
+                }
+                catch (LoginException e) {
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
-    private void login() {
+    private void login() throws LoginException{
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        if(username.length() != 0 && password.length() != 0) {
-            final ProgressDialog wait = new ProgressDialog(LoginActivity.this);
-            wait.setMessage(getString(R.string.wait));
-            wait.show();
-
-            ParseUser.logInInBackground(username, password, new LogInCallback() {
-                @Override
-                public void done(ParseUser parseUser, ParseException e) {
-                    wait.dismiss();
-                    if(e != null) {
-                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Intent intent = new Intent(LoginActivity.this, StartupActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                }
-            });
+        boolean isError = false;
+        StringBuilder errorMessage = new StringBuilder();
+        if (username.length() < minUserLen) {
+            isError = true;
+            errorMessage.append(String.format("Username must be at least %d characters in length", minUserLen));
         }
+        if (password.length() < minPassLen) {
+            if (isError) {
+                errorMessage.append(", and ");
+            }
+            isError = true;
+            errorMessage.append(String.format("Password must be at least %d characters in length", minPassLen));
+        }
+        errorMessage.append(".");
+
+        if (isError) {
+            throw new LoginException(errorMessage.toString());
+        }
+
+        final ProgressDialog wait = new ProgressDialog(LoginActivity.this);
+        wait.setMessage(getString(R.string.wait));
+        wait.show();
+
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser parseUser, ParseException e) {
+                wait.dismiss();
+                if(e != null) {
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Intent intent = new Intent(LoginActivity.this, StartupActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private EditText usernameEditText;
     private EditText passwordEditText;
+
+    private final static int minUserLen = 4;
+    private final static int minPassLen = 6;
 }
