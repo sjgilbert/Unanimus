@@ -29,4 +29,7 @@
 * Touched up logic in Join activity
 * Changed "members" in UnanimusGroup to array of Strings (usernames)
 
+###v0.4.1 -- Fixed Validation
+* login and register methods now throw LoginException
+* changed "members" to ArrayList<ParseUser>
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->

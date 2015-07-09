@@ -43,8 +43,8 @@ public class MakeGroupActivity extends Activity {
         acl.setPublicReadAccess(true);
         newGroup.setACL(acl);
 		newGroup.put("user",ParseUser.getCurrentUser());
-        ArrayList<String> members = new ArrayList<String>();
-        members.add(ParseUser.getCurrentUser().getUsername());
+        ArrayList<ParseUser> members = new ArrayList<ParseUser>();
+        members.add( ParseUser.getCurrentUser());
 		newGroup.put("members", members);
 		newGroup.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {

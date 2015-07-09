@@ -53,7 +53,7 @@ public class MainActivity extends Activity{
                 public ParseQuery<UnanimusGroup> create() {
                     ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
                     query.include("objectID");
-                    query.whereEqualTo("members",ParseUser.getCurrentUser().getUsername());
+                    query.whereEqualTo("members", ParseUser.getCurrentUser());
                     query.orderByDescending("createdAt");
                     return query;
                 }

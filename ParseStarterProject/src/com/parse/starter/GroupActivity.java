@@ -11,6 +11,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+
 /**
  * The activity which displays a specific group a user is a part of.  Should
  * eventually allow the user to indicate preferences/view recommendations.
@@ -57,7 +59,11 @@ public class GroupActivity extends Activity{
         createdBy.setText("Created by " + creatorName);
 
         //Setting members of group
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.members, group.getMembers());
+        ArrayList<String> usernames = new ArrayList<String>();
+        for (ParseUser user : group.getMembers()) {
+            usernames.add(user.getUsername());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.members, usernames);
         ListView membersList = (ListView) findViewById(R.id.members_list);
         membersList.setAdapter(adapter);
 
