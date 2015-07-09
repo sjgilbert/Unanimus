@@ -25,9 +25,16 @@ public class UnanimusGroup extends ParseObject {
         return members.get(ind);
     }
 
-    public void setMember(ParseUser usr) { add("members", usr); }
+    public boolean setMember(ParseUser usr) {
+        if (!getMembers().contains(usr)) {
+            add("members", usr);
+            return true;
+        }
+        return false;
+    }
 
     public static ParseQuery<UnanimusGroup> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
     }
+
 }

@@ -21,7 +21,7 @@ public class StartupActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (ParseUser.getCurrentUser() != null) {
-            startActivity(new Intent(this, MakeGroupActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
         else {
             startActivity(new Intent(this, IntroPageActivity.class));
