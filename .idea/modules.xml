@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Unanimus.iml" filepath="$PROJECT_DIR$/Unanimus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UnanimusProject/UnanimusProject.iml" filepath="$PROJECT_DIR$/UnanimusProject/UnanimusProject.iml" />
+    </modules>
+  </component>
+</project>
