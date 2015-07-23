@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_unanimusproject" default="compile.module.unanimusproject">
+  <dirname property="unanimusproject.home" file="${ant.file.module_unanimusproject}"/>
+
+  <property file="${unanimusproject.home}/module_unanimusproject.properties"/>
+
+  <path id="unanimusproject.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="unanimusproject.module.production.classpath">
+    <path refid="${module.jdk.classpath.unanimusproject}"/>
+    <path refid="library.parse-1.9.classpath"/>
+    <path refid="library.bolts-1.2.classpath"/>
+  </path>
+  
+  <path id="unanimusproject.runtime.production.module.classpath">
+    <pathelement location="${unanimusproject.home.build}"/>
+    <path refid="library.parse-1.9.classpath"/>
+    <path refid="library.bolts-1.2.classpath"/>
+  </path>
+  
+  <path id="unanimusproject.module.classpath">
+    <path refid="${module.jdk.classpath.unanimusproject}"/>
+    <pathelement location="${unanimusproject.home.build}"/>
+    <path refid="library.parse-1.9.classpath"/>
+    <path refid="library.bolts-1.2.classpath"/>
+  </path>
+  
+  <path id="unanimusproject.runtime.module.classpath">
+    <pathelement location="${unanimusproject.test.home.build}"/>
+    <pathelement location="${unanimusproject.home.build}"/>
+    <path refid="library.parse-1.9.classpath"/>
+    <path refid="library.bolts-1.2.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.unanimusproject">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.unanimusproject">
+    <patternset refid="excluded.from.module.unanimusproject"/>
+  </patternset>
+  
+  <path id="unanimusproject.module.sourcepath">
+    <dirset dir="${unanimusproject.home}">
+      <include name="gen"/>
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.unanimusproject" depends="compile.module.unanimusproject.production,compile.module.unanimusproject.tests" description="Compile module UnanimusProject"/>
+  
+  <target name="compile.module.unanimusproject.production" depends="register.custom.compilers" description="Compile module UnanimusProject; production classes">
+    <mkdir dir="${unanimusproject.home.build}"/>
+    <javac2 destdir="${unanimusproject.home.build}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" includeantruntime="false" fork="true" executable="${module.jdk.bin.unanimusproject}/javac">
+      <compilerarg line="${compiler.args.unanimusproject}"/>
+      <bootclasspath refid="unanimusproject.module.bootclasspath"/>
+      <classpath refid="unanimusproject.module.production.classpath"/>
+      <src refid="unanimusproject.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.unanimusproject"/>
+    </javac2>
+    
+    <copy todir="${unanimusproject.home.build}">
+      <fileset dir="${unanimusproject.home}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${unanimusproject.home}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.unanimusproject.tests" depends="register.custom.compilers,compile.module.unanimusproject.production" description="compile module UnanimusProject; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.unanimusproject" description="cleanup module">
+    <delete dir="${unanimusproject.home.build}"/>
+    <delete dir="${unanimusproject.test.home.build}"/>
+  </target>
+</project>

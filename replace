@@ -1,0 +1,43 @@
+#!/bin/bash
+# replace
+# 2015 (c) Isabell Cowan
+
+noconf="$1"
+target="$(sed 's/\.noconf$//' <<< "${noconf}")"
+
+tmplocal="${target}.tmp"
+tmproot="/tmp/$(sed 's/\//_/' <<< "$target")"
+
+function mov {
+  mv "$tmproot" "$tmplocal"
+}
+
+cp "$noconf" "$tmplocal"
+chmod -x "$tmplocal"
+
+awk 'BEGIN {
+      open = 0;
+    } {
+      if (0 != open) {
+        if (0 != match($0, /^#\}/)) open = 0;
+        else print;
+      } else if (0 != match($0, /^#\{/)) open = 1
+    } END {
+      if (0 != open) exit 1;
+    }' < "$tmplocal" > "$tmproot"
+mov
+
+regex="^[[:space:]]*#"
+while read -d $'\n' -r line; do
+  [[ "$line" =~ $regex ]] &&
+    echo "$line" ||
+    eval "echo ${line}";
+done < "$tmplocal" > "$tmproot"
+mov
+
+sed 's/^\s*#\s*~vim:/# vim:/' < "$tmplocal" > "$tmproot"
+mov
+
+mv "$tmplocal" "$target"
+
+# vim: set ts=2 sw=2 et syn=sh:

@@ -1,0 +1,28 @@
+#!../replace
+# unanimus.properties.noconf
+# 2015 (c) Isabell Cowan
+
+#{
+# java.util.Properties
+# module_unanimusproject.properties
+# 
+
+"module.jdk.home.unanimusproject=\${android_sdk.home}"
+"module.jdk.bin.unanimusproject=\${jdk.bin}"
+"module.jdk.classpath.unanimusproject=jdk.classpath.android_api_22_platform"
+  
+"compiler.args.unanimusproject=-encoding UTF-8 -source 1.7 \${compiler.args}"
+
+"unanimusproject.home.res=\${unanimusproject.home}/res"
+"unanimusproject.home.gen=\${unanimusproject.home}/gen"
+"unanimusproject.home.build=\${unanimusproject.home}/build"
+
+"unanimusproject.test.home=\${unanimusproject.home}/test"
+"unanimusproject.test.home.res=\${unanimusproject.test.home}/res"
+"unanimusproject.test.home.gen=\${unanimusproject.test.home}/gen"
+"unanimusproject.test.home.build=\${unanimusproject.test.home}/build"
+
+# ~vim: set ts=2 sw=2 et syn=jproperties:
+#}
+
+# vim: set ts=2 sw=2 et syn=sh:

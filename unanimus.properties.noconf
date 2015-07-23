@@ -1,0 +1,35 @@
+#!./replace
+# unanimus.properties.noconf
+# 2015 (c) Isabell Cowan
+
+#{
+# java.util.Properties
+# unanimus.properties
+# 
+
+# Users home directory
+"user.home=${HOME}"
+
+# Location of local Maven repository
+"path.variable.maven_repository=${MAVEN_HOME}/repository"
+
+# Location of JDK 6 or 7
+"project.jdk.home=${ANDROID_JDK_HOME}"
+
+# Location of Android SDK
+"android_sdk.home=${ANDROID_SDK_HOME}"
+"android.home.android_api_22_platform=\${android_sdk.home}/platforms/android-22"
+
+# Location of Android Studio
+"studio.home=${STUDIO_HOME}"
+"javac2.home=\${studio.home}/lib"
+"javac2.instrumentation.includeJavaRuntime=false"
+
+# External libs for source
+"parse.home=${PARSE_ANDROID_HOME}/lib"
+"bolts.home=${BOLTS_ANDROID_HOME}/lib"
+
+# ~vim: set ts=2 sw=2 et syn=jproperties:
+#}
+
+# vim: set ts=2 sw=2 et syn=sh:
