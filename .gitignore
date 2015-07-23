@@ -18,13 +18,11 @@ UnanimusProject/libs/
 
 # Build
 build/
-UnanimusProject/bin/
 UnanimusProject/build/
 
 # Dependency/SDK locations
-local.properties
+configure.vars
 unanimus.properties
-UnanimusProject/project.properties
-UnanimusProject/ant.properties
+UnanimusProject/module_unanimusproject.properties
 
 # vim: set ts=2 sw=2 et syn=txt:

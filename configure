@@ -1,0 +1,15 @@
+#!/bin/bash
+# configure
+# 2015 (c) Isabell Cowan
+
+source configure.vars
+
+properties=( "unanimus.properties.noconf" "UnanimusProject/module_unanimusproject.properties.noconf" )
+
+for ((i = 0; ${#properties[@]} > i; ++i)); do
+  ./replace "${properties[$i]}"
+done
+
+exit 0
+
+# vim: set ts=2 sw=2 et syn=sh:

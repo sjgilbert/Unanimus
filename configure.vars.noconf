@@ -1,0 +1,16 @@
+# Bash variables for configure
+# configure.vars.noconf
+# 2015 (c) Isabell Cowan
+
+# Copy to configure.vars and replace each variable with the correct value
+# Examples shown in trailing comments
+
+#export HOME=~ discard unless you want to configure for a user other than yourself
+export MAVEN_HOME= #~/.m2
+export ANDROID_JDK_HOME= #/usr/lib/jvm/java-7-jdk (JDK 6 or 7 only)
+export ANDROID_SDK_HOME= #/opt/android-sdk ~/Android
+export STUDIO_HOME= #/opt/android-studio
+export PARSE_ANDROID_HOME= #/usr/local/share/java/Parse-1.9
+export BOLTS_ANDROID_HOME= #/usr/local/share/java/Bolts-1.2
+
+# vim: ts=2 sw=2 et syn=sh:
