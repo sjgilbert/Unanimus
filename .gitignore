@@ -10,21 +10,13 @@
 Unanimus.iml
 UnanimusProject/UnanimusProject.iml
 
-# Generated sources
-UnanimusProject/gen/
-
 # Local libraries
 UnanimusProject/libs/
 
 # Build
-build/
 UnanimusProject/bin/
-UnanimusProject/build/
 
 # Dependency/SDK locations
 local.properties
-unanimus.properties
-UnanimusProject/project.properties
-UnanimusProject/ant.properties
 
 # vim: set ts=2 sw=2 et syn=txt:
