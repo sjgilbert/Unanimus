@@ -1,0 +1,22 @@
+#
+# .gitignore
+# 2015 (c) Isabell Cowan
+
+# Gradle cache
+.gradle/
+
+# JetBrains config files
+.idea/
+Unanimus.iml
+UnanimusProject/UnanimusProject.iml
+
+# Local libraries
+UnanimusProject/libs/
+
+# Build
+UnanimusProject/bin/
+
+# Dependency/SDK locations
+local.properties
+
+# vim: set ts=2 sw=2 et syn=txt:

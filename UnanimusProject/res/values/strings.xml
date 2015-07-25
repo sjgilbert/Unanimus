@@ -29,7 +29,6 @@
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
 
-<!-- SettingPath -->
     <string name="setting_load_error">Failed to load settings properly, using fallbacks.</string>
 
     <string name="default_profile_name">\@profile</string>
@@ -48,5 +47,4 @@
     <string name="main">Main</string>
 
     <string name="wait">Wait&#8230;</string>
-        
 </resources>

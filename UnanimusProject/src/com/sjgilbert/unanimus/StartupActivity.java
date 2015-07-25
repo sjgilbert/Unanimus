@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.parse.ParseUser;
+import com.parse.ParseQuery;
+
 import com.sjgilbert.unanimus.setting.SettingException;
 import com.sjgilbert.unanimus.setting.SettingTree;
 
@@ -36,7 +38,15 @@ public class StartupActivity extends Activity {
                 getResources().getString(R.string.setting_load_error),
                 Toast.LENGTH_LONG).show();
 
-        if (ParseUser.getCurrentUser() != null) {
+        ParseUser currentUser;
+        try {
+            currentUser = ParseUser.getCurrentUser();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            currentUser = null;
+        }
+
+        if (currentUser != null) {
             startActivity(new Intent(this, MainActivity.class));
         } else {
             startActivity(new Intent(this, IntroPageActivity.class));
