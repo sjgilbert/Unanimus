@@ -1,22 +1,26 @@
-#
+# Patterns excuted by git
 # .gitignore
 # 2015 (c) Isabell Cowan
 
-# Gradle cache
-.gradle/
+# All hidden files
+**/.*
 
-# JetBrains config files
-.idea/
-Unanimus.iml
-UnanimusProject/UnanimusProject.iml
+# JetBrains project files
+**/*.iml
+**/*.ipr
 
-# Local libraries
-UnanimusProject/libs/
+# Externel libraries
+**/lib*
 
-# Build
-UnanimusProject/bin/
+# Compiled outputs
+**/bin
+**/build
 
-# Dependency/SDK locations
-local.properties
+# Generated sources
+**/gen
+**/R.*
+
+# Local package locations
+**/local.properties
 
 # vim: set ts=2 sw=2 et syn=txt:
