@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="register_activity_username_title">Username</string>
+    <string name="register_activity_password_title">Password</string>
+    <string name="register_activity_repeat_password_title">Repeat Password</string>
+    <string name="register_activity_title">Register</string>
+</resources>
+<!-- vim: set ts=4 sw=4 et syn=xml: -->

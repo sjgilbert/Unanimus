@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:id="@+id/intro_page_activity">
+
+    <include layout="@layout/activity_title" />
+
+    <Button
+        android:id="@+id/intro_page_activity_register_link"
+        android:text="@string/intro_page_activity_register_link"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".25"/>
+
+    <TextView
+        android:id="@+id/intro_page_activity_or_message"
+        android:text="@string/or_message"
+        android:layout_width="wrap_content"
+        android:layout_weight=".05"
+        android:layout_height="0dp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/intro_page_activity_login_link"
+        android:text="@string/intro_page_activity_login_link"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".25" />
+
+
+
+</LinearLayout>

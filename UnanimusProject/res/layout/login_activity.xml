@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/login_activity">
+
+    <include layout="@layout/activity_title" />
 
     <EditText
         android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_username"
+        android:hint="@string/login_activity_username_hint"
         android:maxLines="1"
         android:singleLine="true"/>
 
@@ -15,7 +18,7 @@
         android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_password"
+        android:hint="@string/login_activity_password_hint"
         android:maxLines="1"
         android:singleLine="true"
         android:inputType="textPassword"/>
@@ -24,7 +27,7 @@
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login"
+        android:text="@string/login_activity_form_submission"
         android:layout_gravity="end"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"/>

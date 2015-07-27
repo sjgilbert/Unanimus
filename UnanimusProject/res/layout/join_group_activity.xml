@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/join_group_activity">
+
+    <include layout="@layout/activity_title" />
 
     <EditText
-        android:id="@+id/join_group_id"
+        android:id="@+id/join_group_id_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:hint="@string/enter_group_ID_hint"/>
+        android:hint="@string/join_group_activity_group_id_hint"/>
 
     <Button
-        android:id="@+id/join_group_button"
+        android:id="@+id/join_group_form_submission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/join_group_button"/>
+        android:text="@string/join_group_activity_form_submission"/>
 
 </LinearLayout>

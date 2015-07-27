@@ -17,13 +17,15 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 
 /**
- * A button that creates a group.
+ * A button that creates a group_activity.
  */
-public class MakeGroupActivity extends Activity {
+public class MakeGroupActivity extends UnanimusActivity {
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.make_group);
+
+		setContentView(R.layout.make_group_activity);
+		setTitle(R.string.make_group_activity_title, findViewById(R.id.make_group_activity));
 
 		ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
@@ -33,7 +35,7 @@ public class MakeGroupActivity extends Activity {
 
 	public void makeGroup(View v) throws ParseException {
 		final ProgressDialog wait = new ProgressDialog(MakeGroupActivity.this);
-		wait.setMessage(getString(R.string.wait));
+		wait.setMessage(getString(R.string.wait_message));
 		wait.show();
 
 		final UnanimusGroup newGroup = new UnanimusGroup();

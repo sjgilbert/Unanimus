@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intro_page_activity_title">Welcome to Unanimus!</string>
+    <string name="intro_page_activity_login_link">Log In</string>
+    <string name="intro_page_activity_register_link">Register</string>
+</resources>
+<!-- vim: set ts=4 sw=4 et syn=xml: -->

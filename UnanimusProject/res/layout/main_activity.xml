@@ -3,6 +3,8 @@
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <include layout="@layout/activity_title" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,14 +15,14 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/join_group"
+            android:text="@string/join_group_activity_title"
             android:layout_weight="0.5"
             android:id="@+id/main_join_group"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/make_group"
+            android:text="@string/make_group_activity_title"
             android:layout_weight="0.5"
             android:id="@+id/main_make_group"/>
     </LinearLayout>
