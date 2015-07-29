@@ -1,0 +1,24 @@
+#!/usr/bin/gradle -c ./settings.gradle -b
+// UnanimusProject/build.gradle
+//
+
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.novoda:gradle-android-command-plugin:1.5.0'
+		classpath 'com.android.tools.build:gradle:1.2.+'
+	}
+}
+
+apply plugin: 'android'
+apply plugin: 'com.android.application'
+apply plugin: 'android-command'
+
+android {
+	compileSdkVersion = 'android-22'
+	buildToolsVersion = '22.0.1'
+}
+
+// vim: ts=4 sw=4 noet syn=groovy:
