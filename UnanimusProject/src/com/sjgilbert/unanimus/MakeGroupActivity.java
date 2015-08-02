@@ -29,7 +29,18 @@ public class MakeGroupActivity extends UnanimusActivity {
 
 		ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-		TextView groupIDTextView = (TextView) findViewById(R.id.echo_group_id);
+		View echoGroup = findViewById(R.id.echo_group_id);
+		if (null == echoGroup) {
+			new NullPointerException().printStackTrace();
+			return;
+		}
+		TextView groupIDTextView;
+		if (echoGroup instanceof TextView) {
+			groupIDTextView = (TextView) echoGroup;
+		} else {
+			new ClassCastException().printStackTrace();
+			return;
+		}
 		groupIDTextView.setVisibility(View.INVISIBLE);
 	}
 

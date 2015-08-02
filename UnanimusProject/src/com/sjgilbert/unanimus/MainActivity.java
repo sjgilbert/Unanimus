@@ -64,7 +64,11 @@ public class MainActivity extends UnanimusActivity {
                     view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
                 }
                 TextView groupView = (TextView) view.findViewById(R.id.groupID_view);
-                groupView.setText(group.getObjectId());
+                try {
+                    groupView.setText(group.getObjectId());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
                 return view;
             }
         };

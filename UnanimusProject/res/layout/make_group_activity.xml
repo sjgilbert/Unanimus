@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    android:gravity="center_vertical"
+    android:gravity="center_horizontal"
     android:id="@+id/make_group_activity">
 
     <include layout="@layout/activity_title" />
