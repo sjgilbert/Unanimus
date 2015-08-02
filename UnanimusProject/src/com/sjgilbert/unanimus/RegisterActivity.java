@@ -18,13 +18,14 @@ import javax.security.auth.login.LoginException;
 /**
  * Activity for registering for an account.  Started from IntroPageActivity.
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends UnanimusActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.register);
+        setContentView(R.layout.register_activity);
+        setTitle(R.string.register_activity_title, findViewById(R.id.register_activity));
 
         usernameEditText = (EditText) findViewById(R.id.register_username);
         passwordEditText = (EditText) findViewById(R.id.register_password);
@@ -76,7 +77,7 @@ public class RegisterActivity extends Activity {
         }
 
         final ProgressDialog wait = new ProgressDialog(RegisterActivity.this);
-        wait.setMessage(getString(R.string.wait));
+        wait.setMessage(getString(R.string.wait_message));
         wait.show();
 
         ParseUser user = new ParseUser();

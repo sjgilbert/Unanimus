@@ -1,6 +1,5 @@
 package com.sjgilbert.unanimus;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -14,17 +13,18 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 
 /**
- * The activity which displays a specific group a user is a part of.  Should
+ * The activity which displays a specific group_activity a user is a part of.  Should
  * eventually allow the user to indicate preferences/view recommendations.
  */
-public class GroupActivity extends Activity{
+public class GroupActivity extends UnanimusActivity {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.group);
+        setContentView(R.layout.group_activity);
+        setTitle(R.string.group_activity_title, findViewById(R.id.group_activity));
 
-        Bundle extras = getIntent().getExtras();    //The groupID of the selected group
+        Bundle extras = getIntent().getExtras();    //The groupID of the selected group_activity
         if (extras != null) {
             groupName = extras.getString("objID");
         }
@@ -32,11 +32,11 @@ public class GroupActivity extends Activity{
             Toast.makeText(GroupActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
 
-        //Setting the group name at top
+        //Setting the group_activity name at top
         TextView groupNameTextView = (TextView) findViewById(R.id.group_name);
         groupNameTextView.setText("GROUP ID: " + groupName);
 
-        //Query for the group's data
+        //Query for the group_activity's data
         ParseQuery<UnanimusGroup> query = ParseQuery.getQuery("UnanimusGroup");
         query.include("members");
         try{
@@ -46,7 +46,7 @@ public class GroupActivity extends Activity{
             System.out.println(e.getMessage());
         }
 
-        //Setting owner of group
+        //Setting owner of group_activity
         String creatorName = null;
         try {
             ParseUser creator = (ParseUser) group.get("user");
@@ -58,12 +58,12 @@ public class GroupActivity extends Activity{
         TextView createdBy = (TextView) findViewById(R.id.group_created_by);
         createdBy.setText("Created by " + creatorName);
 
-        //Setting members of group
+        //Setting members of group_activity
         ArrayList<String> usernames = new ArrayList<String>();
         for (ParseUser user : group.getMembers()) {
             usernames.add(user.getUsername());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.members, usernames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.members_fragment, usernames);
         ListView membersList = (ListView) findViewById(R.id.members_list);
         membersList.setAdapter(adapter);
 

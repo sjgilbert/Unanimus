@@ -8,7 +8,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 
 /**
- * Model for a group of users.
+ * Model for a group_activity of users.
  */
 @ParseClassName("UnanimusGroup")
 public class UnanimusGroup extends ParseObject {

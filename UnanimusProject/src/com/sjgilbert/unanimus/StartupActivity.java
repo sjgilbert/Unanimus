@@ -22,7 +22,7 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * This activity is the activity specified to begin on startup in AndroidManifest.xml.
- * It checks for a stored user, and if there isn't one, sends them to log-in/register.
+ * It checks for a stored user, and if there isn't one, sends them to log-in/register_activity.
  */
 public class StartupActivity extends Activity {
 

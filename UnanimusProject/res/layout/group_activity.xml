@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/group_activity">
+
+    <include layout="@layout/activity_title" />
 
     <TextView
         android:id="@+id/group_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GroupName"
+        android:text="@string/group_activity_group_name_tag"
         android:gravity="center" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CreatedBy"
+        android:text="@string/group_activity_creator_tag"
         android:layout_below="@+id/group_name"
         android:gravity="center"
         android:id="@+id/group_created_by"/>
@@ -23,7 +26,7 @@
         android:id="@+id/members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/members"
+        android:text="@string/group_activity_members_tag"
         android:layout_below="@id/group_created_by" />
 
     <ListView
@@ -42,18 +45,18 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:text="Play"
+            android:text="@string/group_activity_play_game_button"
             android:padding="10dp"
             android:layout_weight=".5"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:text="View Recs"
+            android:text="@string/group_activity_view_button"
             android:padding="10dp"
             android:layout_weight="0.5"/>
     </LinearLayout>
 
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -34,4 +34,8 @@
 * Default settings json created
 * Settings load at StartupActivity
 
+###v0.6.0 -- Theme updated
+* "Custom" theme
+* Reorganized UnanmusProject/res
+
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->

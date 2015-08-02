@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/register_activity">
+
+    <include layout="@layout/activity_title" />
 
     <EditText
         android:id="@+id/register_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/register_username"
+        android:hint="@string/register_activity_username_title"
         android:maxLines="1"
         android:singleLine="true"/>
 
@@ -15,7 +18,7 @@
         android:id="@+id/register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/register_password"
+        android:hint="@string/register_activity_password_title"
         android:maxLines="1"
         android:singleLine="true"
         android:inputType="textPassword"/>
@@ -24,7 +27,7 @@
         android:id="@+id/repeatpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/repeatpassword"
+        android:hint="@string/register_activity_repeat_password_title"
         android:maxLines="1"
         android:singleLine="true"
         android:inputType="textPassword"/>
@@ -33,7 +36,7 @@
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register"
+        android:text="@string/intro_page_activity_register_link"
         android:layout_gravity="end"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"/>
