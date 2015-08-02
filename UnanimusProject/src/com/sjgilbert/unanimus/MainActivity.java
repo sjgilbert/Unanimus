@@ -23,7 +23,7 @@ public class MainActivity extends UnanimusActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main_activity);
-        setTitle(R.string.main_activity_title, findViewById(R.id.login_activity));
+        setTitle(R.string.main_activity_title, findViewById(R.id.main_activity));
 
         //Button to join group_activity
         Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
