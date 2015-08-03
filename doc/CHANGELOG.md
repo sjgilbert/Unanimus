@@ -34,7 +34,11 @@
 * Default settings json created
 * Settings load at StartupActivity
 
-###v0.6.0 -- Facebook Login
+###v0.6.0 -- Theme updated
+* "Custom" theme
+* Reorganized UnanmusProject/res
+
+###v0.7.0 -- Facebook Login
 * Added facebook login
 * Minor layout changes & renaming
 * Modified MainActivity

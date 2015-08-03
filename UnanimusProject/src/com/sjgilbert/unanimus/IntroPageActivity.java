@@ -20,16 +20,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * The page that allows the user to either log-in or register.
+ * The page that allows the user to either log-in or register_activity.
  */
-public class IntroPageActivity extends Activity{
+public class IntroPageActivity extends UnanimusActivity {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.intro_page);
+        setContentView(R.layout.intro_page_activity);
+        setTitle(R.string.intro_page_activity_title, findViewById(R.id.intro_page_activity));
 
-        Button introRegister = (Button) findViewById(R.id.intro_register);
+        Button introRegister = (Button) findViewById(R.id.intro_page_activity_register_link);
         introRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,7 +38,7 @@ public class IntroPageActivity extends Activity{
             }
         });
 
-        Button login = (Button) findViewById(R.id.intro_login);
+        Button login = (Button) findViewById(R.id.intro_page_activity_login_link);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

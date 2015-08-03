@@ -2,6 +2,9 @@
 # .gitignore
 # 2015 (c) Isabell Cowan
 
+**/build
+**/gen
+
 # All hidden files
 **/.*
 

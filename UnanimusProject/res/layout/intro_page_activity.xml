@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:id="@+id/intro_page_activity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".5"
-        android:textSize="40sp"
-        android:text="@string/intro"
-        android:id="@+id/intro" />
+    <include layout="@layout/activity_title" />
 
     <Button
-        android:id="@+id/intro_register"
-        android:text="@string/intro_register"
+        android:id="@+id/intro_page_activity_register_link"
+        android:text="@string/intro_page_activity_register_link"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".20"/>
 
     <TextView
-        android:id="@+id/or"
+        android:id="@+id/intro_page_activity_or_message"
+        android:text="@string/or_message"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
         android:layout_weight=".05"
-        android:text="@string/or"
+        android:layout_height="0dp"
         android:layout_gravity="center"/>
 
     <Button
-        android:id="@+id/intro_login"
-        android:text="@string/login"
+        android:id="@+id/intro_page_activity_login_link"
+        android:text="@string/intro_page_activity_login_link"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".20" />

@@ -18,13 +18,14 @@ import javax.security.auth.login.LoginException;
 /**
  * Activity for logging in.  Started from IntroPageActivity.
  */
-public class LoginActivity extends Activity{
+public class LoginActivity extends UnanimusActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.login);
+        setContentView(R.layout.login_activity);
+        setTitle(R.string.login_activity_title, findViewById(R.id.login_activity));
 
         usernameEditText = (EditText) findViewById(R.id.login_username);
         passwordEditText = (EditText) findViewById(R.id.login_password);
@@ -67,7 +68,7 @@ public class LoginActivity extends Activity{
         }
 
         final ProgressDialog wait = new ProgressDialog(LoginActivity.this);
-        wait.setMessage(getString(R.string.wait));
+        wait.setMessage(getString(R.string.wait_message));
         wait.show();
 
         ParseUser.logInInBackground(username, password, new LogInCallback() {

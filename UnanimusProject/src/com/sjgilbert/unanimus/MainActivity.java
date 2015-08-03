@@ -1,6 +1,5 @@
 package com.sjgilbert.unanimus;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,18 +17,19 @@ import com.parse.ParseUser;
 
 /**
  * This class shows the groups a user is a part of, as well as allows the
- * user to access the make and join group activities.
+ * user to access the make and join group_activity activities.
  */
-public class MainActivity extends Activity{
+public class MainActivity extends UnanimusActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.main);
+        setContentView(R.layout.main_activity);
+        setTitle(R.string.main_activity_title, findViewById(R.id.main_activity));
 
-        //Button to join group
-        Button joinGroupButton = (Button) findViewById(R.id.main_create_group);
         Profile prof = Profile.getCurrentProfile();
+        //Button to join group_activity
+        Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,8 +41,8 @@ public class MainActivity extends Activity{
         ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.prof_pic);
         profpic.setProfileId(prof.getId());
 
-        //Button to make group
-        Button makeGroupButton = (Button) findViewById(R.id.main_create_group);
+        //Button to make group_activity
+        Button makeGroupButton = (Button) findViewById(R.id.main_make_group);
         makeGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,10 +67,14 @@ public class MainActivity extends Activity{
             @Override
             public View getItemView(UnanimusGroup group, View view, ViewGroup parent) {
                 if (view == null) {
-                    view = View.inflate(getContext(), R.layout.unanimus_group_item, null);
+                    view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
                 }
                 TextView groupView = (TextView) view.findViewById(R.id.groupID_view);
-                groupView.setText(group.getObjectId());
+                try {
+                    groupView.setText(group.getObjectId());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
                 return view;
             }
         };

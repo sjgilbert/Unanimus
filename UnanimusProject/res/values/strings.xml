@@ -1,53 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="parse_app_id">hHNXiaKrXkRDW4Ma50aVW3G5zma7NJyptGO795Nb</string>
-    <string name="parse_client_key">0GO9X3HNPu9JMLGk6BH0yccRA1P143vQ6MWUvnpV</string>
     <string name="facebook_app_id">1433617346966662</string>
+    <string name="facebook_login">Login with Facebook</string>
 
     <string name="app_name">Unanimus</string>
-    
-<!-- JoinGroupActivity --> 
-    <string name="join_group">Join Group</string>
-    <string name="enter_group_ID_hint">Enter Group ID</string>
-    <string name="join_group_button">Join</string>
-
-<!-- IntroPageActivity -->    
-    <string name="intro">Welcome to Unanimus!</string>
-    <string name="login">Log In</string>
-    <string name="register">Register</string>
-
-<!-- RegisterActivity -->    
-    <string name="register_username">Username</string>
-    <string name="register_password">Password</string>
-    <string name="repeatpassword">Repeat Password</string>
-    <string name="or">or</string>
-    <string name="intro_register">Register</string>
-    
-<!-- LoginActivity -->    
-    <string name="login_username">Username</string>
-    <string name="login_password">Password</string>
-
-    <string name="setting_load_error">Failed to load settings properly, using fallbacks.</string>
-
-    <string name="default_profile_name">\@profile</string>
-    <string name="default_profile_path">!user</string>
-    <string name="user_name_path">user_name</string>
-    <string name="password_path">password</string>
-    <string name="is_registered_path">registered</string>
-    <string name="favorites_path">favorites</string>
-    <string name="friends_path">friends</string>
-
-<!-- GroupActivity -->
-    <string name="group">Group</string>
-    <string name="members"><u>Members</u></string>
-
-<!-- MainActivity -->
-    <string name="main">Main</string>
-    <string name="make_group">Create New Group</string>
-
-    <string name="wait">Wait&#8230;</string>
-
-    <string name="facebook_login">Login with Facebook</string>
+    <string name="wait_message">Wait&#8230;</string>
+    <string name="or_message">or</string>
+    <string name="untitled">Untitled</string>
 </resources>
-
 <!-- vim: set ts=4 sw=4 et syn=xml: -->
