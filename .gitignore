@@ -23,4 +23,8 @@
 # Local package locations
 **/local.properties
 
+# Gradle
+**/build.gradle
+**/gradle
+
 # vim: set ts=2 sw=2 et syn=txt:

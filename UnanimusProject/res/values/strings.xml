@@ -2,11 +2,9 @@
 <resources>
     <string name="parse_app_id">hHNXiaKrXkRDW4Ma50aVW3G5zma7NJyptGO795Nb</string>
     <string name="parse_client_key">0GO9X3HNPu9JMLGk6BH0yccRA1P143vQ6MWUvnpV</string>
+    <string name="facebook_app_id">1433617346966662</string>
 
     <string name="app_name">Unanimus</string>
-    
-<!-- MakeGroupActivity -->
-    <string name="make_group">Make Group</string>
     
 <!-- JoinGroupActivity --> 
     <string name="join_group">Join Group</string>
@@ -45,8 +43,11 @@
 
 <!-- MainActivity -->
     <string name="main">Main</string>
+    <string name="create_group">Create New Group</string>
 
     <string name="wait">Wait&#8230;</string>
+
+    <string name="facebook_login">Login with Facebook</string>
 </resources>
 
 <!-- vim: set ts=4 sw=4 et syn=xml: -->

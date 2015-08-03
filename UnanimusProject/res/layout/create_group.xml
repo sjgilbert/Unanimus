@@ -11,7 +11,7 @@
         android:id="@+id/make_group"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="@string/make_group"
+        android:text="@string/create_group"
         android:layout_weight="0.65"
         android:textAlignment="gravity"
         android:onClick="makeGroup"

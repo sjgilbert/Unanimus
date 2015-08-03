@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.facebook.Profile;
+import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -27,6 +29,7 @@ public class MainActivity extends Activity{
 
         //Button to join group
         Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
+        Profile prof = Profile.getCurrentProfile();
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,12 +38,15 @@ public class MainActivity extends Activity{
             }
         });
 
+        ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.prof_pic);
+        profpic.setProfileId(prof.getId());
+
         //Button to make group
-        Button makeGroupButton = (Button) findViewById(R.id.main_make_group);
+        Button makeGroupButton = (Button) findViewById(R.id.main_create_group);
         makeGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MakeGroupActivity.class);
+                Intent intent = new Intent(MainActivity.this, CreateGroupActivity.class);
                 startActivity(intent);
             }
         });

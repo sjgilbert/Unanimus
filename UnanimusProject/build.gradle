@@ -13,8 +13,10 @@ buildscript {
 
 dependencies {
     compile 'com.parse.bolts:bolts-android:1.2.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.1.0'
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
     compile fileTree(dir: 'libs', include: 'ParseCrashReporting-*.jar')
+    compile fileTree(dir: 'libs', include: 'ParseFacebookUtilsV4-1.9.4.jar')
 }
 
 android {
