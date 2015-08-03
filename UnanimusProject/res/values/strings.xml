@@ -43,7 +43,7 @@
 
 <!-- MainActivity -->
     <string name="main">Main</string>
-    <string name="create_group">Create New Group</string>
+    <string name="make_group">Create New Group</string>
 
     <string name="wait">Wait&#8230;</string>
 

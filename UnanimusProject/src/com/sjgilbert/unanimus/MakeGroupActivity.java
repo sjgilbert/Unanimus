@@ -19,11 +19,11 @@ import java.util.ArrayList;
 /**
  * A button that creates a group.
  */
-public class CreateGroupActivity extends Activity {
+public class MakeGroupActivity extends Activity {
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.create_group);
+		setContentView(R.layout.make_group);
 
 		ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
@@ -32,7 +32,7 @@ public class CreateGroupActivity extends Activity {
 	}
 
 	public void makeGroup(View v) throws ParseException {
-		final ProgressDialog wait = new ProgressDialog(CreateGroupActivity.this);
+		final ProgressDialog wait = new ProgressDialog(MakeGroupActivity.this);
 		wait.setMessage(getString(R.string.wait));
 		wait.show();
 
@@ -49,11 +49,11 @@ public class CreateGroupActivity extends Activity {
             public void done(ParseException e) {
 				wait.dismiss();
                 if (e == null) {
-					Toast.makeText(CreateGroupActivity.this, "Success!", Toast.LENGTH_LONG).show();
+					Toast.makeText(MakeGroupActivity.this, "Success!", Toast.LENGTH_LONG).show();
 
                     displayGroupID(newGroup);
                 } else {
-                    Toast.makeText(CreateGroupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(MakeGroupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

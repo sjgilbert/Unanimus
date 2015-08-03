@@ -28,7 +28,7 @@ public class MainActivity extends Activity{
         setContentView(R.layout.main);
 
         //Button to join group
-        Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
+        Button joinGroupButton = (Button) findViewById(R.id.main_create_group);
         Profile prof = Profile.getCurrentProfile();
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +46,7 @@ public class MainActivity extends Activity{
         makeGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateGroupActivity.class);
+                Intent intent = new Intent(MainActivity.this, MakeGroupActivity.class);
                 startActivity(intent);
             }
         });

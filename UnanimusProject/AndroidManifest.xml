@@ -24,7 +24,7 @@
             android:value="@string/parse_client_key" />
 
         <activity
-            android:name=".CreateGroupActivity"
+            android:name=".MakeGroupActivity"
             android:label="@string/make_group" >
         </activity>
 
