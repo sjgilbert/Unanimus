@@ -34,4 +34,9 @@
 * Default settings json created
 * Settings load at StartupActivity
 
+###v0.6.0 -- Facebook Login
+* Added facebook login
+* Minor layout changes & renaming
+* Modified MainActivity
+
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->
