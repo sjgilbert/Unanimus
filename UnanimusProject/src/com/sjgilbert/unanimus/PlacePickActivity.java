@@ -2,6 +2,7 @@ package com.sjgilbert.unanimus;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -19,7 +20,9 @@ public class PlacePickActivity extends UnanimusActivity {
 
         setContentView(R.layout.place_pick_activity);
         setTitle(R.string.place_pick_activity_title, findViewById(R.id.place_pick_activity));
+    }
 
+    public void startMap(View view) {
         int PLACE_PICKER_REQUEST = 1;
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 

@@ -6,4 +6,21 @@
     android:id="@+id/place_pick_activity">
 
     <include layout="@layout/activity_title" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:textSize="30sp"
+        android:layout_margin="10dp"
+        android:text="@string/place_pick_activity_map"
+        android:onClick="startMap"
+        android:id="@+id/map_button" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:textSize="30sp"
+        android:layout_margin="10dp"
+        android:text="@string/place_pick_activity_last_know"
+        android:id="@+id/last_know_button" />
 </LinearLayout>

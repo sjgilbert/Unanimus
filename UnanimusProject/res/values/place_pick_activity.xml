@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="place_pick_activity_title">Choose Location</string>
+    <string name="place_pick_activity_map">Choose on Map</string>
+    <string name="place_pick_activity_last_know">Current Location</string>
 </resources>

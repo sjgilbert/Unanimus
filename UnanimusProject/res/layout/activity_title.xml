@@ -19,6 +19,5 @@
         android:text="@string/untitled"
         android:textSize="35sp"
         android:textColor="@android:color/black"
-        android:fontFamily="Calibre, Droid Sans, Sans Serif, sans"
         android:background="@drawable/bottom_border" />
 </LinearLayout>
