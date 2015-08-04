@@ -43,7 +43,7 @@
 
     <Button
         android:id="@+id/main_create_group"
-        android:text="@string/make_group"
+        android:text="@string/main_create_group"
         android:padding="40dp"
         android:textSize="30sp"
         android:layout_width="match_parent"
