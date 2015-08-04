@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/join_group_activity">
 
     <include layout="@layout/activity_title" />
 
-    <EditText
-        android:id="@+id/join_group_id_field"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="@string/join_group_activity_group_id_hint"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
 
-    <Button
-        android:id="@+id/join_group_form_submission"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/join_group_activity_form_submission"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:hint="@string/join_group_activity_group_id_hint"
+            android:id="@+id/join_group_id_field" />
+
+        <Button
+            android:id="@+id/join_group_form_submission"
+            android:layout_weight="0.2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/join_group_activity_form_submission"/>
+
+    </LinearLayout>
 
 </LinearLayout>

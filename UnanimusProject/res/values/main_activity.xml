@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="main_activity_title">Main</string>
+    <string name="main_create_group">Create New Group</string>
 </resources>
 <!-- vim: set ts=4 sw=4 et syn=xml: -->

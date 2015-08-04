@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.facebook.Profile;
+import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -25,6 +27,7 @@ public class MainActivity extends UnanimusActivity {
         setContentView(R.layout.main_activity);
         setTitle(R.string.main_activity_title, findViewById(R.id.main_activity));
 
+        Profile prof = Profile.getCurrentProfile();
         //Button to join group_activity
         Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +37,9 @@ public class MainActivity extends UnanimusActivity {
                 startActivity(intent);
             }
         });
+
+        ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.prof_pic);
+        profpic.setProfileId(prof.getId());
 
         //Button to make group_activity
         Button makeGroupButton = (Button) findViewById(R.id.main_make_group);
