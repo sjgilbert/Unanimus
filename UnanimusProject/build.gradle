@@ -2,23 +2,42 @@
 // UnanimusProject/build.gradle
 //
 
-buildscript {
-	repositories {
-		jcenter()
-	}
-	dependencies {
-		classpath 'com.novoda:gradle-android-command-plugin:1.5.0'
-		classpath 'com.android.tools.build:gradle:1.2.+'
-	}
-}
-
-apply plugin: 'android'
 apply plugin: 'com.android.application'
-apply plugin: 'android-command'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.parse.bolts:bolts-android:1.2.1'
+}
 
 android {
 	compileSdkVersion = 'android-22'
 	buildToolsVersion = '22.0.1'
+    defaultConfig {
+        applicationId "com.sjgilbert.unanimus"
+        minSdkVersion 9
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles 'proguard-android.txt', 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['res']
+            aidl.srcDirs = ['gen']
+            renderscript.srcDirs = ['res']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
 }
 
 // vim: ts=4 sw=4 noet syn=groovy:
