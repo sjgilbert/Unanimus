@@ -38,4 +38,9 @@
 * "Custom" theme
 * Reorganized UnanmusProject/res
 
+###v0.7.0 -- Facebook Login
+* Added facebook login
+* Minor layout changes & renaming
+* Modified MainActivity
+
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->
