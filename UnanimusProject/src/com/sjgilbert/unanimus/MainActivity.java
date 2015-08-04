@@ -39,7 +39,11 @@ public class MainActivity extends UnanimusActivity {
         });
 
         ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.prof_pic);
-        profpic.setProfileId(prof.getId());
+        try {
+            profpic.setProfileId(prof.getId());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         //Button to make group_activity
         Button makeGroupButton = (Button) findViewById(R.id.main_make_group);
