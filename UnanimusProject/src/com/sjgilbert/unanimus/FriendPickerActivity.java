@@ -76,14 +76,17 @@ public class FriendPickerActivity extends UnanimusActivity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 if (groupMembersFacebookIDs.contains(ids.get(position))) {
                                     groupMembersFacebookIDs.remove(ids.get(position));
-                                    TextView name = (TextView) view.findViewById(R.id.friend_picker_facebook_name);
-                                    name.setBackgroundColor(Color.WHITE);
+                                    TextView nameTextView = (TextView) view.findViewById(R.id.friend_picker_facebook_name);
+                                    nameTextView.setBackgroundColor(Color.WHITE);
                                     System.out.println(groupMembersFacebookIDs.toString());
                                 }
                                 else {
                                     groupMembersFacebookIDs.add(ids.get(position));
-                                    TextView ppp = (TextView) view.findViewById(R.id.friend_picker_facebook_name);
-                                    ppp.setBackgroundColor(Color.BLUE);
+                                    /*When I named this TextView the same as above there was a bug where selecting another
+                                    friend would only change the color of the first one selected.
+                                    TODO: Decide whether this implementation is sufficient or whether there's a better one*/
+                                    TextView nameTxt = (TextView) view.findViewById(R.id.friend_picker_facebook_name);
+                                    nameTxt.setBackgroundColor(Color.BLUE);
                                     System.out.println(groupMembersFacebookIDs.toString());
                                 }
                             }

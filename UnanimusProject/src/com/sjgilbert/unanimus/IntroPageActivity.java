@@ -75,7 +75,7 @@ public class IntroPageActivity extends UnanimusActivity {
                     return;
                 } else if (user.isNew()) {
                     Log.d("Unanimus", "User signed up and logged in through Facebook!");
-                    user.put("facebookID", Profile.getCurrentProfile().getId());
+                    user.put("facebookID", Profile.getCurrentProfile().getId()); //for future ParseUser queries
                     user.saveInBackground();
                 } else {
                     Log.d("Unanimus", "User logged in through Facebook!");

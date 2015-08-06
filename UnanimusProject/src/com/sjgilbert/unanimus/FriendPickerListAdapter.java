@@ -13,7 +13,8 @@ import com.facebook.login.widget.ProfilePictureView;
 import java.util.List;
 
 /**
- * Created by sam on 8/5/15.
+ * This is for the ListView of the FriendPickerActivity.  It's just an adapter with two
+ * Lists of strings, one for names and the other for facebook IDs.
  */
 public class FriendPickerListAdapter extends ArrayAdapter<String> {
     private final Activity context;

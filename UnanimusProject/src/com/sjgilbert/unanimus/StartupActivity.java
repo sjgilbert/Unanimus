@@ -49,7 +49,7 @@ public class StartupActivity extends Activity {
 
         if (currentUser != null) {
             if(currentUser.get("facebookID")==null) {
-                currentUser.put("facebookID", Profile.getCurrentProfile().getId());
+                currentUser.put("facebookID", Profile.getCurrentProfile().getId()); //For future ParseUser queries
             }
             startActivity(new Intent(this, MainActivity.class));
         } else {
@@ -110,5 +110,11 @@ public class StartupActivity extends Activity {
         }
 
         return false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }
