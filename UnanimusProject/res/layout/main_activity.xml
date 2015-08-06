@@ -14,9 +14,9 @@
 
         <com.facebook.login.widget.ProfilePictureView
             style="@style/PaddingStyle"
+            android:id="@+id/main_prof_pic"
             android:layout_width="wrap_content"
             android:layout_marginRight="@dimen/standard_pad_margin"
-            android:id="@+id/prof_pic"
             android:layout_height="wrap_content" />
 
         <Button
@@ -39,17 +39,15 @@
 
     <Button
         style="@style/ButtonStyle"
-        android:id="@+id/main_create_group"
-        android:text="@string/main_create_group"
+        android:id="@+id/main_friend_picker_button"
+        android:text="@string/main_friend_picker_button"
         android:layout_alignParentBottom="true"/>
 
     <ListView
-        android:id="@+id/groups_list_view"
+        android:id="@+id/groups_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout"
         android:layout_above="@+id/main_create_group">
     </ListView>
-
-
 </LinearLayout>

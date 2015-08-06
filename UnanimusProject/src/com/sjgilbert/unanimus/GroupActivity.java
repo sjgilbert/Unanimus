@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Profile;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -55,16 +56,8 @@ public class GroupActivity extends UnanimusActivityTitle {
         }
 
         //Setting owner of group_activity
-        String creatorName = null;
-        try {
-            ParseUser creator = (ParseUser) group.get("user");
-            creatorName = creator.fetchIfNeeded().getUsername();
-        }
-        catch(ParseException e) {
-            System.out.println(e.getMessage());
-        }
         TextView createdBy = (TextView) findViewById(R.id.group_created_by);
-        createdBy.setText("Created by " + creatorName);
+        createdBy.setText("Created by " + Profile.getCurrentProfile().getName());
 
         //Setting members of group_activity
         ArrayList<String> usernames = new ArrayList<>();

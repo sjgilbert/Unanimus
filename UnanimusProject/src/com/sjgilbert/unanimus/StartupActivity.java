@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.facebook.Profile;
 import com.parse.ParseUser;
 
 /**
@@ -28,9 +29,17 @@ public class StartupActivity extends Activity {
         }
 
         if (currentUser != null) {
+            if(currentUser.get("facebookID")==null) {
+                currentUser.put("facebookID", Profile.getCurrentProfile().getId()); //For future ParseUser queries
+            }
             startActivity(new Intent(this, MainActivity.class));
         } else {
             startActivity(new Intent(this, IntroPageActivity.class));
         }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }

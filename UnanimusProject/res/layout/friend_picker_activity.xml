@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/friend_picker_activity">
+
+    <!--TODO:Change this shitty implementation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/friend_picker_title_bar">
+
+        <include layout="@layout/activity_title" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/friend_picker_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/friend_picker_done_button"
+        android:layout_below="@id/friend_picker_title_bar">
+    </ListView>
+
+    <Button
+        android:id="@+id/friend_picker_done_button"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

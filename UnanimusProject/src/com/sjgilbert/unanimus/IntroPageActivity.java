@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -70,12 +75,14 @@ public class IntroPageActivity extends UnanimusActivityTitle {
             @Override
             public void done(ParseUser user, ParseException err) {
                 if (user == null) {
-                    Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                    Log.d("Unanimus", "Uh oh. The user cancelled the Facebook login.");
                     return;
                 } else if (user.isNew()) {
-                    Log.d("MyApp", "User signed up and logged in through Facebook!");
+                    Log.d("Unanimus", "User signed up and logged in through Facebook!");
+                    user.put("facebookID", Profile.getCurrentProfile().getId()); //for future ParseUser queries
+                    user.saveInBackground();
                 } else {
-                    Log.d("MyApp", "User logged in through Facebook!");
+                    Log.d("Unanimus", "User logged in through Facebook!");
                 }
                 Intent intent = new Intent(IntroPageActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
