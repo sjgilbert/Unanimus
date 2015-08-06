@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.facebook.Profile;
 import com.parse.ParseUser;
 import com.parse.ParseQuery;
 
@@ -47,6 +48,9 @@ public class StartupActivity extends Activity {
         }
 
         if (currentUser != null) {
+            if(currentUser.get("facebookID")==null) {
+                currentUser.put("facebookID", Profile.getCurrentProfile().getId());
+            }
             startActivity(new Intent(this, MainActivity.class));
         } else {
             startActivity(new Intent(this, IntroPageActivity.class));
