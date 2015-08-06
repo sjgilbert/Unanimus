@@ -16,7 +16,6 @@
         android:layout_height="0dp"
         android:text="@string/make_group_activity_title"
         android:layout_weight="0.65"
-        android:textAlignment="gravity"
         android:onClick="makeGroup"
         android:textSize="70sp"/>
 
@@ -24,7 +23,6 @@
         android:id="@+id/echo_group_id"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:textAlignment="gravity"
         android:text=""
         android:visibility="invisible"/>
 

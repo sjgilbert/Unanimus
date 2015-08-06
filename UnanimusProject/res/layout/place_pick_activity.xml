@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/RootLayoutStyle"
     android:id="@+id/place_pick_activity">
 
     <include layout="@layout/activity_title" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="60sp"
-        android:textSize="30sp"
-        android:layout_margin="10dp"
-        android:text="@string/place_pick_activity_map"
-        android:onClick="startMap"
-        android:id="@+id/map_button" />
+    <include layout="@layout/search_bar" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="60sp"
-        android:textSize="30sp"
-        android:layout_margin="10dp"
+        style="@style/ButtonStyle"
+        android:text="@string/place_pick_activity_map"
+        android:onClick="startMap"
+        android:id="@+id/place_pick_activity_map_button" />
+
+    <Button
+        style="@style/ButtonStyle"
         android:text="@string/place_pick_activity_last_know"
-        android:id="@+id/last_know_button" />
+        android:id="@+id/place_pick_activity_last_know_button" />
+
+    <LinearLayout
+        style="@style/MatchParent"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="bottom|center_horizontal">
+
+        <Button
+            style="@style/ButtonStyle"
+            android:id="@+id/place_pick_activity_submit_button"
+            android:text="@string/placePick_activity_form_submit"/>
+    </LinearLayout>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.sjgilbert.unanimus;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.ArrayList;
 
@@ -16,13 +18,20 @@ import java.util.ArrayList;
  * The activity which displays a specific group_activity a user is a part of.  Should
  * eventually allow the user to indicate preferences/view recommendations.
  */
-public class GroupActivity extends UnanimusActivity {
+public class GroupActivity extends UnanimusActivityTitle {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.group_activity);
-        setTitle(R.string.group_activity_title, findViewById(R.id.group_activity));
+        setUnanimusTitle(R.string.group_activity_title);
+        try {
+            setTitleBar((ViewGroup) findViewById(R.id.group_activity));
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
 
         Bundle extras = getIntent().getExtras();    //The groupID of the selected group_activity
         if (extras != null) {
@@ -59,11 +68,11 @@ public class GroupActivity extends UnanimusActivity {
         createdBy.setText("Created by " + creatorName);
 
         //Setting members of group_activity
-        ArrayList<String> usernames = new ArrayList<String>();
+        ArrayList<String> usernames = new ArrayList<>();
         for (ParseUser user : group.getMembers()) {
             usernames.add(user.getUsername());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.members_fragment, usernames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.members_fragment, usernames);
         ListView membersList = (ListView) findViewById(R.id.members_list);
         membersList.setAdapter(adapter);
 

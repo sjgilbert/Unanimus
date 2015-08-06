@@ -14,18 +14,24 @@ import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 /**
  * This class shows the groups a user is a part of, as well as allows the
  * user to access the make and join group_activity activities.
  */
-public class MainActivity extends UnanimusActivity {
+public class MainActivity extends UnanimusActivityTitle {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main_activity);
-        setTitle(R.string.main_activity_title, findViewById(R.id.main_activity));
+        setUnanimusTitle(R.string.main_activity_title);
+        try {
+            setTitleBar((ViewGroup) findViewById(R.id.main_activity));
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
 
         Profile prof = Profile.getCurrentProfile();
         //Button to join group_activity

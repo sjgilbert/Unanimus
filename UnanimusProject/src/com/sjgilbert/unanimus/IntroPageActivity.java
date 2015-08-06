@@ -1,34 +1,35 @@
 package com.sjgilbert.unanimus;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-
-import org.json.JSONObject;
+import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.ArrayList;
 
 /**
  * The page that allows the user to either log-in or register_activity.
  */
-public class IntroPageActivity extends UnanimusActivity {
+public class IntroPageActivity extends UnanimusActivityTitle {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.intro_page_activity);
-        setTitle(R.string.intro_page_activity_title, findViewById(R.id.intro_page_activity));
+        setUnanimusTitle(R.string.intro_page_activity_title);
+        try {
+            setTitleBar((ViewGroup) findViewById(R.id.intro_page_activity));
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
 
         Button introRegister = (Button) findViewById(R.id.intro_page_activity_register_link);
         introRegister.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +63,7 @@ public class IntroPageActivity extends UnanimusActivity {
     }
 
     public void facebookLogin() {
-        ArrayList<String> permissions = new ArrayList<String>();
+        ArrayList<String> permissions = new ArrayList<>();
         permissions.add("public_profile");
         permissions.add("user_friends");
 
@@ -84,18 +85,3 @@ public class IntroPageActivity extends UnanimusActivity {
         });
     }
 }
-
-//AccessToken accessToken = AccessToken.getCurrentAccessToken();
-//GraphRequest request = GraphRequest.newMeRequest(
-//        accessToken,
-//        new GraphRequest.GraphJSONObjectCallback() {
-//            @Override
-//            public void onCompleted(
-//                    JSONObject object,
-//                    GraphResponse response) {
-//            }
-//        });
-//Bundle parameters = new Bundle();
-//parameters.putString("fields", "id,name,link");
-//        request.setParameters(parameters);
-//        request.executeAsync();

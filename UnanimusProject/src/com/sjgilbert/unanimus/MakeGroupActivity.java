@@ -1,9 +1,9 @@
 package com.sjgilbert.unanimus;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,19 +13,25 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.ArrayList;
 
 /**
  * A button that creates a group_activity.
  */
-public class MakeGroupActivity extends UnanimusActivity {
+public class MakeGroupActivity extends UnanimusActivityTitle {
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.make_group_activity);
-		setTitle(R.string.make_group_activity_title, findViewById(R.id.make_group_activity));
+		setUnanimusTitle(R.string.main_activity_title);
+		try {
+            setTitleBar((ViewGroup) findViewById(R.id.make_group_activity));
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+		}
 
 		ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
@@ -55,7 +61,7 @@ public class MakeGroupActivity extends UnanimusActivity {
         acl.setPublicReadAccess(true);
         newGroup.setACL(acl);
 		newGroup.put("user",ParseUser.getCurrentUser());
-        ArrayList<ParseUser> members = new ArrayList<ParseUser>();
+        ArrayList<ParseUser> members = new ArrayList<>();
         members.add( ParseUser.getCurrentUser());
 		newGroup.put("members", members);
 		newGroup.saveInBackground(new SaveCallback() {
