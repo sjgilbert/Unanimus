@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="facebook_app_id">1433617346966662</string>
-    <string name="facebook_login">Login with Facebook</string>
-
     <string name="app_name">Unanimus</string>
     <string name="wait_message">Wait&#8230;</string>
     <string name="or_message">or</string>
     <string name="untitled">Untitled</string>
+    <string name="done">Done</string>
 </resources>
 <!-- vim: set ts=4 sw=4 et syn=xml: -->

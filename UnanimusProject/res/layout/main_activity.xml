@@ -10,11 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentTop="true"
         android:id="@+id/linearLayout">
 
         <com.facebook.login.widget.ProfilePictureView
-            android:id="@+id/prof_pic"
+            android:id="@+id/main_prof_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -33,12 +32,16 @@
             android:id="@+id/main_make_group"/>
     </LinearLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_friend_picker_button"
+        android:id="@+id/main_friend_picker_button"/>
+
     <ListView
         android:id="@+id/groups_listview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/linearLayout"
-        android:layout_above="@+id/main_create_group">
+        android:layout_height="fill_parent">
     </ListView>
 
     <Button
@@ -47,7 +50,6 @@
         android:padding="40dp"
         android:textSize="30sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

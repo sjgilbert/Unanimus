@@ -2,6 +2,7 @@ package com.sjgilbert.unanimus;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -9,11 +10,18 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
+import com.facebook.share.model.AppGroupCreationContent;
+import com.facebook.share.widget.CreateAppGroupDialog;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
 
 /**
  * This class shows the groups a user is a part of, as well as allows the
@@ -27,9 +35,8 @@ public class MainActivity extends UnanimusActivity {
         setContentView(R.layout.main_activity);
         setTitle(R.string.main_activity_title, findViewById(R.id.main_activity));
 
-        Profile prof = Profile.getCurrentProfile();
         //Button to join group_activity
-        Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
+        final Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,8 +45,9 @@ public class MainActivity extends UnanimusActivity {
             }
         });
 
-        ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.prof_pic);
-        profpic.setProfileId(prof.getId());
+        //Facebook Picture
+        ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.main_prof_pic);
+        profpic.setProfileId((String) ParseUser.getCurrentUser().get("facebookID"));
 
         //Button to make group_activity
         Button makeGroupButton = (Button) findViewById(R.id.main_make_group);
@@ -47,6 +55,16 @@ public class MainActivity extends UnanimusActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MakeGroupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Button to access friend picker
+        Button friendPickerButton = (Button) findViewById(R.id.main_friend_picker_button);
+        friendPickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FriendPickerActivity.class);
                 startActivity(intent);
             }
         });
