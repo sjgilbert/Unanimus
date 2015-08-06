@@ -12,30 +12,33 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
+import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle_TextEntryBar;
 
 /**
  * View for joining a group_activity.
  */
-public class JoinGroupActivity extends UnanimusActivityTitle {
+public class JoinGroupActivity extends UnanimusActivityTitle_TextEntryBar {
     private EditText groupID;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.join_group_activity);
-        setUnanimusTitle(R.string.join_group_activity_title);
         try {
-            setTitleBar((ViewGroup) findViewById(R.id.join_group_activity));
-        } catch (ClassCastException e) {
+            setTitleBar(R.string.join_group_activity_title, (ViewGroup) findViewById(R.id.join_group_activity));
+            setTextEntryBar(
+                    R.string.join_group_activity_group_id_hint,
+                    R.string.join_group_activity_form_submission,
+                    (ViewGroup) findViewById(R.id.join_group_activity));
+        } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();
         }
 
-        groupID = (EditText) findViewById(R.id.join_group_id_field);
+        groupID = (EditText) findViewById(R.id.text_entry_bar).findViewById(R.id.text_field);
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-        Button joinButton = (Button) findViewById(R.id.join_group_form_submission);
+        Button joinButton = (Button) findViewById(R.id.text_entry_bar).findViewById(R.id.submit_button);
         joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +52,7 @@ public class JoinGroupActivity extends UnanimusActivityTitle {
                         first.save();
                         Toast.makeText(JoinGroupActivity.this, "Success!", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(JoinGroupActivity.this, "Already a member of this group_activity!", Toast.LENGTH_LONG);
+                        Toast.makeText(JoinGroupActivity.this, "Already a member of this group_activity!", Toast.LENGTH_LONG).show();
                     }
                 } catch (ParseException e) {
                     Toast.makeText(JoinGroupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();

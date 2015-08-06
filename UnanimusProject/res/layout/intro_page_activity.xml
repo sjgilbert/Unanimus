@@ -1,41 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1"
+    style="@style/RootLayoutStyle"
     android:id="@+id/intro_page_activity">
 
     <include layout="@layout/activity_title" />
 
     <Button
+        style="@style/ButtonStyle"
         android:id="@+id/intro_page_activity_register_link"
-        android:text="@string/intro_page_activity_register_link"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".20"/>
-
-    <TextView
-        android:id="@+id/intro_page_activity_or_message"
-        android:text="@string/or_message"
-        android:layout_width="wrap_content"
-        android:layout_weight=".05"
-        android:layout_height="0dp"
-        android:layout_gravity="center"/>
+        android:text="@string/intro_page_activity_register_link"/>
 
     <Button
+        style="@style/ButtonStyle"
         android:id="@+id/intro_page_activity_login_link"
-        android:text="@string/intro_page_activity_login_link"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".20" />
+        android:text="@string/intro_page_activity_login_link" />
 
     <Button
+        style="@style/ButtonStyle"
         android:id="@+id/facebook_login"
-        android:text="@string/facebook_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight=".08"/>
+        android:text="@string/facebook_login" />
 
 </LinearLayout>

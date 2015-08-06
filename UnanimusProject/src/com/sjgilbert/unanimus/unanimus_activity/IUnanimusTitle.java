@@ -9,11 +9,8 @@ import android.widget.TextView;
  * isabellcowan@gmail.com
  */
 public interface IUnanimusTitle {
-    void setUnanimusTitle(int title_r);
-    void setUnanimusTitle(String title_s);
-    String getUnanimusTitle();
-    boolean setTitleBar(ViewGroup parent);
-    boolean setTitleBar(ViewGroup parent, int base_id);
-    boolean setTitleBar(LinearLayout base);
-    boolean setTitleBar(TextView textView);
+    boolean setTitleBar(int title_r, ViewGroup parent);
+    boolean setTitleBar(int title_r, ViewGroup parent, int base_id);
+    boolean setTitleBar(int title_r, LinearLayout base);
+    boolean setTitleBar(int title_r, TextView textView);
 }

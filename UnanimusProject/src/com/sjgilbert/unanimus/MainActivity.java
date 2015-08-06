@@ -26,9 +26,8 @@ public class MainActivity extends UnanimusActivityTitle {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main_activity);
-        setUnanimusTitle(R.string.main_activity_title);
         try {
-            setTitleBar((ViewGroup) findViewById(R.id.main_activity));
+            setTitleBar(R.string.main_activity_title, (ViewGroup) findViewById(R.id.main_activity));
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
@@ -91,7 +90,7 @@ public class MainActivity extends UnanimusActivityTitle {
 
         groupQueryAdapter.setAutoload(false);
 
-        ListView groupListView = (ListView) findViewById(R.id.groups_listview);
+        ListView groupListView = (ListView) findViewById(R.id.groups_list_view);
         groupListView.setAdapter(groupQueryAdapter);
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

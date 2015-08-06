@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:id="@+id/search_bar">
+    android:id="@+id/text_entry_bar">
 
     <EditText
         style="@style/MarginStyle"
@@ -11,11 +11,11 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:hint="@string/untitled"
-        android:id="@+id/search_field" />
+        android:id="@+id/text_field" />
 
     <Button
         style="@style/ButtonStyle"
-        android:textSize="@dimen/small_font"
+        android:textSize="@dimen/medium_font"
         android:layout_width="wrap_content"
         android:id="@+id/submit_button"
         android:text="@string/untitled"/>

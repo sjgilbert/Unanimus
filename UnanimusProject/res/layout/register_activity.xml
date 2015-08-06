@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/RootLayoutStyle"
     android:id="@+id/register_activity">
 
     <include layout="@layout/activity_title" />
 
     <EditText
+        style="@style/MarginStyle"
         android:id="@+id/register_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +15,7 @@
         android:singleLine="true"/>
 
     <EditText
+        style="@style/MarginStyle"
         android:id="@+id/register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,6 +25,7 @@
         android:inputType="textPassword"/>
 
     <EditText
+        style="@style/MarginStyle"
         android:id="@+id/repeatpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,11 +35,7 @@
         android:inputType="textPassword"/>
 
     <Button
+        style="@style/ButtonStyle"
         android:id="@+id/register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/intro_page_activity_register_link"
-        android:layout_gravity="end"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"/>
+        android:text="@string/intro_page_activity_register_link"/>
 </LinearLayout>

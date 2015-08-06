@@ -24,9 +24,8 @@ public class IntroPageActivity extends UnanimusActivityTitle {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.intro_page_activity);
-        setUnanimusTitle(R.string.intro_page_activity_title);
         try {
-            setTitleBar((ViewGroup) findViewById(R.id.intro_page_activity));
+            setTitleBar(R.string.intro_page_activity_title, (ViewGroup) findViewById(R.id.intro_page_activity));
         } catch (ClassCastException e) {
             e.printStackTrace();
         }

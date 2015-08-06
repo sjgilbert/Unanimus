@@ -3,6 +3,8 @@
     style="@style/RootLayoutStyle"
     android:layout_height="wrap_content"
     android:padding="@dimen/zero"
+    android:layout_marginTop="@dimen/standard_pad_margin"
+    android:layout_marginBottom="@dimen/standard_pad_margin"
     android:id="@+id/activity_title_layout" >
 
     <TextView
@@ -13,7 +15,7 @@
         android:layout_height="wrap_content"
 
         android:text="@string/untitled"
-        android:textSize="@dimen/large_font"
+        android:textSize="@dimen/huge_font"
         android:textColor="@android:color/black"
         android:background="@drawable/bottom_border" />
 </LinearLayout>

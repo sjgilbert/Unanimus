@@ -26,9 +26,8 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.make_group_activity);
-		setUnanimusTitle(R.string.main_activity_title);
 		try {
-            setTitleBar((ViewGroup) findViewById(R.id.make_group_activity));
+            setTitleBar(R.string.main_activity_title, (ViewGroup) findViewById(R.id.make_group_activity));
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 		}

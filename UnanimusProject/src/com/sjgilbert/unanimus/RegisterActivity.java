@@ -25,9 +25,8 @@ public class RegisterActivity extends UnanimusActivityTitle {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.register_activity);
-        setUnanimusTitle(R.string.register_activity_title);
         try {
-            setTitleBar((ViewGroup) findViewById(R.id.register_activity));
+            setTitleBar(R.string.register_activity_title, (ViewGroup) findViewById(R.id.register_activity));
         } catch (ClassCastException e) {
             e.printStackTrace();
         }

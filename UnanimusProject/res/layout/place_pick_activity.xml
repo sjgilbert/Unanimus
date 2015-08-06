@@ -5,7 +5,7 @@
 
     <include layout="@layout/activity_title" />
 
-    <include layout="@layout/search_bar" />
+    <include layout="@layout/text_entry_bar" />
 
     <Button
         style="@style/ButtonStyle"
