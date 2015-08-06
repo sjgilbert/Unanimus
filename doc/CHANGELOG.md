@@ -43,4 +43,9 @@
 * Minor layout changes & renaming
 * Modified MainActivity
 
+###v0.8.0 -- Facebook Friend Picker
+* FriendPickerActivity implemented
+* Touchup to GroupActivity
+* Added facebookID as a field stored witin ParseUser for future lookups
+ 
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->
