@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/RootLayoutStyle"
-    android:id="@+id/place_pick_activity">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/place_pick_activity"
+    style="@style/RootLayoutStyle">
     <include layout="@layout/activity_title" />
-
     <include layout="@layout/text_entry_bar" />
-
     <Button
+        android:id="@+id/place_pick_activity_map_button"
         style="@style/ButtonStyle"
-        android:text="@string/place_pick_activity_map"
         android:onClick="startMap"
-        android:id="@+id/place_pick_activity_map_button" />
-
+        android:text="@string/place_pick_activity_map" />
     <Button
+        android:id="@+id/place_pick_activity_last_know_button"
         style="@style/ButtonStyle"
-        android:text="@string/place_pick_activity_last_know"
-        android:id="@+id/place_pick_activity_last_know_button" />
-
+        android:text="@string/place_pick_activity_last_know" />
     <LinearLayout
+        android:id="@+id/place_preview_layout"
         style="@style/MatchParent"
-        android:layout_gravity="bottom|center_horizontal"
-        android:gravity="bottom|center_horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:background="@android:color/darker_gray"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:id="@+id/place_as_string"
+            style="@style/TextViewStyle"
+            android:layout_height="@dimen/zero"
+            android:layout_weight="@integer/one"
+            android:text="@string/place_pick_activity_no_choice"
+            tools:ignore="InefficientWeight" />
 
         <Button
+            android:id="@+id/submit_button"
             style="@style/ButtonStyle"
-            android:id="@+id/place_pick_activity_submit_button"
-            android:text="@string/placePick_activity_form_submit"/>
+            android:text="@string/placePick_activity_form_submit"
+            android:layout_gravity="center_horizontal|bottom" />
     </LinearLayout>
+
 </LinearLayout>

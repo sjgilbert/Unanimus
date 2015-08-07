@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/RootLayoutStyle"
-    android:id="@+id/login_activity">
+    android:id="@+id/login_activity"
+    style="@style/RootLayoutStyle">
 
     <include layout="@layout/activity_title" />
 
@@ -11,20 +11,20 @@
         android:layout_height="wrap_content"
         android:hint="@string/login_activity_username_hint"
         android:maxLines="1"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_activity_password_hint"
+        android:inputType="textPassword"
         android:maxLines="1"
-        android:singleLine="true"
-        android:inputType="textPassword"/>
+        android:singleLine="true" />
 
     <Button
-        style="@style/ButtonStyle"
         android:id="@+id/login"
+        style="@style/ButtonStyle"
         android:text="@string/login_activity_form_submission" />
 
 </LinearLayout>

@@ -2,5 +2,6 @@
 <resources>
     <string name="parse_app_id">hHNXiaKrXkRDW4Ma50aVW3G5zma7NJyptGO795Nb</string>
     <string name="parse_client_key">0GO9X3HNPu9JMLGk6BH0yccRA1P143vQ6MWUvnpV</string>
-</resources>
-<!-- vim: set ts=4 sw=4 et syn=xml: -->
+    <string name="parse_public_profile">"public_profile"</string>
+    <string name="parse_user_friends">"user_friends"</string>
+</resources><!-- vim: set ts=4 sw=4 et syn=xml: -->

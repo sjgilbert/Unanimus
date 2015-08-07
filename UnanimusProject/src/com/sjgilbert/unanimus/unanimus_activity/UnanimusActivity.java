@@ -16,6 +16,7 @@ class UnanimusActivity extends Activity {
     protected static boolean setTitleBar(String title, ViewGroup parent) {
         return setTitleBar(title, parent, R.id.activity_title_layout);
     }
+
     protected static boolean setTitleBar(String title, ViewGroup parent, int base_id) {
         try {
             return setTitleBar(title, (LinearLayout) parent.findViewById(base_id));
@@ -24,6 +25,7 @@ class UnanimusActivity extends Activity {
         }
         return true;
     }
+
     protected static boolean setTitleBar(String title, LinearLayout base) {
         try {
             return setTitleBar(title, (TextView) base.findViewById(R.id.activity_title_text));
@@ -32,6 +34,7 @@ class UnanimusActivity extends Activity {
         }
         return true;
     }
+
     protected static boolean setTitleBar(String title, TextView textView) {
         try {
             textView.setText(title);
@@ -45,6 +48,7 @@ class UnanimusActivity extends Activity {
     protected static boolean setTextEntryBar(String hint, String submit, ViewGroup parent) {
         return setTextEntryBar(hint, submit, parent, R.id.text_entry_bar);
     }
+
     protected static boolean setTextEntryBar(String hint, String submit, ViewGroup parent, int base_id) {
         try {
             return setTextEntryBar(hint, submit, (LinearLayout) parent.findViewById(base_id));
@@ -53,6 +57,7 @@ class UnanimusActivity extends Activity {
         }
         return true;
     }
+
     protected static boolean setTextEntryBar(String hint, String submit, LinearLayout base) {
         try {
             return setTextEntryBar(
@@ -65,6 +70,7 @@ class UnanimusActivity extends Activity {
         }
         return true;
     }
+
     protected static boolean setTextEntryBar(String hint, String submit, TextView textView, Button button) {
         try {
             textView.setHint(hint);

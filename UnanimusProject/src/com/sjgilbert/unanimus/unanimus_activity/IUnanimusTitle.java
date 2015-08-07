@@ -10,7 +10,10 @@ import android.widget.TextView;
  */
 public interface IUnanimusTitle {
     boolean setTitleBar(int title_r, ViewGroup parent);
+
     boolean setTitleBar(int title_r, ViewGroup parent, int base_id);
+
     boolean setTitleBar(int title_r, LinearLayout base);
+
     boolean setTitleBar(int title_r, TextView textView);
 }

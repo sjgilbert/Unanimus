@@ -12,11 +12,14 @@ import java.util.ArrayList;
  */
 @ParseClassName("UnanimusGroup")
 public class UnanimusGroup extends ParseObject {
+    public static ParseQuery<UnanimusGroup> getQuery() {
+        return ParseQuery.getQuery(UnanimusGroup.class);
+    }
+
     public ArrayList<ParseUser> getMembers() {
-        if(get("members") != null) {
+        if (get("members") != null) {
             return (ArrayList<ParseUser>) get("members");
-        }
-        else return null;
+        } else return null;
     }
 
     public ParseUser getMember(int ind) {
@@ -30,10 +33,6 @@ public class UnanimusGroup extends ParseObject {
             return true;
         }
         return false;
-    }
-
-    public static ParseQuery<UnanimusGroup> getQuery() {
-        return ParseQuery.getQuery(UnanimusGroup.class);
     }
 
 }

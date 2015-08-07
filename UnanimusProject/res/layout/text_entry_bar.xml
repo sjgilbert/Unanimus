@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/text_entry_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/text_entry_bar">
+    android:weightSum="@integer/one"
+    android:orientation="horizontal">
 
     <EditText
         style="@style/MarginStyle"
+        android:id="@+id/text_field"
         android:layout_width="@dimen/zero"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_weight="@integer/one"
         android:hint="@string/untitled"
-        android:id="@+id/text_field" />
+        tools:ignore="InefficientWeight" />
 
     <Button
-        style="@style/ButtonStyle"
-        android:textSize="@dimen/medium_font"
-        android:layout_width="wrap_content"
         android:id="@+id/submit_button"
-        android:text="@string/untitled"/>
+        style="@style/ButtonStyle"
+        android:layout_width="wrap_content"
+        android:text="@string/untitled"
+        android:textSize="@dimen/medium_font" />
 
 </LinearLayout>

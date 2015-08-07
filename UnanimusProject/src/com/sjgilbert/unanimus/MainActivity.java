@@ -2,7 +2,6 @@ package com.sjgilbert.unanimus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,25 +9,19 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
-import com.facebook.share.model.AppGroupCreationContent;
-import com.facebook.share.widget.CreateAppGroupDialog;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
-
-import org.json.JSONArray;
 
 /**
  * This class shows the groups a user is a part of, as well as allows the
  * user to access the make and join group_activity activities.
  */
 public class MainActivity extends UnanimusActivityTitle {
+    private ParseQueryAdapter<UnanimusGroup> groupQueryAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,15 +69,15 @@ public class MainActivity extends UnanimusActivityTitle {
 
         //Shows all the groups user is a member of
         ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
-            new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
-                public ParseQuery<UnanimusGroup> create() {
-                    ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
-                    query.include("objectID");
-                    query.whereEqualTo("members", ParseUser.getCurrentUser());
-                    query.orderByDescending("createdAt");
-                    return query;
-                }
-            };
+                new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
+                    public ParseQuery<UnanimusGroup> create() {
+                        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
+                        query.include("objectID");
+                        query.whereEqualTo("members", ParseUser.getCurrentUser());
+                        query.orderByDescending("createdAt");
+                        return query;
+                    }
+                };
 
         groupQueryAdapter = new ParseQueryAdapter<UnanimusGroup>(this, factory) {
             @Override
@@ -118,6 +111,10 @@ public class MainActivity extends UnanimusActivityTitle {
         });
     }
 
+    public void startPlacePickActivity(View view) {
+        startActivity(new Intent(MainActivity.this, PlacePickActivity.class));
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -127,6 +124,4 @@ public class MainActivity extends UnanimusActivityTitle {
     private void doListQuery() {
         groupQueryAdapter.loadObjects();
     }
-
-    private ParseQueryAdapter<UnanimusGroup> groupQueryAdapter;
 }

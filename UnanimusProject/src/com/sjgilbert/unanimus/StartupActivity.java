@@ -20,23 +20,26 @@ public class StartupActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ParseUser currentUser;
-        try {
-            currentUser = ParseUser.getCurrentUser();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            currentUser = null;
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+        final String facebook_id_key = getResources().getString(R.string.facebook_id_key);
+
+        if (currentUser == null) {
+            startActivity(new Intent(this, IntroPageActivity.class));
+            return;
+        } else if (currentUser.get(facebook_id_key) == null) {
+            try {
+                currentUser.put(facebook_id_key, Profile.getCurrentProfile().getId()); //For future ParseUser queries
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                startActivity(new Intent(this, IntroPageActivity.class));
+                return;
+            }
         }
 
-        if (currentUser != null) {
-            if(currentUser.get("facebookID")==null) {
-                currentUser.put("facebookID", Profile.getCurrentProfile().getId()); //For future ParseUser queries
-            }
-            startActivity(new Intent(this, MainActivity.class));
-        } else {
-            startActivity(new Intent(this, IntroPageActivity.class));
-        }
+        startActivity(new Intent(this, MainActivity.class));
     }
+
     @Override
     protected void onPause() {
         super.onPause();

@@ -20,6 +20,11 @@ import javax.security.auth.login.LoginException;
  * Activity for logging in.  Started from IntroPageActivity.
  */
 public class LoginActivity extends UnanimusActivityTitle {
+    private final static int minUserLen = 4;
+    private final static int minPassLen = 6;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,15 +45,14 @@ public class LoginActivity extends UnanimusActivityTitle {
             public void onClick(View v) {
                 try {
                     login();
-                }
-                catch (LoginException e) {
+                } catch (LoginException e) {
                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    private void login() throws LoginException{
+    private void login() throws LoginException {
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
@@ -79,10 +83,9 @@ public class LoginActivity extends UnanimusActivityTitle {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 wait.dismiss();
-                if(e != null) {
+                if (e != null) {
                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     Intent intent = new Intent(LoginActivity.this, StartupActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -90,10 +93,4 @@ public class LoginActivity extends UnanimusActivityTitle {
             }
         });
     }
-
-    private EditText usernameEditText;
-    private EditText passwordEditText;
-
-    private final static int minUserLen = 4;
-    private final static int minPassLen = 6;
 }

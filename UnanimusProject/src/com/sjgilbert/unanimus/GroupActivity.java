@@ -22,6 +22,9 @@ import java.util.ArrayList;
 public class GroupActivity extends UnanimusActivityTitle {
 
 
+    private String groupName;
+    private UnanimusGroup group;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +39,7 @@ public class GroupActivity extends UnanimusActivityTitle {
         Bundle extras = getIntent().getExtras();    //The groupID of the selected group_activity
         if (extras != null) {
             groupName = extras.getString("objID");
-        }
-        else {
+        } else {
             Toast.makeText(GroupActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
 
@@ -48,10 +50,9 @@ public class GroupActivity extends UnanimusActivityTitle {
         //Query for the group_activity's data
         ParseQuery<UnanimusGroup> query = ParseQuery.getQuery("UnanimusGroup");
         query.include("members");
-        try{
+        try {
             group = query.get(groupName);
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
 
@@ -69,6 +70,4 @@ public class GroupActivity extends UnanimusActivityTitle {
         membersList.setAdapter(adapter);
 
     }
-    private String groupName;
-    private UnanimusGroup group;
 }

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/RootLayoutStyle"
-    android:id="@+id/make_group_activity">
+    android:id="@+id/make_group_activity"
+    style="@style/RootLayoutStyle">
 
     <include layout="@layout/activity_title" />
 
     <Button
-        style="@style/ButtonStyle"
         android:id="@+id/make_group"
-        android:text="@string/make_group_activity_title"
-        android:onClick="makeGroup" />
+        style="@style/ButtonStyle"
+        android:onClick="makeGroup"
+        android:text="@string/make_group_activity_title" />
 
     <TextView
         android:id="@+id/echo_group_id"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text=""
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </LinearLayout>

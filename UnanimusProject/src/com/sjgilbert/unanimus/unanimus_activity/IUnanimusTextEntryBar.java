@@ -11,7 +11,10 @@ import android.widget.TextView;
  */
 public interface IUnanimusTextEntryBar {
     boolean setTextEntryBar(int hint_r, int submit_r, ViewGroup parent);
+
     boolean setTextEntryBar(int hint_r, int submit_r, ViewGroup parent, int base_id);
+
     boolean setTextEntryBar(int hint_r, int submit_r, LinearLayout base);
+
     boolean setTextEntryBar(int hint_r, int submit_r, TextView textView, Button button);
 }
