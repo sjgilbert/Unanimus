@@ -7,7 +7,7 @@
     android:orientation="horizontal">
 
     <EditText
-        style="@style/MarginStyle"
+        style="@style/Margin"
         android:id="@+id/text_field"
         android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
 
     <Button
         android:id="@+id/submit_button"
-        style="@style/ButtonStyle"
+        style="@style/Button"
         android:layout_width="wrap_content"
         android:text="@string/untitled"
         android:textSize="@dimen/medium_font" />

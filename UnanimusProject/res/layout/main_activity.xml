@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_activity"
-    style="@style/RootLayoutStyle">
+    style="@style/RootLayout">
 
     <include layout="@layout/activity_title" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        style="@style/MarginStyle"
+        style="@style/Margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/main_prof_pic"
-            style="@style/PaddingStyle"
+            style="@style/Padding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/main_join_group"
-            style="@style/ButtonStyle"
+            style="@style/Button"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/standard_pad_margin"
             android:layout_marginRight="@dimen/standard_pad_margin"
             android:layout_weight="0.5"
-            android:text="@string/join_group_activity_title" />
+            android:text="@string/jga_title" />
 
         <Button
             android:id="@+id/main_make_group"
-            style="@style/ButtonStyle"
+            style="@style/Button"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:text="@string/make_group_activity_title" />
+            android:text="@string/mga_title" />
     </LinearLayout>
 
     <Button
         android:id="@+id/main_friend_picker_button"
-        style="@style/ButtonStyle"
-        android:text="@string/main_friend_picker_button"/>
+        style="@style/Button"
+        android:text="@string/ma_friend_picker_button"/>
 
     <Button
         android:id="@+id/pick_place_link"
-        style="@style/ButtonStyle"
-        android:text="@string/place_pick_activity_title"
+        style="@style/Button"
+        android:text="@string/ppa_title"
         android:onClick="startPlacePickActivity"/>
 
     <ListView

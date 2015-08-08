@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="friend_picker_activity_title">Select Friends</string>
+    <string name="fpa_title">Select Friends</string>
 </resources>

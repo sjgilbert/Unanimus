@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="login_activity_form_submission">Log In</string>
-    <string name="login_activity_password_hint">Password</string>
-    <string name="login_activity_username_hint">Username</string>
-    <string name="login_activity_title">Login</string>
+    <string name="la_form_submission">Log In</string>
+    <string name="la_password_hint">Password</string>
+    <string name="la_username_hint">Username</string>
+    <string name="la_title">Login</string>
 </resources>

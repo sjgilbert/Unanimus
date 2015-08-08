@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="EditTextViewStyle" parent="TextViewStyle">
+    <style name="EditTextView" parent="TextView">
         <item name="android:inputType">text</item>
         <item name="android:maxLines">1</item>
         <item name="android:singleLine">true</item>

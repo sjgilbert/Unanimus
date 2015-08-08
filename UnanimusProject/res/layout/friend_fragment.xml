@@ -5,10 +5,10 @@
     <TableRow>
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/friend_picker_profile_picture"
-            style="@style/WrapStyle"/>
+            style="@style/Wrap"/>
         <TextView
             android:id="@+id/friend_picker_facebook_name"
-            style="@style/TextViewStyle"
+            style="@style/TextView"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </TableRow>
 </TableLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/join_group_activity"
-    style="@style/RootLayoutStyle">
+    style="@style/RootLayout">
 
     <include layout="@layout/activity_title" />
 

@@ -28,7 +28,7 @@ public class MainActivity extends UnanimusActivityTitle {
 
         setContentView(R.layout.main_activity);
         try {
-            setTitleBar(R.string.main_activity_title, (ViewGroup) findViewById(R.id.main_activity));
+            setTitleBar(R.string.ma_title, (ViewGroup) findViewById(R.id.main_activity));
         } catch (ClassCastException e) {
             e.printStackTrace();
         }

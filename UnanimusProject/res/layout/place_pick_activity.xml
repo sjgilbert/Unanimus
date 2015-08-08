@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/place_pick_activity"
-    style="@style/RootLayoutStyle">
+    style="@style/RootLayout">
     <include layout="@layout/activity_title" />
     <include layout="@layout/text_entry_bar" />
     <Button
         android:id="@+id/place_pick_activity_map_button"
-        style="@style/ButtonStyle"
+        style="@style/Button"
         android:onClick="startMap"
-        android:text="@string/place_pick_activity_map" />
+        android:text="@string/ppa_map_button" />
     <Button
         android:id="@+id/place_pick_activity_last_know_button"
-        style="@style/ButtonStyle"
-        android:text="@string/place_pick_activity_last_know" />
+        style="@style/Button"
+        android:text="@string/ppa_last_know_button" />
     <LinearLayout
         android:id="@+id/place_preview_layout"
         style="@style/MatchParent"
@@ -26,16 +26,16 @@
 
         <TextView
             android:id="@+id/place_as_string"
-            style="@style/TextViewStyle"
+            style="@style/TextView"
             android:layout_height="@dimen/zero"
             android:layout_weight="@integer/one"
-            android:text="@string/place_pick_activity_no_choice"
+            android:text="@string/ppa_no_choice_prev"
             tools:ignore="InefficientWeight" />
 
         <Button
             android:id="@+id/submit_button"
-            style="@style/ButtonStyle"
-            android:text="@string/placePick_activity_form_submit"
+            style="@style/Button"
+            android:text="@string/ppa_submit_button"
             android:layout_gravity="center_horizontal|bottom" />
     </LinearLayout>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/friend_picker_activity"
-    style="@style/RootLayoutStyle">
+    style="@style/RootLayout">
     <!--TODO:Change this shitty implementation -->
     <LinearLayout
         android:id="@+id/friend_picker_title_bar"
@@ -16,7 +16,7 @@
         android:layout_below="@id/friend_picker_title_bar"/>
     <Button
         android:id="@+id/friend_picker_done_button"
-        style="@style/ButtonStyle"
+        style="@style/Button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
