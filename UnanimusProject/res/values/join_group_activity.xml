@@ -3,5 +3,4 @@
     <string name="join_group_activity_title">Join Group</string>
     <string name="join_group_activity_group_id_hint">Enter Group ID</string>
     <string name="join_group_activity_form_submission">Join</string>
-</resources>
-<!-- vim: set ts=4 sw=4 et syn=xml: -->
+</resources><!-- vim: set ts=4 sw=4 et syn=xml: -->

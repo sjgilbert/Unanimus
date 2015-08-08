@@ -1,38 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/friend_picker_activity">
-
+    android:id="@+id/friend_picker_activity"
+    style="@style/RootLayoutStyle">
     <!--TODO:Change this shitty implementation -->
     <LinearLayout
+        android:id="@+id/friend_picker_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/friend_picker_title_bar">
-
+        android:layout_height="wrap_content">
         <include layout="@layout/activity_title" />
-
     </LinearLayout>
-
     <ListView
-        android:id="@+id/friend_picker_listview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        style="@style/MatchParent"
+        android:id="@+id/friend_picker_list_view"
         android:layout_above="@+id/friend_picker_done_button"
-        android:layout_below="@id/friend_picker_title_bar">
-    </ListView>
-
+        android:layout_below="@id/friend_picker_title_bar"/>
     <Button
         android:id="@+id/friend_picker_done_button"
-        android:paddingLeft="35dp"
-        android:paddingRight="35dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/done"
+        style="@style/ButtonStyle"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"/>
-
+        android:layout_alignParentRight="true"
+        android:text="@string/done"/>
 </RelativeLayout>

@@ -2,9 +2,8 @@
 <resources>
     <string name="group_activity_title">Group</string>
     <string name="group_activity_members_tag"><u>Members</u></string>
-    <string name="group_activity_group_name_tag">GroupName</string>
-    <string name="group_activity_creator_tag">CreatedBy</string>
+    <string name="group_activity_group_name_tag">Group Name</string>
+    <string name="group_activity_creator_tag">Created By</string>
     <string name="group_activity_play_game_button">Play</string>
     <string name="group_activity_view_button">View Recs</string>
-</resources>
-<!-- vim: set ts=4 sw=4 et syn=xml: -->
+</resources><!-- vim: set ts=4 sw=4 et syn=xml: -->

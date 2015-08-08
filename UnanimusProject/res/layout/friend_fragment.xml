@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
     <TableRow>
-
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/friend_picker_profile_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            style="@style/WrapStyle"/>
         <TextView
             android:id="@+id/friend_picker_facebook_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            xmlns:android="http://schemas.android.com/apk/res/android" />
-
+            style="@style/TextViewStyle"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </TableRow>
 </TableLayout>
 
