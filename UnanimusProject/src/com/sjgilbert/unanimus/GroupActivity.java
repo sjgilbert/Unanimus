@@ -1,7 +1,10 @@
 package com.sjgilbert.unanimus;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +63,15 @@ public class GroupActivity extends UnanimusActivity {
         ListView membersList = (ListView) findViewById(R.id.members_list);
         membersList.setAdapter(adapter);
 
+        //Play Button=
+        Button playButton = (Button) findViewById(R.id.group_play_button);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupActivity.this, VotingActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     private String groupName;
     private UnanimusGroup group;

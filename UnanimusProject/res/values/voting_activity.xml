@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="voting_activity_title">Voting</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="voting_out_of">1/15</string>
+</resources>

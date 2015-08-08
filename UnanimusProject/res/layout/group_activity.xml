@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/group_activity_creator_tag"
-        android:layout_below="@+id/group_name"
         android:gravity="center"
         android:id="@+id/group_created_by"/>
 
@@ -26,23 +25,21 @@
         android:id="@+id/members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/group_activity_members_tag"
-        android:layout_below="@id/group_created_by" />
+        android:text="@string/group_activity_members_tag" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/members"
         android:id="@+id/members_list"
         android:divider="#000000">
     </ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/group_play_button"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:text="@string/group_activity_play_game_button"
@@ -56,7 +53,5 @@
             android:padding="10dp"
             android:layout_weight="0.5"/>
     </LinearLayout>
-
-
 
 </LinearLayout>
