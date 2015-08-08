@@ -3,6 +3,7 @@ package com.sjgilbert.unanimus;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ import com.facebook.Profile;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.ArrayList;
 
@@ -20,19 +22,27 @@ import java.util.ArrayList;
  * The activity which displays a specific group_activity a user is a part of.  Should
  * eventually allow the user to indicate preferences/view recommendations.
  */
-public class GroupActivity extends UnanimusActivity {
+public class GroupActivity extends UnanimusActivityTitle {
+
+
+    private String groupName;
+    private UnanimusGroup group;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.group_activity);
-        setTitle(R.string.group_activity_title, findViewById(R.id.group_activity));
+        try {
+            setTitleBar(R.string.group_activity_title, (ViewGroup) findViewById(R.id.group_activity));
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
 
         Bundle extras = getIntent().getExtras();    //The groupID of the selected group_activity
         if (extras != null) {
             groupName = extras.getString("objID");
-        }
-        else {
+        } else {
             Toast.makeText(GroupActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
 
@@ -43,10 +53,9 @@ public class GroupActivity extends UnanimusActivity {
         //Query for the group_activity's data
         ParseQuery<UnanimusGroup> query = ParseQuery.getQuery("UnanimusGroup");
         query.include("members");
-        try{
+        try {
             group = query.get(groupName);
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
 
@@ -55,11 +64,11 @@ public class GroupActivity extends UnanimusActivity {
         createdBy.setText("Created by " + Profile.getCurrentProfile().getName());
 
         //Setting members of group_activity
-        ArrayList<String> usernames = new ArrayList<String>();
+        ArrayList<String> usernames = new ArrayList<>();
         for (ParseUser user : group.getMembers()) {
             usernames.add(user.getUsername());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.members_fragment, usernames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.members_fragment, usernames);
         ListView membersList = (ListView) findViewById(R.id.members_list);
         membersList.setAdapter(adapter);
 
@@ -73,6 +82,4 @@ public class GroupActivity extends UnanimusActivity {
             }
         });
     }
-    private String groupName;
-    private UnanimusGroup group;
 }

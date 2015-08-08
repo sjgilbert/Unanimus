@@ -47,5 +47,9 @@
 * FriendPickerActivity implemented
 * Touchup to GroupActivity
 * Added facebookID as a field stored witin ParseUser for future lookups
- 
+
+###v0.9.0 -- Google place picker
+* Select location on map
+* Preview location
+* Faux submit, pick place by address, and use current location
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->

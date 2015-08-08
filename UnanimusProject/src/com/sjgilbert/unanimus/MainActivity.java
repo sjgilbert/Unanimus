@@ -2,7 +2,6 @@ package com.sjgilbert.unanimus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,30 +9,29 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
-import com.facebook.share.model.AppGroupCreationContent;
-import com.facebook.share.widget.CreateAppGroupDialog;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
-
-import org.json.JSONArray;
+import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 /**
  * This class shows the groups a user is a part of, as well as allows the
  * user to access the make and join group_activity activities.
  */
-public class MainActivity extends UnanimusActivity {
+public class MainActivity extends UnanimusActivityTitle {
+    private ParseQueryAdapter<UnanimusGroup> groupQueryAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main_activity);
-        setTitle(R.string.main_activity_title, findViewById(R.id.main_activity));
+        try {
+            setTitleBar(R.string.main_activity_title, (ViewGroup) findViewById(R.id.main_activity));
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
 
         //Button to join group_activity
         final Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
@@ -71,15 +69,15 @@ public class MainActivity extends UnanimusActivity {
 
         //Shows all the groups user is a member of
         ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
-            new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
-                public ParseQuery<UnanimusGroup> create() {
-                    ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
-                    query.include("objectID");
-                    query.whereEqualTo("members", ParseUser.getCurrentUser());
-                    query.orderByDescending("createdAt");
-                    return query;
-                }
-            };
+                new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
+                    public ParseQuery<UnanimusGroup> create() {
+                        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
+                        query.include("objectID");
+                        query.whereEqualTo("members", ParseUser.getCurrentUser());
+                        query.orderByDescending("createdAt");
+                        return query;
+                    }
+                };
 
         groupQueryAdapter = new ParseQueryAdapter<UnanimusGroup>(this, factory) {
             @Override
@@ -99,7 +97,7 @@ public class MainActivity extends UnanimusActivity {
 
         groupQueryAdapter.setAutoload(false);
 
-        ListView groupListView = (ListView) findViewById(R.id.groups_listview);
+        ListView groupListView = (ListView) findViewById(R.id.groups_list_view);
         groupListView.setAdapter(groupQueryAdapter);
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -113,6 +111,10 @@ public class MainActivity extends UnanimusActivity {
         });
     }
 
+    public void startPlacePickActivity(View view) {
+        startActivity(new Intent(MainActivity.this, PlacePickActivity.class));
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -122,6 +124,4 @@ public class MainActivity extends UnanimusActivity {
     private void doListQuery() {
         groupQueryAdapter.loadObjects();
     }
-
-    private ParseQueryAdapter<UnanimusGroup> groupQueryAdapter;
 }

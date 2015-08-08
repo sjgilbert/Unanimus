@@ -1,57 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/group_activity">
-
+    android:id="@+id/group_activity"
+    style="@style/RootLayoutStyle">
     <include layout="@layout/activity_title" />
-
     <TextView
+        style="@style/TextViewStyle"
+        android:layout_marginBottom="@dimen/zero"
         android:id="@+id/group_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/group_activity_group_name_tag"
-        android:gravity="center" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/group_activity_creator_tag"
         android:gravity="center"
-        android:id="@+id/group_created_by"/>
-
+        android:layout_gravity="center"
+        android:text="@string/group_activity_group_name_tag" />
     <TextView
-        android:paddingTop="50dp"
+        style="@style/TextViewStyle"
+        android:layout_marginTop="@dimen/zero"
+        android:id="@+id/group_created_by"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/group_activity_creator_tag" />
+    <TextView
+        style="@style/TextViewStyle"
+        android:textSize="@dimen/large_font"
         android:id="@+id/members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/group_activity_members_tag" />
-
     <ListView
+        android:id="@+id/members_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/members_list"
-        android:divider="#000000">
-    </ListView>
-
+        android:divider="#000000"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <Button
+            style="@style/ButtonStyle"
             android:id="@+id/group_play_button"
             android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:text="@string/group_activity_play_game_button"
-            android:padding="10dp"
-            android:layout_weight=".5"/>
-
+            android:layout_weight=".5"
+            android:text="@string/group_activity_play_game_button" />
         <Button
+            style="@style/ButtonStyle"
             android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:text="@string/group_activity_view_button"
-            android:padding="10dp"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"
+            android:text="@string/group_activity_view_button" />
     </LinearLayout>
-
 </LinearLayout>

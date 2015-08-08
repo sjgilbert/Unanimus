@@ -6,14 +6,10 @@
 
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/friend_picker_profile_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            style="@style/WrapStyle"/>
         <TextView
             android:id="@+id/friend_picker_facebook_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
-
+            style="@style/TextViewStyle"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 </LinearLayout>
 

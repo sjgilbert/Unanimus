@@ -2,9 +2,12 @@ package com.sjgilbert.unanimus;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.List;
 /**
  * The activity for voting on restaurants
  */
-public class VotingActivity extends UnanimusActivity{
+public class VotingActivity extends UnanimusActivityTitle {
     private int i;
     private TextView counter;
     private List<String> restaurants;
@@ -23,12 +26,19 @@ public class VotingActivity extends UnanimusActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.voting_activity);
-        setTitle(R.string.voting_activity_title, findViewById(R.id.voting_activity));
-
+        try {
+            setTitleBar(R.string.voting_activity_title, (ViewGroup) findViewById(R.id.voting_activity));
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
         counter = (TextView) findViewById(R.id.voting_counter);
         restaurants = new ArrayList<>(NUMBER_OF_RESTAURANTS);
         for(int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
             restaurants.add(String.format("Restaurant %d", i));
+        }
+        votes = new ArrayList<>();
+        for(int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
+            votes.add(0);
         }
 
         final TextView restaurant = (TextView) findViewById(R.id.voting_restaurant_view);

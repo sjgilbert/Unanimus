@@ -1,31 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1"
-    android:gravity="center_horizontal"
-    android:id="@+id/make_group_activity">
+    android:id="@+id/make_group_activity"
+    style="@style/RootLayoutStyle">
 
     <include layout="@layout/activity_title" />
 
     <Button
         android:id="@+id/make_group"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="@string/make_group_activity_title"
-        android:layout_weight="0.65"
-        android:textAlignment="gravity"
+        style="@style/ButtonStyle"
         android:onClick="makeGroup"
-        android:textSize="70sp"/>
+        android:text="@string/make_group_activity_title" />
 
     <TextView
         android:id="@+id/echo_group_id"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:textAlignment="gravity"
+        android:layout_height="wrap_content"
         android:text=""
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </LinearLayout>
