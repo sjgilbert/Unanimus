@@ -53,49 +53,75 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         });
 
         //The request for facebook friends
-        GraphRequest request = GraphRequest.newMyFriendsRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONArrayCallback() {
-            @Override
-            public void onCompleted(JSONArray friends, GraphResponse response) {
-                if (response.getError() != null) {
-                    Log.d("Unanimus", response.getError().toString());
-                } else {
-                    try {
+        GraphRequest request = GraphRequest.newMyFriendsRequest(
+                AccessToken.getCurrentAccessToken(),
+                new GraphRequest.GraphJSONArrayCallback() {
+                    @Override
+                    public void onCompleted(JSONArray friends, GraphResponse response) {
+                        if (response.getError() != null) {
+                            Log.d("Unanimus", response.getError().toString());
+                            return;
+                        }
+
                         int length = friends.length();
                         List<String> names = new ArrayList<>(length);
                         final List<String> ids = new ArrayList<>(length);
-                        for (int i = 0; i < length; i++) {
-                            names.add(friends.getJSONObject(i).getString("name"));
-                            ids.add(friends.getJSONObject(i).getString("id"));
+
+                        try {
+                            for (int i = 0; i < length; i++) {
+                                names.add(friends.getJSONObject(i).getString("name"));
+                                ids.add(friends.getJSONObject(i).getString("id"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            return;
                         }
 
                         ListView friendListView = (ListView) findViewById(R.id.fpa_list_view);
-                        friendListView.setAdapter(new FriendPickerListAdapter(FriendPickerActivity.this, names, ids));
-                        friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                if (groupMembersFacebookIDs.contains(ids.get(position))) {
-                                    groupMembersFacebookIDs.remove(ids.get(position));
-                                    TextView nameTextView = (TextView) view.findViewById(R.id.fpa_facebook_name);
-                                    nameTextView.setBackgroundColor(Color.WHITE);
-                                    System.out.println(groupMembersFacebookIDs.toString());
-                                } else {
-                                    groupMembersFacebookIDs.add(ids.get(position));
-                                    /*When I named this TextView the same as above there was a bug where selecting another
-                                    friend would only change the color of the first one selected.
-                                    TODO: Decide whether this implementation is sufficient or whether there's a better one*/
-                                    TextView nameTxt = (TextView) view.findViewById(R.id.fpa_facebook_name);
-                                    nameTxt.setBackgroundColor(Color.BLUE);
-                                    System.out.println(groupMembersFacebookIDs.toString());
-                                }
-                            }
-                        });
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        friendListView.setAdapter(
+                                new FriendPickerListAdapter(
+                                        FriendPickerActivity.this,
+                                        names,
+                                        ids
+                                )
+                        );
+
+                        friendListView.setOnItemClickListener(
+                                new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(
+                                            AdapterView<?> parent,
+                                            View view,
+                                            int position,
+                                            long id
+                                    ) {
+                                        TextView nameTextView;
+                                        try {
+                                            nameTextView = (TextView) view.findViewById(R.id.fpa_facebook_name);
+                                        } catch (NullPointerException | ClassCastException e) {
+                                            e.printStackTrace();
+                                            return;
+                                        }
+
+                                        final String idp = ids.get(position);
+                                        final int color;
+                                        if (groupMembersFacebookIDs.contains(idp)) {
+                                            groupMembersFacebookIDs.remove(idp);
+                                            color = Color.WHITE;
+                                        } else {
+                                            groupMembersFacebookIDs.add(idp);
+                                            color = Color.BLUE;
+                                        }
+
+                                        nameTextView.setBackgroundColor(color);
+                                        System.out.println(groupMembersFacebookIDs.toString());
+                                    }
+                                }
+                        );
                     }
                 }
-            }
-        });
+        );
         request.executeAsync();
     }
 }
