@@ -77,15 +77,20 @@
         <activity
             android:name="com.sjgilbert.unanimus.StartupActivity"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
             android:name="com.sjgilbert.unanimus.JoinGroupActivity"
             android:label="@string/jga_title"/>
+
+        <activity
+            android:name="com.sjgilbert.unanimus.GroupSettingsPickerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+            <!--android:label="@string/gspa_title"/>-->
     </application>
 
 </manifest>
