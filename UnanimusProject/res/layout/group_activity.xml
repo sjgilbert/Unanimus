@@ -9,21 +9,21 @@
         android:id="@+id/ga_name"
         android:gravity="center"
         android:layout_gravity="center"
-        android:text="@string/group_activity_group_name_tag" />
+        android:text="@string/ga_group_name_tag" />
     <TextView
         style="@style/TextView"
         android:layout_marginTop="@dimen/zero"
         android:id="@+id/ga_created_by"
         android:gravity="center"
         android:layout_gravity="center"
-        android:text="@string/group_activity_creator_tag" />
+        android:text="@string/ga_creator_tag" />
     <TextView
         style="@style/TextView"
         android:textSize="@dimen/large_font"
         android:id="@+id/ga_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/group_activity_members_tag" />
+        android:text="@string/ga_members_tag" />
     <ListView
         android:id="@+id/ga_members_list"
         android:layout_width="match_parent"
@@ -37,11 +37,11 @@
             android:id="@+id/ga_play_button"
             android:layout_width="0dp"
             android:layout_weight=".5"
-            android:text="@string/group_activity_play_game_button" />
+            android:text="@string/ga_play_game_button" />
         <Button
             style="@style/Button"
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:text="@string/group_activity_view_button" />
+            android:text="@string/ga_view_button" />
     </LinearLayout>
 </LinearLayout>

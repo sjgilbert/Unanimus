@@ -34,7 +34,7 @@ public class GroupActivity extends UnanimusActivityTitle {
 
         setContentView(R.layout.group_activity);
         try {
-            setTitleBar(R.string.group_activity_title, (ViewGroup) findViewById(R.id.group_activity));
+            setTitleBar(R.string.ga_title, (ViewGroup) findViewById(R.id.group_activity));
         } catch (ClassCastException e) {
             e.printStackTrace();
         }

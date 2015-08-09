@@ -33,11 +33,11 @@
 
         <activity
             android:name="com.sjgilbert.unanimus.PlacePickActivity"
-            android:value="@string/place_pick_activity_title" />
+            android:value="@string/ppa_title" />
 
         <activity
             android:name="com.sjgilbert.unanimus.MakeGroupActivity"
-            android:label="@string/make_group_activity_title" />
+            android:label="@string/mga_title" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -47,23 +47,23 @@
 
         <activity
             android:name="com.sjgilbert.unanimus.IntroPageActivity"
-            android:label="@string/intro_page_activity_title"/>
+            android:label="@string/ipa_title"/>
 
         <activity
             android:name="com.sjgilbert.unanimus.LoginActivity"
-            android:label="@string/intro_page_activity_login_link"/>
+            android:label="@string/ipa_login_link"/>
 
         <activity
             android:name="com.sjgilbert.unanimus.RegisterActivity"
-            android:label="@string/intro_page_activity_register_link"/>
+            android:label="@string/ipa_register_link"/>
 
         <activity
             android:name="com.sjgilbert.unanimus.MainActivity"
-            android:label="@string/main_activity_title"/>
+            android:label="@string/ma_title"/>
 
         <activity
             android:name="com.sjgilbert.unanimus.FriendPickerActivity"
-            android:label="@string/friend_picker_activity_title"/>
+            android:label="@string/fpa_title"/>
 
         <activity
             android:name="com.sjgilbert.unanimus.VotingActivity"
@@ -72,7 +72,7 @@
 
         <activity
             android:name="com.sjgilbert.unanimus.GroupActivity"
-            android:label="@string/group_activity_title"/>
+            android:label="@string/ga_title"/>
 
         <activity
             android:name="com.sjgilbert.unanimus.StartupActivity"
@@ -85,7 +85,7 @@
 
         <activity
             android:name="com.sjgilbert.unanimus.JoinGroupActivity"
-            android:label="@string/join_group_activity_title"/>
+            android:label="@string/jga_title"/>
     </application>
 
 </manifest>

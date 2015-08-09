@@ -25,25 +25,25 @@
             android:layout_marginLeft="@dimen/standard_pad_margin"
             android:layout_marginRight="@dimen/standard_pad_margin"
             android:layout_weight="0.5"
-            android:text="@string/join_group_activity_title" />
+            android:text="@string/jga_title" />
 
         <Button
             android:id="@+id/ma_make_group_button"
             style="@style/Button"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:text="@string/make_group_activity_title" />
+            android:text="@string/mga_title" />
     </LinearLayout>
 
     <Button
         android:id="@+id/ma_friend_picker_button"
         style="@style/Button"
-        android:text="@string/main_friend_picker_button"/>
+        android:text="@string/ma_friend_picker_button"/>
 
     <Button
         android:id="@+id/ma_pick_place_link"
         style="@style/Button"
-        android:text="@string/place_pick_activity_title"
+        android:text="@string/ppa_title"
         android:onClick="startPlacePickActivity"/>
 
     <ListView

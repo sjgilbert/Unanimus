@@ -8,22 +8,22 @@
     <EditText
         android:id="@+id/ra_register_username"
         style="@style/TextView"
-        android:hint="@string/register_activity_username_title"/>
+        android:hint="@string/ra_username_title"/>
 
     <EditText
         android:id="@+id/ra__register_password"
         style="@style/EditTextView"
         android:inputType="textPassword"
-        android:hint="@string/register_activity_password_title"/>
+        android:hint="@string/ra_password_title"/>
 
     <EditText
         android:id="@+id/ra_repeat_password"
         style="@style/EditTextView"
         android:inputType="textPassword"
-        android:hint="@string/register_activity_repeat_password_title"/>
+        android:hint="@string/ra_repeat_password_title"/>
 
     <Button
         android:id="@+id/ra_register_button"
         style="@style/Button"
-        android:text="@string/intro_page_activity_register_link" />
+        android:text="@string/ipa_register_link" />
 </LinearLayout>
