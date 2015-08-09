@@ -37,7 +37,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
 
         setContentView(R.layout.friend_picker_activity);
         try {
-            setTitleBar(R.string.friend_picker_activity_title, (ViewGroup) findViewById(R.id.friend_picker_activity).findViewById(R.id.friend_picker_title_bar));
+            setTitleBar(R.string.fpa_title, (ViewGroup) findViewById(R.id.friend_picker_activity).findViewById(R.id.friend_picker_title_bar));
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();
         }

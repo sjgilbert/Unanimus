@@ -31,7 +31,7 @@ public class LoginActivity extends UnanimusActivityTitle {
 
         setContentView(R.layout.login_activity);
         try {
-            setTitleBar(R.string.login_activity_title, (ViewGroup) findViewById(R.id.login_activity));
+            setTitleBar(R.string.la_title, (ViewGroup) findViewById(R.id.login_activity));
         } catch (ClassCastException e) {
             e.printStackTrace();
         }

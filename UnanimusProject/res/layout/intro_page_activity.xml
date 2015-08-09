@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/intro_page_activity"
-    style="@style/RootLayoutStyle">
+    style="@style/RootLayout">
 
     <include layout="@layout/activity_title" />
 
     <Button
         android:id="@+id/intro_page_activity_register_link"
-        style="@style/ButtonStyle"
-        android:text="@string/intro_page_activity_register_link" />
+        style="@style/Button"
+        android:text="@string/ipa_register_link" />
 
     <Button
         android:id="@+id/intro_page_activity_login_link"
-        style="@style/ButtonStyle"
-        android:text="@string/intro_page_activity_login_link" />
+        style="@style/Button"
+        android:text="@string/ipa_login_link" />
 
     <Button
         android:id="@+id/facebook_login"
-        style="@style/ButtonStyle"
+        style="@style/Button"
         android:text="@string/facebook_login" />
 
 </LinearLayout>

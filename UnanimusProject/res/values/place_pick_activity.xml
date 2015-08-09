@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="place_pick_activity_title">Choose Location</string>
-    <string name="place_pick_activity_map">Choose on Map</string>
-    <string name="place_pick_activity_last_know">Current Location</string>
-    <string name="place_pick_activity_address_hint">Address</string>
-    <string name="place_pick_activity_address_button">Go</string>
-    <string name="placePick_activity_form_submit">Submit</string>
-    <string name="place_pick_activity_no_choice">Place not yet choosen.</string>
+    <string name="ppa_title">Choose Location</string>
+    <string name="ppa_map_button">Choose on Map</string>
+    <string name="ppa_last_know_button">Current Location</string>
+    <string name="ppa_address_hint">Address</string>
+    <string name="ppa_address_button">Go</string>
+    <string name="ppa_submit_button">Submit</string>
+    <string name="ppa_no_choice_prev">Place not yet choosen.</string>
 </resources>
