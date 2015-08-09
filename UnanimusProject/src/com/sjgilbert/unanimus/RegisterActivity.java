@@ -37,11 +37,11 @@ public class RegisterActivity extends UnanimusActivityTitle {
             e.printStackTrace();
         }
 
-        usernameEditText = (EditText) findViewById(R.id.register_username);
-        passwordEditText = (EditText) findViewById(R.id.register_password);
-        repeatPasswordEditText = (EditText) findViewById(R.id.repeat_password);
+        usernameEditText = (EditText) findViewById(R.id.ra_register_username);
+        passwordEditText = (EditText) findViewById(R.id.ra__register_password);
+        repeatPasswordEditText = (EditText) findViewById(R.id.ra_repeat_password);
 
-        Button registerButton = (Button) findViewById(R.id.register);
+        Button registerButton = (Button) findViewById(R.id.ra_register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -34,7 +34,7 @@ public class MainActivity extends UnanimusActivityTitle {
         }
 
         //Button to join group_activity
-        final Button joinGroupButton = (Button) findViewById(R.id.main_join_group);
+        final Button joinGroupButton = (Button) findViewById(R.id.ma_join_group);
         joinGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,11 +44,11 @@ public class MainActivity extends UnanimusActivityTitle {
         });
 
         //Facebook Picture
-        ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.main_prof_pic);
+        ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.ma_prof_pic);
         profpic.setProfileId((String) ParseUser.getCurrentUser().get("facebookID"));
 
         //Button to make group_activity
-        Button makeGroupButton = (Button) findViewById(R.id.main_make_group);
+        Button makeGroupButton = (Button) findViewById(R.id.ma_make_group_button);
         makeGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +58,7 @@ public class MainActivity extends UnanimusActivityTitle {
         });
 
         //Button to access friend picker
-        Button friendPickerButton = (Button) findViewById(R.id.main_friend_picker_button);
+        Button friendPickerButton = (Button) findViewById(R.id.ma_friend_picker_button);
         friendPickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +85,7 @@ public class MainActivity extends UnanimusActivityTitle {
                 if (view == null) {
                     view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
                 }
-                TextView groupView = (TextView) view.findViewById(R.id.groupID_view);
+                TextView groupView = (TextView) view.findViewById(R.id.uga_groupID_view);
                 try {
                     groupView.setText(group.getObjectId());
                 } catch (NullPointerException e) {
@@ -97,7 +97,7 @@ public class MainActivity extends UnanimusActivityTitle {
 
         groupQueryAdapter.setAutoload(false);
 
-        ListView groupListView = (ListView) findViewById(R.id.groups_list_view);
+        ListView groupListView = (ListView) findViewById(R.id.ma_groups_list_view);
         groupListView.setAdapter(groupQueryAdapter);
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

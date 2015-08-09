@@ -47,7 +47,7 @@ public class GroupActivity extends UnanimusActivityTitle {
         }
 
         //Setting the group_activity name at top
-        TextView groupNameTextView = (TextView) findViewById(R.id.group_name);
+        TextView groupNameTextView = (TextView) findViewById(R.id.ga_name);
         groupNameTextView.setText("GROUP ID: " + groupName);
 
         //Query for the group_activity's data
@@ -60,7 +60,7 @@ public class GroupActivity extends UnanimusActivityTitle {
         }
 
         //Setting owner of group_activity
-        TextView createdBy = (TextView) findViewById(R.id.group_created_by);
+        TextView createdBy = (TextView) findViewById(R.id.ga_created_by);
         createdBy.setText("Created by " + Profile.getCurrentProfile().getName());
 
         //Setting members of group_activity
@@ -69,11 +69,11 @@ public class GroupActivity extends UnanimusActivityTitle {
             usernames.add(user.getUsername());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.members_fragment, usernames);
-        ListView membersList = (ListView) findViewById(R.id.members_list);
+        ListView membersList = (ListView) findViewById(R.id.ga_members_list);
         membersList.setAdapter(adapter);
 
         //Play Button=
-        Button playButton = (Button) findViewById(R.id.group_play_button);
+        Button playButton = (Button) findViewById(R.id.ga_play_button);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

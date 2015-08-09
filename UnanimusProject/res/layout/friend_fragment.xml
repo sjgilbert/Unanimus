@@ -2,14 +2,15 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:id="@+id/friend_fragment">
 
         <com.facebook.login.widget.ProfilePictureView
-            android:id="@+id/friend_picker_profile_picture"
-            style="@style/WrapStyle"/>
+            android:id="@+id/fpa_profile_picture"
+            style="@style/Wrap"/>
         <TextView
-            android:id="@+id/friend_picker_facebook_name"
-            style="@style/TextViewStyle"
+            android:id="@+id/fpa_facebook_name"
+            style="@style/TextView"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 </LinearLayout>
 

@@ -37,14 +37,14 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
 
         setContentView(R.layout.friend_picker_activity);
         try {
-            setTitleBar(R.string.friend_picker_activity_title, (ViewGroup) findViewById(R.id.friend_picker_activity).findViewById(R.id.friend_picker_title_bar));
+            setTitleBar(R.string.friend_picker_activity_title, (ViewGroup) findViewById(R.id.friend_picker_activity).findViewById(R.id.fpa_title_bar));
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();
         }
 
         groupMembersFacebookIDs = new ArrayList<>();
 
-        Button doneButton = (Button) findViewById(R.id.friend_picker_done_button);
+        Button doneButton = (Button) findViewById(R.id.fpa_done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,14 +68,14 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                             ids.add(friends.getJSONObject(i).getString("id"));
                         }
 
-                        ListView friendListView = (ListView) findViewById(R.id.friend_picker_list_view);
+                        ListView friendListView = (ListView) findViewById(R.id.fpa_list_view);
                         friendListView.setAdapter(new FriendPickerListAdapter(FriendPickerActivity.this, names, ids));
                         friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 if (groupMembersFacebookIDs.contains(ids.get(position))) {
                                     groupMembersFacebookIDs.remove(ids.get(position));
-                                    TextView nameTextView = (TextView) view.findViewById(R.id.friend_picker_facebook_name);
+                                    TextView nameTextView = (TextView) view.findViewById(R.id.fpa_facebook_name);
                                     nameTextView.setBackgroundColor(Color.WHITE);
                                     System.out.println(groupMembersFacebookIDs.toString());
                                 } else {
@@ -83,7 +83,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                                     /*When I named this TextView the same as above there was a bug where selecting another
                                     friend would only change the color of the first one selected.
                                     TODO: Decide whether this implementation is sufficient or whether there's a better one*/
-                                    TextView nameTxt = (TextView) view.findViewById(R.id.friend_picker_facebook_name);
+                                    TextView nameTxt = (TextView) view.findViewById(R.id.fpa_facebook_name);
                                     nameTxt.setBackgroundColor(Color.BLUE);
                                     System.out.println(groupMembersFacebookIDs.toString());
                                 }

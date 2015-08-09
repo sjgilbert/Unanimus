@@ -31,7 +31,7 @@ public class VotingActivity extends UnanimusActivityTitle {
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
-        counter = (TextView) findViewById(R.id.voting_counter);
+        counter = (TextView) findViewById(R.id.va_voting_counter);
         restaurants = new ArrayList<>(NUMBER_OF_RESTAURANTS);
         for(int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
             restaurants.add(String.format("Restaurant %d", i));
@@ -41,10 +41,10 @@ public class VotingActivity extends UnanimusActivityTitle {
             votes.add(0);
         }
 
-        final TextView restaurant = (TextView) findViewById(R.id.voting_restaurant_view);
+        final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
         restaurant.setText(restaurants.get(i));
 
-        Button yesButton = (Button) findViewById(R.id.voting_yes_button);
+        Button yesButton = (Button) findViewById(R.id.va_voting_yes_button);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +61,7 @@ public class VotingActivity extends UnanimusActivityTitle {
             }
         });
 
-        Button noButton = (Button) findViewById(R.id.voting_no_button);
+        Button noButton = (Button) findViewById(R.id.va_voting_no_button);
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

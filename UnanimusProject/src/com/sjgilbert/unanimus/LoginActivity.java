@@ -36,10 +36,10 @@ public class LoginActivity extends UnanimusActivityTitle {
             e.printStackTrace();
         }
 
-        usernameEditText = (EditText) findViewById(R.id.login_username);
-        passwordEditText = (EditText) findViewById(R.id.login_password);
+        usernameEditText = (EditText) findViewById(R.id.la_username);
+        passwordEditText = (EditText) findViewById(R.id.la_password);
 
-        Button loginButton = (Button) findViewById(R.id.login);
+        Button loginButton = (Button) findViewById(R.id.la_login);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -32,7 +32,7 @@ public class IntroPageActivity extends UnanimusActivityTitle {
             e.printStackTrace();
         }
 
-        Button introRegister = (Button) findViewById(R.id.intro_page_activity_register_link);
+        Button introRegister = (Button) findViewById(R.id.ipa_register_link);
         introRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,7 +40,7 @@ public class IntroPageActivity extends UnanimusActivityTitle {
             }
         });
 
-        Button login = (Button) findViewById(R.id.intro_page_activity_login_link);
+        Button login = (Button) findViewById(R.id.ipa_activity_login_link);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +48,7 @@ public class IntroPageActivity extends UnanimusActivityTitle {
             }
         });
 
-        Button facebookLogin = (Button) findViewById(R.id.facebook_login);
+        Button facebookLogin = (Button) findViewById(R.id.ipa_facebook_login);
         facebookLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

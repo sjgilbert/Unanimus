@@ -14,7 +14,7 @@ import com.sjgilbert.unanimus.R;
  */
 class UnanimusActivity extends Activity {
     protected static boolean setTitleBar(String title, ViewGroup parent) {
-        return setTitleBar(title, parent, R.id.activity_title_layout);
+        return setTitleBar(title, parent, R.id.at_layout);
     }
 
     protected static boolean setTitleBar(String title, ViewGroup parent, int base_id) {
@@ -28,7 +28,7 @@ class UnanimusActivity extends Activity {
 
     protected static boolean setTitleBar(String title, LinearLayout base) {
         try {
-            return setTitleBar(title, (TextView) base.findViewById(R.id.activity_title_text));
+            return setTitleBar(title, (TextView) base.findViewById(R.id.at_text));
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();
         }
@@ -63,8 +63,8 @@ class UnanimusActivity extends Activity {
             return setTextEntryBar(
                     hint,
                     submit,
-                    (TextView) base.findViewById(R.id.text_field),
-                    (Button) base.findViewById(R.id.submit_button));
+                    (TextView) base.findViewById(R.id.te_text_field),
+                    (Button) base.findViewById(R.id.te_submit_button));
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();
         }

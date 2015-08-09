@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="PaddingStyle">
+    <style name="Padding">
         <item name="android:padding">@dimen/standard_pad_margin</item>
     </style>
 </resources>

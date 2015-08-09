@@ -67,8 +67,8 @@ public class PlacePickActivity extends UnanimusActivityTitle_TextEntryBar {
     private boolean setPlacePreview(CharSequence fromPlace) {
         try {
             ((TextView) findViewById(R.id.place_pick_activity)
-                    .findViewById(R.id.place_preview_layout)
-                    .findViewById(R.id.place_as_string))
+                    .findViewById(R.id.ppa_place_preview_layout)
+                    .findViewById(R.id.ppa_place_as_string))
                     .setText(fromPlace);
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();

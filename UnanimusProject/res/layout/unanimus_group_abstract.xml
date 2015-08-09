@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/unanimus_group_abstract">
 
     <TextView
-        android:id="@+id/groupID_view"
+        android:id="@+id/uga_groupID_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="30dp"

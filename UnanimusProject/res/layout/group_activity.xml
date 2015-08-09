@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/group_activity"
-    style="@style/RootLayoutStyle">
+    style="@style/RootLayout">
     <include layout="@layout/activity_title" />
     <TextView
-        style="@style/TextViewStyle"
+        style="@style/TextView"
         android:layout_marginBottom="@dimen/zero"
-        android:id="@+id/group_name"
+        android:id="@+id/ga_name"
         android:gravity="center"
         android:layout_gravity="center"
         android:text="@string/group_activity_group_name_tag" />
     <TextView
-        style="@style/TextViewStyle"
+        style="@style/TextView"
         android:layout_marginTop="@dimen/zero"
-        android:id="@+id/group_created_by"
+        android:id="@+id/ga_created_by"
         android:gravity="center"
         android:layout_gravity="center"
         android:text="@string/group_activity_creator_tag" />
     <TextView
-        style="@style/TextViewStyle"
+        style="@style/TextView"
         android:textSize="@dimen/large_font"
-        android:id="@+id/members"
+        android:id="@+id/ga_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/group_activity_members_tag" />
     <ListView
-        android:id="@+id/members_list"
+        android:id="@+id/ga_members_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="#000000"/>
@@ -33,13 +33,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            style="@style/ButtonStyle"
-            android:id="@+id/group_play_button"
+            style="@style/Button"
+            android:id="@+id/ga_play_button"
             android:layout_width="0dp"
             android:layout_weight=".5"
             android:text="@string/group_activity_play_game_button" />
         <Button
-            style="@style/ButtonStyle"
+            style="@style/Button"
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:text="@string/group_activity_view_button" />

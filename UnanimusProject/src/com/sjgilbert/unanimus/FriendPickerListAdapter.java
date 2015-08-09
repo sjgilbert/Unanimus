@@ -33,9 +33,9 @@ public class FriendPickerListAdapter extends ArrayAdapter<String> {
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.friend_fragment, null, true);
-        TextView name = (TextView) rowView.findViewById(R.id.friend_picker_facebook_name);
+        TextView name = (TextView) rowView.findViewById(R.id.fpa_facebook_name);
 
-        ProfilePictureView profPic = (ProfilePictureView) rowView.findViewById(R.id.friend_picker_profile_picture);
+        ProfilePictureView profPic = (ProfilePictureView) rowView.findViewById(R.id.fpa_profile_picture);
         name.setText(names.get(position));
 
         profPic.setProfileId(ids.get(position));

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MarginStyle">
+    <style name="Margin">
         <item name="android:layout_marginTop">@dimen/standard_pad_margin</item>
         <item name="android:layout_marginBottom">@dimen/standard_pad_margin</item>
     </style>

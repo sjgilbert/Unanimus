@@ -2,18 +2,18 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/make_group_activity"
-    style="@style/RootLayoutStyle">
+    style="@style/RootLayout">
 
     <include layout="@layout/activity_title" />
 
     <Button
-        android:id="@+id/make_group"
-        style="@style/ButtonStyle"
+        android:id="@+id/mga_group"
+        style="@style/Button"
         android:onClick="makeGroup"
         android:text="@string/make_group_activity_title" />
 
     <TextView
-        android:id="@+id/echo_group_id"
+        android:id="@+id/mga_echo_group_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""

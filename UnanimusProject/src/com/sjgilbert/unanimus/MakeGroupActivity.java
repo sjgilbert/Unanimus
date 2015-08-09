@@ -36,7 +36,7 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-        View echoGroup = findViewById(R.id.echo_group_id);
+        View echoGroup = findViewById(R.id.mga_echo_group_id);
         if (null == echoGroup) {
             new NullPointerException().printStackTrace();
             return;
@@ -82,7 +82,7 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
     private void displayGroupID(ParseObject group) {
         String groupID = group.getObjectId();
         String text = "Group ID: " + groupID;
-        TextView idTextView = (TextView) findViewById(R.id.echo_group_id);
+        TextView idTextView = (TextView) findViewById(R.id.mga_echo_group_id);
         idTextView.setText(text);
         idTextView.setVisibility(View.VISIBLE);
     }
