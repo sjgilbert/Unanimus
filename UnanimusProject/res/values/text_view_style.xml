@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TextView" parent="Margin">
+    <style name="TextView">
+        <item name="android:layout_margin">@dimen/standard_pad_margin</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textSize">@dimen/medium_font</item>

@@ -53,7 +53,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         });
 
         //The request for facebook friends
-        GraphRequest request = GraphRequest.newMyFriendsRequest(
+        GraphRequest.newMyFriendsRequest(
                 AccessToken.getCurrentAccessToken(),
                 new GraphRequest.GraphJSONArrayCallback() {
                     @Override
@@ -68,7 +68,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                         final List<String> ids = new ArrayList<>(length);
 
                         try {
-                            for (int i = 0; i < length; i++) {
+                            for (int i = 0; i < length; ++i) {
                                 names.add(friends.getJSONObject(i).getString("name"));
                                 ids.add(friends.getJSONObject(i).getString("id"));
                             }
@@ -96,32 +96,23 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                                             int position,
                                             long id
                                     ) {
-                                        TextView nameTextView;
-                                        try {
-                                            nameTextView = (TextView) view.findViewById(R.id.fpa_facebook_name);
-                                        } catch (NullPointerException | ClassCastException e) {
-                                            e.printStackTrace();
-                                            return;
-                                        }
-
                                         final String idp = ids.get(position);
                                         final int color;
                                         if (groupMembersFacebookIDs.contains(idp)) {
                                             groupMembersFacebookIDs.remove(idp);
-                                            color = Color.WHITE;
+                                            color = Color.TRANSPARENT;
                                         } else {
                                             groupMembersFacebookIDs.add(idp);
-                                            color = Color.BLUE;
+                                            color = Color.argb(127, 0, 0, 255);
                                         }
 
-                                        nameTextView.setBackgroundColor(color);
+                                        view.setBackgroundColor(color);
                                         System.out.println(groupMembersFacebookIDs.toString());
                                     }
                                 }
                         );
                     }
                 }
-        );
-        request.executeAsync();
+        ).executeAsync();
     }
 }
