@@ -9,7 +9,7 @@
         android:id="@+id/la_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_activity_username_hint"
+        android:hint="@string/la_username_hint"
         android:maxLines="1"
         android:singleLine="true" />
 
@@ -17,7 +17,7 @@
         android:id="@+id/la_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_activity_password_hint"
+        android:hint="@string/la_password_hint"
         android:inputType="textPassword"
         android:maxLines="1"
         android:singleLine="true" />
@@ -25,6 +25,6 @@
     <Button
         android:id="@+id/la_login"
         style="@style/Button"
-        android:text="@string/login_activity_form_submission" />
+        android:text="@string/la_form_submission" />
 
 </LinearLayout>

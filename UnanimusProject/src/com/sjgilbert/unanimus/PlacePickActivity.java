@@ -25,10 +25,10 @@ public class PlacePickActivity extends UnanimusActivityTitle_TextEntryBar {
 
         setContentView(R.layout.place_pick_activity);
         try {
-            setTitleBar(R.string.place_pick_activity_title, (ViewGroup) findViewById(R.id.place_pick_activity));
+            setTitleBar(R.string.ppa_title, (ViewGroup) findViewById(R.id.place_pick_activity));
             setTextEntryBar(
-                    R.string.place_pick_activity_address_hint,
-                    R.string.place_pick_activity_address_button,
+                    R.string.ppa_address_hint,
+                    R.string.ppa_address_button,
                     (ViewGroup) findViewById(R.id.place_pick_activity));
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();

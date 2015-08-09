@@ -25,10 +25,10 @@ public class JoinGroupActivity extends UnanimusActivityTitle_TextEntryBar {
 
         setContentView(R.layout.join_group_activity);
         try {
-            setTitleBar(R.string.join_group_activity_title, (ViewGroup) findViewById(R.id.join_group_activity));
+            setTitleBar(R.string.jga_title, (ViewGroup) findViewById(R.id.join_group_activity));
             setTextEntryBar(
-                    R.string.join_group_activity_group_id_hint,
-                    R.string.join_group_activity_form_submission,
+                    R.string.jga_group_id_hint,
+                    R.string.jga_form_submission,
                     (ViewGroup) findViewById(R.id.join_group_activity));
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();

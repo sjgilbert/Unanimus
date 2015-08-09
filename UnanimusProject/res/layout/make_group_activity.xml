@@ -10,7 +10,7 @@
         android:id="@+id/mga_group"
         style="@style/Button"
         android:onClick="makeGroup"
-        android:text="@string/make_group_activity_title" />
+        android:text="@string/mga_title" />
 
     <TextView
         android:id="@+id/mga_echo_group_id"
