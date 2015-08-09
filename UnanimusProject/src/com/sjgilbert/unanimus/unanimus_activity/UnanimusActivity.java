@@ -14,7 +14,7 @@ import com.sjgilbert.unanimus.R;
  */
 class UnanimusActivity extends Activity {
     protected static boolean setTitleBar(String title, ViewGroup parent) {
-        return setTitleBar(title, parent, R.id.at_layout);
+        return setTitleBar(title, parent, R.id.activity_title_layout);
     }
 
     protected static boolean setTitleBar(String title, ViewGroup parent, int base_id) {
