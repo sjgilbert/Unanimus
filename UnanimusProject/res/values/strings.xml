@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Unanimus</string>
     <string name="wait_message">Wait&#8230;</string>
-    <string name="or_message">or</string>
     <string name="untitled">Untitled</string>
     <string name="done">Done</string>
 </resources><!-- vim: set ts=4 sw=4 et syn=xml: -->
