@@ -2,6 +2,8 @@
 <resources>
     <string name="gspa_title">Group Settings</string>
     <string name="gspa_submit">Submit</string>
-    <string name="gspa_date_text">Date</string>
-    <string name="gspa_time_text">Time</string>
+    <string name="gspa_date">Date</string>
+    <string name="gspa_time">Time</string>
+    <string name="gspa_radius">"Radius"</string>
+    <string name="gspa_price_level">Price Level</string>
 </resources>

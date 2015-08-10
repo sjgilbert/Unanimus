@@ -31,7 +31,7 @@ public class FriendPickerListAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder mViewHolder;
 
-        if(convertView == null){
+        if (convertView == null) {
             mViewHolder = new ViewHolder();
 
             LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

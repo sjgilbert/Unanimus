@@ -7,18 +7,21 @@
         android:id="@+id/fpa_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <include layout="@layout/activity_title" />
     </LinearLayout>
+
     <ListView
-        style="@style/MatchParent"
         android:id="@+id/fpa_list_view"
+        style="@style/MatchParent"
         android:layout_above="@+id/fpa_done_button"
-        android:layout_below="@id/fpa_title_bar"/>
+        android:layout_below="@id/fpa_title_bar" />
+
     <Button
         android:id="@+id/fpa_done_button"
         style="@style/Button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:text="@string/done"/>
+        android:text="@string/done" />
 </RelativeLayout>

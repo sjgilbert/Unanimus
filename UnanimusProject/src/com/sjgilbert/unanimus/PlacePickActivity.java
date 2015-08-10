@@ -19,6 +19,8 @@ import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle_TextEntryB
  * isabellcowan@gmail.com
  */
 public class PlacePickActivity extends UnanimusActivityTitle_TextEntryBar {
+    private static final int PLACE_PICKER_REQUEST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstances) {
         super.onCreate(savedInstances);
@@ -61,8 +63,6 @@ public class PlacePickActivity extends UnanimusActivityTitle_TextEntryBar {
             throw new UnsupportedOperationException();
         }
     }
-
-    private static final int PLACE_PICKER_REQUEST = 1;
 
     private boolean setPlacePreview(CharSequence fromPlace) {
         try {

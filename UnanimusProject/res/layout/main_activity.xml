@@ -16,7 +16,7 @@
             android:id="@+id/ma_prof_pic"
             style="@style/Padding"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/ma_join_group"
@@ -38,13 +38,13 @@
     <Button
         android:id="@+id/ma_friend_picker_button"
         style="@style/Button"
-        android:text="@string/ma_friend_picker_button"/>
+        android:text="@string/ma_friend_picker_button" />
 
     <Button
         android:id="@+id/ma_pick_place_link"
         style="@style/Button"
-        android:text="@string/ppa_title"
-        android:onClick="startPlacePickActivity"/>
+        android:onClick="startPlacePickActivity"
+        android:text="@string/ppa_title" />
 
     <Button
         android:id="@+id/ma_group_settings_picker_button"
@@ -54,5 +54,5 @@
     <ListView
         android:id="@+id/ma_groups_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/text_entry_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:weightSum="@integer/one"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:weightSum="@integer/one">
 
     <EditText
-        style="@style/Margin"
         android:id="@+id/te_text_field"
+        style="@style/Margin"
         android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
         android:layout_weight="@integer/one"

@@ -8,19 +8,19 @@
     <EditText
         android:id="@+id/ra_register_username"
         style="@style/TextView"
-        android:hint="@string/ra_username_title"/>
+        android:hint="@string/ra_username_title" />
 
     <EditText
         android:id="@+id/ra__register_password"
         style="@style/EditTextView"
-        android:inputType="textPassword"
-        android:hint="@string/ra_password_title"/>
+        android:hint="@string/ra_password_title"
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/ra_repeat_password"
         style="@style/EditTextView"
-        android:inputType="textPassword"
-        android:hint="@string/ra_repeat_password_title"/>
+        android:hint="@string/ra_repeat_password_title"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/ra_register_button"
