@@ -1,6 +1,6 @@
 <!--
-	Unanimus - CHANGELOG.md
-	Copyright (c) 2015 Sam Gilbert et. al.
+  Unanimus - CHANGELOG.md
+  Copyright (c) 2015 Sam Gilbert et. al.
 -->
 #Unanimus -- CHANGELOG.md
 ##v0 -- Alpha
@@ -17,7 +17,7 @@
 
 ###v0.3.0 -- Register Users
 * Users can register accounts
-* Users can login to existing acccounts
+* Users can login to existing accounts
 * App directs users to screen based on cached user (or lack of)
 * Cleaned up code in MakeGroupActivity
 
@@ -36,7 +36,7 @@
 
 ###v0.6.0 -- Theme updated
 * "Custom" theme
-* Reorganized UnanmusProject/res
+* Reorganized UnanimusProject/res
 
 ###v0.7.0 -- Facebook Login
 * Added facebook login
@@ -45,11 +45,20 @@
 
 ###v0.8.0 -- Facebook Friend Picker
 * FriendPickerActivity implemented
-* Touchup to GroupActivity
+* Touch up to GroupActivity
 * Added facebookID as a field stored witin ParseUser for future lookups
 
 ###v0.9.0 -- Google place picker
 * Select location on map
 * Preview location
-* Faux submit, pick place by address, and use current location
+* Dummy submit, pick place by address, and use current location
+
+###v0.10.0 -- Group Settings Picker
+* Created GroupSettingsPickerActivity
+* GroupSettingsPickerActivity started for result
+* User selects:
+  * date
+  * time
+  * radius
+  * price
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->

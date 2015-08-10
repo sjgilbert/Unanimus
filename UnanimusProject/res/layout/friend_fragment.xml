@@ -6,13 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.facebook.login.widget.ProfilePictureView
-        android:id="@+id/fpa_profile_picture"
-        style="@style/Wrap" />
+      <com.facebook.login.widget.ProfilePictureView
+          android:id="@+id/fpa_profile_picture"
+          style="@style/Wrap"
+          android:padding="@dimen/standard_pad_margin"/>
+      <TextView
+          android:id="@+id/fpa_facebook_name"
+          style="@style/TextView"
+          android:layout_gravity="center_vertical|start"
+          android:hint="@string/untitled"/>
 
-    <TextView
-        android:id="@+id/fpa_facebook_name"
-        style="@style/TextView"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 </LinearLayout>
 

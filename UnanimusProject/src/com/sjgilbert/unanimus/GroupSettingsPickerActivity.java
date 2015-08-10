@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by sam on 8/9/15.
@@ -118,6 +119,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
     private String getDateString() {
         return String.format(
+                Locale.getDefault(),
                 "%s: %d-%d-%d",
                 getString(R.string.gspa_date),
                 gspaContainer.getDay(),
@@ -162,8 +164,8 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
     }
 
     private void setTime(
-        int hourOfDay,
-        int minute
+            int hourOfDay,
+            int minute
     ) {
         gspaContainer.hourOfDay = hourOfDay;
         gspaContainer.minute = minute;
@@ -171,6 +173,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
     private String getTimeString() {
         return String.format(
+                Locale.getDefault(),
                 "%s: %d:%d",
                 getString(R.string.gspa_time),
                 gspaContainer.getHourOfDay(),

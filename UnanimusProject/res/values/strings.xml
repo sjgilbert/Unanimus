@@ -4,4 +4,6 @@
     <string name="wait_message">Wait&#8230;</string>
     <string name="untitled">Untitled</string>
     <string name="done">Done</string>
+    <string name="zero">0</string>
+    <string name="ten">10</string>
 </resources><!-- vim: set ts=4 sw=4 et syn=xml: -->
