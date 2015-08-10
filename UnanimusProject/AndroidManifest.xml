@@ -68,7 +68,7 @@
 
         <activity
             android:name="com.sjgilbert.unanimus.VotingActivity"
-            android:label="@string/voting_activity_title"></activity>
+            android:label="@string/voting_activity_title" />
 
         <activity
             android:name="com.sjgilbert.unanimus.GroupActivity"
@@ -89,7 +89,7 @@
 
         <activity
             android:name="com.sjgilbert.unanimus.GroupSettingsPickerActivity"
-            android:label="@string/gspa_title"></activity>
+            android:label="@string/gspa_title" />
     </application>
 
 </manifest>
