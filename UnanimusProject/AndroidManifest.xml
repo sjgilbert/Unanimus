@@ -84,13 +84,13 @@
             android:label="@string/jga_title"/>
 
         <activity
-            android:name="com.sjgilbert.unanimus.GroupSettingsPickerActivity">
+            android:name="com.sjgilbert.unanimus.GroupSettingsPickerActivity"
+            android:label="@string/gspa_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-            <!--android:label="@string/gspa_title"/>-->
     </application>
 
 </manifest>
