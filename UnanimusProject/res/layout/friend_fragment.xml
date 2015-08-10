@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/friend_fragment">
+    android:id="@+id/friend_fragment"
+    style="@style/Button">
 
         <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/fpa_profile_picture"
-            style="@style/Wrap"/>
+            style="@style/Wrap"
+            android:padding="@dimen/standard_pad_margin"/>
+
         <TextView
             android:id="@+id/fpa_facebook_name"
             style="@style/TextView"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/untitled"
+            android:textSize="@dimen/medium_font"
+            android:layout_gravity="start|center_vertical"
+            android:gravity="start|center_vertical"/>
 </LinearLayout>
 
