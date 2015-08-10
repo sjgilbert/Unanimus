@@ -67,6 +67,16 @@ public class MainActivity extends UnanimusActivityTitle {
             }
         });
 
+        //Button for Group Settings Picker
+        Button groupSettingsPickerButton = (Button) findViewById(R.id.ma_group_settings_picker_button);
+        groupSettingsPickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, GroupSettingsPickerActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //Shows all the groups user is a member of
         ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
                 new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {

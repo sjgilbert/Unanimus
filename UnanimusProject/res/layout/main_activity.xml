@@ -46,6 +46,11 @@
         android:text="@string/ppa_title"
         android:onClick="startPlacePickActivity"/>
 
+    <Button
+        android:id="@+id/ma_group_settings_picker_button"
+        style="@style/Button"
+        android:text="@string/gspa_title" />
+
     <ListView
         android:id="@+id/ma_groups_list_view"
         android:layout_width="match_parent"
