@@ -255,7 +255,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         finish();
     }
 
-    protected static class GspaContainer implements Cloneable {
+    protected static class GspaContainer {
         public final static String YEAR = "year";
         public final static String MONTH = "month";
         public final static String DAY = "day";
@@ -289,24 +289,6 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
             this.minute = retIntVals.getInt(MINUTE);
             this.radius = retIntVals.getInt(RADIUS);
             this.priceLevel = EPriceLevel.getPriceLevelFromInt(retIntVals.getInt(PRICE_LEVEL));
-        }
-
-        public GspaContainer(
-                int year,
-                int month,
-                int day,
-                int hourOfDay,
-                int minute,
-                int radius,
-                EPriceLevel priceLevel
-        ) {
-            this.year = year;
-            this.month = month;
-            this.day = day;
-            this.hourOfDay = hourOfDay;
-            this.minute = minute;
-            this.radius = radius;
-            this.priceLevel = priceLevel;
         }
 
         public Bundle getAsBundle() {
@@ -350,30 +332,6 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
         public EPriceLevel getPriceLevel() {
             return priceLevel;
-        }
-
-        @Override
-        public Object clone() {
-            GspaContainer clone;
-            try {
-                clone = (GspaContainer) super.clone();
-            } catch (ClassCastException | CloneNotSupportedException e) {
-                e.printStackTrace();
-                clone = new GspaContainer();
-            }
-            try {
-                clone.year = year;
-                clone.month = month;
-                clone.day = day;
-                clone.hourOfDay = hourOfDay;
-                clone.minute = minute;
-                clone.radius = radius;
-                clone.priceLevel = priceLevel;
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                return new GspaContainer(year, month, day, hourOfDay, minute, radius, priceLevel);
-            }
-            return clone;
         }
 
         public enum EPriceLevel {
