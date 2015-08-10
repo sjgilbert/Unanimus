@@ -16,6 +16,9 @@ import java.util.List;
  * The activity for voting on restaurants
  */
 public class VotingActivity extends UnanimusActivityTitle {
+    private static final int NUMBER_OF_RESTAURANTS = 15;
+    private static final int YES = 1;
+    private static final int NO = -1;
     private int i;
     private TextView counter;
     private List<String> restaurants;
@@ -33,11 +36,11 @@ public class VotingActivity extends UnanimusActivityTitle {
         }
         counter = (TextView) findViewById(R.id.va_voting_counter);
         restaurants = new ArrayList<>(NUMBER_OF_RESTAURANTS);
-        for(int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
+        for (int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
             restaurants.add(String.format("Restaurant %d", i));
         }
         votes = new ArrayList<>();
-        for(int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
+        for (int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
             votes.add(0);
         }
 
@@ -70,8 +73,7 @@ public class VotingActivity extends UnanimusActivityTitle {
                     i++;
                     counter.setText(String.format("%d/15", i + 1));
                     restaurant.setText(restaurants.get(i));
-                }
-                else {
+                } else {
                     votes.set(i, NO);
                     Toast.makeText(VotingActivity.this, "DONE", Toast.LENGTH_LONG).show();
                     System.out.println(votes.toString());
@@ -79,8 +81,4 @@ public class VotingActivity extends UnanimusActivityTitle {
             }
         });
     }
-
-    private static final int NUMBER_OF_RESTAURANTS = 15;
-    private static final int YES = 1;
-    private static final int NO = -1;
 }

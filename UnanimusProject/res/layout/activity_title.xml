@@ -4,12 +4,13 @@
     style="@style/Margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/at_text"
         style="@style/TextView"
-        android:textSize="@dimen/huge_font"
         android:layout_gravity="center"
-        android:gravity="center"
         android:background="@drawable/bottom_border"
-        android:text="@string/untitled" />
+        android:gravity="center"
+        android:text="@string/untitled"
+        android:textSize="@dimen/huge_font" />
 </LinearLayout>

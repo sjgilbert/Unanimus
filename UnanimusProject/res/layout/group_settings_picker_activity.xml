@@ -1,173 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/group_settings_picker_activity"
-    style="@style/RootLayout">
+    style="@style/RootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <include layout="@layout/activity_title" />
 
     <Button
         android:id="@+id/gspa_date"
-        android:text="@string/gspa_date_text"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/Button"
+        android:text="@string/gspa_date"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/gspa_time"
-        android:text="@string/gspa_time_text"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/Button"
+        android:text="@string/gspa_time"
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/TextView"
         android:gravity="center"
-        android:textStyle="bold"
-        android:padding="15dp"
-        android:textSize="20sp"
-        android:text="Radius"/>
+        android:text="@string/gspa_radius"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:gravity="center_horizontal">
-        
+        android:weightSum="@integer/one">
+
         <TextView
             android:id="@+id/radius0"
-            android:text="0"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/radius1"
-            android:text="1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/radius2"
-            android:text="2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/radius3"
-            android:text="3"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/radius4"
-            android:text="4"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/radius5"
-            android:text="5"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/radius6"
-            android:text="6"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/radius7"
-            android:text="7"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/radius8"
-            android:text="8"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/radius9"
-            android:text="9"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginLeft="@dimen/standard_pad_margin"
+            android:layout_weight="0.5"
+            android:gravity="start"
+            android:text="@string/zero"
+            android:textSize="@dimen/small_font"
+            tools:ignore="RtlHardcoded" />
+
+
         <TextView
             android:id="@+id/radius10"
-            android:text="10"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="@dimen/standard_pad_margin"
+            android:layout_weight="0.5"
+            android:gravity="end"
+            android:text="@string/ten"
+            android:textSize="@dimen/small_font"
+            tools:ignore="RtlHardcoded" />
 
     </LinearLayout>
+
     <SeekBar
+        android:id="@+id/gspa_radius_slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="10"
-        android:padding="10dp"
-        android:id="@+id/gspa_radius_slider"/>
+        android:paddingBottom="@dimen/standard_pad_margin"
+        android:paddingLeft="@dimen/standard_pad_margin"
+        android:paddingRight="@dimen/standard_pad_margin" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/TextView"
         android:gravity="center"
-        android:textStyle="bold"
-        android:padding="15dp"
-        android:textSize="20sp"
-        android:text="Price Level"/>
+        android:text="@string/gsps_price_level"
+        android:textStyle="bold" />
 
     <RadioGroup
         android:id="@+id/gspa_price_group"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:text="$"
-            android:id="@+id/gspa_price_$"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <RadioButton
-            android:text="$$"
-            android:id="@+id/gspa_price_$$"
+        style="@style/Wrap"
+        android:orientation="horizontal">
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
         <RadioButton
-            android:text="$$$"
+            android:id="@+id/gspa_price_$"
+            style="@style/Wrap"
+            android:padding="@dimen/standard_pad_margin"
+            android:text="@string/gspa_$" />
+
+        <RadioButton
+            android:id="@+id/gspa_price_$$"
+            style="@style/Wrap"
+            android:padding="@dimen/standard_pad_margin"
+            android:text="@string/gspa_$$" />
+
+        <RadioButton
             android:id="@+id/gspa_price_$$$"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            style="@style/Wrap"
+            android:padding="@dimen/standard_pad_margin"
+            android:text="@string/gspa_$$$" />
+
         <RadioButton
-            android:text="$$$$"
             android:id="@+id/gspa_price_$$$$"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            style="@style/Wrap"
+            android:padding="@dimen/standard_pad_margin"
+            android:text="@string/gspa_$$$$" />
     </RadioGroup>
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/gspa_submit_button"
-        android:text="@string/gspa_submit"/>
+        style="@style/Button"
+        android:text="@string/gspa_submit" />
 
     <!--<DatePicker-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:spinnersShown="false"-->
-        <!--android:layout_weight=".5"/>-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:spinnersShown="false"-->
+    <!--android:layout_weight=".5"/>-->
 
     <!--<TimePicker-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="0.5"/>-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="0.5"/>-->
 
     <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="WOOOOO"-->
-        <!--android:onClick="showTimePickerDialog" />-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="WOOOOO"-->
+    <!--android:onClick="showTimePickerDialog" />-->
 
 </LinearLayout>

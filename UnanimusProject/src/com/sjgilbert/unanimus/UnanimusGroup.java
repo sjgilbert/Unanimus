@@ -22,13 +22,14 @@ public class UnanimusGroup extends ParseObject {
         if (null == o_members)
             throw new NullPointerException();
 
-        if (! (o_members instanceof ArrayList))
+        if (!(o_members instanceof ArrayList))
             throw new ClassCastException();
 
         ArrayList al_members = (ArrayList) o_members;
 
         ArrayList<ParseUser> al_p_members = new ArrayList<>();
-        for (Object o : al_members) if (o instanceof ParseUser)
+        for (Object o : al_members)
+            if (o instanceof ParseUser)
                 al_p_members.add((ParseUser) o);
 
         return al_p_members;

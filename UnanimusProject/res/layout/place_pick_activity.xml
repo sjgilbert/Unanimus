@@ -3,26 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/place_pick_activity"
     style="@style/RootLayout">
+
     <include layout="@layout/activity_title" />
+
     <include layout="@layout/text_entry_bar" />
+
     <Button
         android:id="@+id/ppa_map_button"
         style="@style/Button"
         android:onClick="startMap"
         android:text="@string/ppa_map_button" />
+
     <Button
         android:id="@+id/ppa_last_know_button"
         style="@style/Button"
         android:text="@string/ppa_last_know_button" />
+
     <LinearLayout
         android:id="@+id/ppa_place_preview_layout"
         style="@style/MatchParent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp"
+        android:layout_gravity="bottom"
         android:background="@android:color/darker_gray"
-        android:layout_gravity="bottom">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/ppa_place_as_string"
@@ -35,8 +40,8 @@
         <Button
             android:id="@+id/ppa_submit_button"
             style="@style/Button"
-            android:text="@string/ppa_submit_button"
-            android:layout_gravity="center_horizontal|bottom" />
+            android:layout_gravity="center_horizontal|bottom"
+            android:text="@string/ppa_submit_button" />
     </LinearLayout>
 
 </LinearLayout>
