@@ -19,6 +19,11 @@ import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle_TextEntryB
  * isabellcowan@gmail.com
  */
 public class PlacePickActivity extends UnanimusActivityTitle_TextEntryBar {
+    public final static String PPA = "place_pick_activity";
+    public final static String PLACE = "ppa_place";
+    private static final int PLACE_PICKER_REQUEST = 1;
+    private Place place;
+
     @Override
     protected void onCreate(Bundle savedInstances) {
         super.onCreate(savedInstances);
@@ -50,30 +55,54 @@ public class PlacePickActivity extends UnanimusActivityTitle_TextEntryBar {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (PLACE_PICKER_REQUEST == requestCode) {
             if (RESULT_OK == resultCode) {
-                Place place = PlacePicker.getPlace(data, this);
-                setPlacePreview(new String()
-                        .concat(place.getName().toString() + "\n")
-                        .concat(place.getAddress().toString() + "\n")
-                        .concat(place.getPhoneNumber().toString() + "\n")
-                        .concat("Rating: " + Float.toString(place.getRating())));
+                setPlace(PlacePicker.getPlace(data, this));
+                updatePlacePreview();
             }
         } else {
             throw new UnsupportedOperationException();
         }
     }
 
-    private static final int PLACE_PICKER_REQUEST = 1;
+    private void setPlace(Place place) {
+        this.place = place;
+    }
 
-    private boolean setPlacePreview(CharSequence fromPlace) {
+    private String getPlacePreviewString() {
+        //noinspection RedundantStringConstructorCall
+        return new String()
+                .concat(place.getName().toString() + "\n")
+                .concat(place.getAddress().toString() + "\n")
+                .concat(place.getPhoneNumber().toString() + "\n")
+                .concat("Rating: " + Float.toString(place.getRating()));
+    }
+
+    private boolean updatePlacePreview() {
         try {
             ((TextView) findViewById(R.id.place_pick_activity)
                     .findViewById(R.id.ppa_place_preview_layout)
                     .findViewById(R.id.ppa_place_as_string))
-                    .setText(fromPlace);
+                    .setText(getPlacePreviewString());
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();
             return true;
         }
         return false;
+    }
+
+    public void returnIntentFinish(View view) {
+        Intent returnIntent = new Intent();
+        final int resultCode;
+        if (null != place) {
+            resultCode = RESULT_OK;
+
+            Bundle bundle = new Bundle();
+            bundle.putString(PLACE, place.getId());
+
+            returnIntent.putExtra(PPA, bundle);
+        } else {
+            resultCode = RESULT_CANCELED;
+        }
+        setResult(resultCode, returnIntent);
+        finish();
     }
 }
