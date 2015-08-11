@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
@@ -100,6 +102,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                                         }
 
                                         view.setBackgroundColor(color);
+                                        showFriends();
                                     }
                                 }
                         );
@@ -125,6 +128,14 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         fpaContainer.facebookIDs.remove(friendID);
     }
 
+    private void showFriends() {
+        Toast.makeText(
+                FriendPickerActivity.this,
+                fpaContainer.getFacebookIDs().toString(),
+                Toast.LENGTH_LONG
+        ).show();
+    }
+
     private void returnIntentFinish() {
         Intent intent = new Intent();
         intent.putExtra("fpaContainer", fpaContainer.getAsBundle());
@@ -139,8 +150,12 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
 
         public FpaContainer() {
             final String userFacebookID = ParseUser.getCurrentUser().getString("facebookID");
-
             facebookIDs = new ArrayList<>();
+            facebookIDs.add(userFacebookID);
+        }
+
+        public FpaContainer(Bundle retArrayVals) {
+            this.facebookIDs = retArrayVals.getStringArrayList(FACEBOOK_IDS);
         }
 
         public Bundle getAsBundle() {

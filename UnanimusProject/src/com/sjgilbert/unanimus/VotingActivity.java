@@ -1,5 +1,6 @@
 package com.sjgilbert.unanimus;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,12 @@ public class VotingActivity extends UnanimusActivityTitle {
     private static final int NUMBER_OF_RESTAURANTS = 15;
     private static final int YES = 1;
     private static final int NO = -1;
+
+    private VaContainer vaContainer;
+
     private int i;
     private TextView counter;
     private List<String> restaurants;
-    private ArrayList<Integer> votes;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,14 +37,13 @@ public class VotingActivity extends UnanimusActivityTitle {
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
+
+        vaContainer = new VaContainer();
+
         counter = (TextView) findViewById(R.id.va_voting_counter);
         restaurants = new ArrayList<>(NUMBER_OF_RESTAURANTS);
         for (int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
             restaurants.add(String.format("Restaurant %d", i));
-        }
-        votes = new ArrayList<>();
-        for (int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
-            votes.add(0);
         }
 
         final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
@@ -52,14 +54,13 @@ public class VotingActivity extends UnanimusActivityTitle {
             @Override
             public void onClick(View v) {
                 if (i < NUMBER_OF_RESTAURANTS - 1) {
-                    votes.set(i, YES);
-                    i++;
-                    counter.setText(String.format("%d/15", i + 1));
-                    restaurant.setText(restaurants.get(i));
+                    setYesVote();
+                    incrementRestaurant();
+                    showVotes();
                 } else {
-                    votes.set(i, YES);
-                    Toast.makeText(VotingActivity.this, "DONE", Toast.LENGTH_LONG).show();
-                    System.out.println(votes.toString());
+                    setYesVote();
+                   returnIntentFinish();
+                    showVotes();
                 }
             }
         });
@@ -69,16 +70,73 @@ public class VotingActivity extends UnanimusActivityTitle {
             @Override
             public void onClick(View v) {
                 if (i < NUMBER_OF_RESTAURANTS - 1) {
-                    votes.set(i, NO);
-                    i++;
-                    counter.setText(String.format("%d/15", i + 1));
-                    restaurant.setText(restaurants.get(i));
+                    setNoVote();
+                    incrementRestaurant();
+                    showVotes();
                 } else {
-                    votes.set(i, NO);
-                    Toast.makeText(VotingActivity.this, "DONE", Toast.LENGTH_LONG).show();
-                    System.out.println(votes.toString());
+                    setNoVote();
+                   returnIntentFinish();
+                    showVotes();
                 }
             }
         });
+    }
+
+    private void setYesVote() {
+        vaContainer.votes.set(i, YES);
+    }
+
+    private void setNoVote() {
+        vaContainer.votes.set(i, NO);
+    }
+
+    private void incrementRestaurant() {
+        i++;
+        counter.setText(String.format("%d/15", i + 1));
+
+        TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
+        restaurant.setText(restaurants.get(i));
+    }
+
+    private void showVotes() {
+        Toast.makeText(
+                VotingActivity.this,
+                vaContainer.getVotes().toString(),
+                Toast.LENGTH_LONG
+        ).show();
+    }
+
+    private void returnIntentFinish() {
+        Intent intent = new Intent();
+        intent.putExtra("vaContainer", vaContainer.getAsBundle());
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    protected static class VaContainer {
+        public final static String VOTES = "votes";
+
+        private ArrayList<Integer> votes;
+
+        public VaContainer() {
+            votes = new ArrayList<>(NUMBER_OF_RESTAURANTS);
+
+            for (int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
+                votes.add(0);
+            }
+        }
+
+        public VaContainer(Bundle retArrayVals) {
+            this.votes = retArrayVals.getIntegerArrayList(VOTES);
+        }
+
+        public Bundle getAsBundle() {
+            Bundle bundle = new Bundle();
+            bundle.putIntegerArrayList(VOTES, votes);
+
+            return bundle;
+        }
+
+        public ArrayList<Integer> getVotes() {return votes;}
     }
 }
