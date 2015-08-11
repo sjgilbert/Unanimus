@@ -41,6 +41,7 @@
             android:id="@+id/ppa_submit_button"
             style="@style/Button"
             android:layout_gravity="center_horizontal|bottom"
+            android:onClick="returnIntentFinish"
             android:text="@string/ppa_submit_button" />
     </LinearLayout>
 
