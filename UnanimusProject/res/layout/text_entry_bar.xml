@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/text_entry_bar"
+    android:id="@+id/te_base"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:weightSum="@integer/one">
 
     <EditText
-        android:id="@+id/te_text_field"
+        android:id="@+id/te_edit_text"
         style="@style/Margin"
         android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         tools:ignore="InefficientWeight" />
 
     <Button
-        android:id="@+id/te_submit_button"
+        android:id="@+id/te_button"
         style="@style/Button"
         android:layout_width="wrap_content"
         android:text="@string/untitled"
