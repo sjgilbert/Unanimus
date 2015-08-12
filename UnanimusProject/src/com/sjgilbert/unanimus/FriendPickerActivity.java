@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
@@ -121,7 +120,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
     }
 
     private void addFacebookID(String friendID) {
-            fpaContainer.facebookIDs.add(friendID);
+        fpaContainer.facebookIDs.add(friendID);
     }
 
     private void removeFacebookID(String friendID) {
@@ -144,7 +143,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
     }
 
     protected static class FpaContainer {
-        public final static String FACEBOOK_IDS="facebookIDs";
+        public final static String FACEBOOK_IDS = "facebookIDs";
 
         private ArrayList<String> facebookIDs;
 
@@ -165,7 +164,9 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
             return bundle;
         }
 
-        public ArrayList<String> getFacebookIDs() {return facebookIDs;}
+        public ArrayList<String> getFacebookIDs() {
+            return facebookIDs;
+        }
     }
 
 }

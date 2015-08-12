@@ -61,4 +61,7 @@
   * time
   * radius
   * price
+###v0.11.0 -- Select location by last known
+* Result from `PlacePickActivity` changed from `Place` to `LatLng`
+* Users can select location by their last known location
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->
