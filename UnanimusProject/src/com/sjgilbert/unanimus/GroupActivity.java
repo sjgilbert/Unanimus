@@ -26,7 +26,7 @@ public class GroupActivity extends UnanimusActivityTitle {
 
 
     private String groupName;
-    private UnanimusGroup group;
+    private CreateGroupActivity.CgaGroup group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class GroupActivity extends UnanimusActivityTitle {
         groupNameTextView.setText("GROUP ID: " + groupName);
 
         //Query for the group_activity's data
-        ParseQuery<UnanimusGroup> query = ParseQuery.getQuery("UnanimusGroup");
+        ParseQuery<CreateGroupActivity.CgaGroup> query = CreateGroupActivity.CgaGroup.getQuery();
         query.include("members");
         try {
             group = query.get(groupName);
@@ -65,8 +65,8 @@ public class GroupActivity extends UnanimusActivityTitle {
 
         //Setting members of group_activity
         ArrayList<String> usernames = new ArrayList<>();
-        for (ParseUser user : group.getMembers()) {
-            usernames.add(user.getUsername());
+        for (String user : group.getMembers()) {
+            usernames.add(user);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.members_fragment, usernames);
         ListView membersList = (ListView) findViewById(R.id.ga_members_list);
