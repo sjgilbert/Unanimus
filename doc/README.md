@@ -1,6 +1,6 @@
 <!--
 	Unanimus - README.md
-	1015 (C) Sam Gilbert et. al.
+	2015 (C) Sam Gilbert et. al.
 -->
 #Unanimus -- README.md
 2015 (C) Sam Gilbert and Isabell Cowan.
