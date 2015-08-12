@@ -3,6 +3,7 @@ package com.sjgilbert.unanimus.unanimus_activity;
 import android.app.Activity;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,12 +47,11 @@ class UnanimusActivity extends Activity {
     }
 
     protected static boolean setTextEntryBar(String hint, String submit, ViewGroup parent) {
-        return setTextEntryBar(hint, submit, parent, R.id.text_entry_bar);
+        return setTextEntryBar(hint, submit, parent, R.id.te_base);
     }
-
-    protected static boolean setTextEntryBar(String hint, String submit, ViewGroup parent, int base_id) {
+protected static boolean setTextEntryBar(String hint, String submit, ViewGroup parent, int base_id) {
         try {
-            return setTextEntryBar(hint, submit, (LinearLayout) parent.findViewById(base_id));
+            return setTextEntryBar(hint, submit, findTextEntryBase(parent, base_id));
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();
         }
@@ -63,8 +63,8 @@ class UnanimusActivity extends Activity {
             return setTextEntryBar(
                     hint,
                     submit,
-                    (TextView) base.findViewById(R.id.te_text_field),
-                    (Button) base.findViewById(R.id.te_submit_button));
+                    findTextEntryEditText((ViewGroup) base.getParent()),
+                    findTextEntryButton((ViewGroup) base.getParent()));
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();
         }
@@ -85,5 +85,49 @@ class UnanimusActivity extends Activity {
             e.printStackTrace();
         }
         return true;
+    }
+
+    protected static LinearLayout findTextEntryBase(ViewGroup parent) {
+        return findTextEntryBase(parent, R.id.te_base);
+    }
+
+    protected static LinearLayout findTextEntryBase(ViewGroup parent, int base_id) {
+        LinearLayout base = null;
+        try {
+            base = (LinearLayout) parent.findViewById(base_id);
+        } catch (NullPointerException | ClassCastException e) {
+            e.printStackTrace();
+        }
+        return base;
+    }
+
+    protected static EditText findTextEntryEditText(ViewGroup parent) {
+        return findTextEntryEditText(parent, R.id.te_base);
+    }
+
+    protected static EditText findTextEntryEditText(ViewGroup parent, int base_id) {
+        LinearLayout base = findTextEntryBase(parent, base_id);
+        EditText editText = null;
+        try {
+            editText = (EditText) base.findViewById(R.id.te_edit_text);
+        } catch (NullPointerException | ClassCastException e) {
+            e.printStackTrace();
+        }
+        return editText;
+    }
+
+    protected static Button findTextEntryButton(ViewGroup parent) {
+        return findTextEntryButton(parent, R.id.te_base);
+    }
+
+    protected static Button findTextEntryButton(ViewGroup parent, int base_id) {
+        LinearLayout base = findTextEntryBase(parent, base_id);
+        Button button = null;
+        try {
+            button = (Button) base.findViewById(R.id.te_button);
+        } catch (NullPointerException | ClassCastException e) {
+            e.printStackTrace();
+        }
+        return button;
     }
 }
