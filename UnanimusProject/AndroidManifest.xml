@@ -92,6 +92,10 @@
         <activity
             android:name="com.sjgilbert.unanimus.GroupSettingsPickerActivity"
             android:label="@string/gspa_title" />
+
+        <activity
+            android:name="com.sjgilbert.unanimus.CreateGroupActivity"
+            android:label="@string/cga_title" />
     </application>
 
 </manifest>

@@ -33,5 +33,6 @@ public class UnanimusApplication extends Application {
         ParseACL.setDefaultACL(defaultACL, true);
 
         ParseObject.registerSubclass(UnanimusGroup.class);
+        ParseObject.registerSubclass(CreateGroupActivity.CgaGroup.class);
     }
 }
