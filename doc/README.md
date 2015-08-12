@@ -5,17 +5,15 @@
 #Unanimus -- README.md
 2015 (C) Sam Gilbert and Isabell Cowan.
 ##Status
-v0.12.+
-Build passing.
-Preparing for first beta release (v1.0.0)
+v0.13.+  Build passing.  Preparing for first beta release (v1.0.0).
 ##Description
 Android application for the selection of restaurant(s) by a group.  Implements the Google Places API (target API 22).
 ##Directory Hierarchy
-`./doc` -- Documentation
-`./UnanimusProject` -- Application module
-`./UnanimusProject/res` -- Android framework resources
-`./UnanimusProject/src/com/sjgilbert/unanimus` -- Source files
-`./gradle` -- Gradle wrapper
+* `./doc` -- Documentation
+* `./gradle` -- Gradle wrapper
+* `./UnanimusProject` -- Application module
+  * `res` -- Android framework resources
+  * `src/com/sjgilbert/unanimus` -- Source files
 ##Build Instructions
 ```bash
 [user@localhost Unanimus]$ ./gradlew build

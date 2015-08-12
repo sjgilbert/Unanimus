@@ -1,7 +1,5 @@
 <!--
-  Unanimus - CHANGELOG.md
-  Copyright (c) 2015 Sam Gilbert et. al.
--->
+  Unanimus - CHANGELOG.md Copyright (c) 2015 Sam Gilbert et. al.  -->
 #Unanimus -- CHANGELOG.md
 ##v0 -- Alpha
 ###v0.0.0 -- Initial Commit

@@ -11,7 +11,7 @@
     <Button
         android:id="@+id/ppa_map_button"
         style="@style/Button"
-        android:onClick="viewStartMap"
+        android:onClick="ppa_viewStartMap"
         android:text="@string/ppa_map_button" />
 
     <LinearLayout
@@ -27,14 +27,14 @@
             style="@style/Button"
             android:layout_width="@dimen/zero"
             android:layout_weight="1"
-            android:onClick="viewSetByLastLocation"
+            android:onClick="ppa_viewSetByLastLocation"
             android:text="@string/ppa_last_know_button"
             tools:ignore="InefficientWeight" />
 
         <Button
             style="@style/Button"
             android:layout_width="wrap_content"
-            android:onClick="viewRefreshLastLocation"
+            android:onClick="ppa_viewRefreshLastLocation"
             android:text="@string/refresh" />
 
     </LinearLayout>
@@ -61,7 +61,7 @@
             android:id="@+id/ppa_submit_button"
             style="@style/Button"
             android:layout_gravity="center_horizontal|bottom"
-            android:onClick="viewFinish"
+            android:onClick="ppa_viewFinish"
             android:text="@string/ppa_submit_button" />
     </LinearLayout>
 
