@@ -159,8 +159,7 @@ public class PlacePickActivity
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        if (null != googleApiClient && null == lastLocation)
-            refreshLastLocation(false);
+        refreshLastLocation(false);
     }
 
     @Override
@@ -282,15 +281,16 @@ public class PlacePickActivity
         setByLatLng(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
     }
 
-    private void refreshLastLocation(boolean allowRecurse) {
+    private void refreshLastLocation(boolean reconnect) {
         if (AsyncTask.Status.FINISHED != googleApiClientWorker.getStatus())
             return;
 
-        if (googleApiClient.isConnected()) {
-            this.lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        } else if (allowRecurse) {
+        if (reconnect || ! googleApiClient.isConnected()) {
             googleApiClient.reconnect();
+        } else {
+            this.lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         }
+
     }
 
     private void setByString(String address) {

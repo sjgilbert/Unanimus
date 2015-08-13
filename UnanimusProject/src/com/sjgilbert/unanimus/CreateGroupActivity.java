@@ -136,14 +136,14 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     }
 
     @ParseClassName("CgaGroup")
-    protected static class CgaGroup extends ParseObject {
+    static class CgaGroup extends ParseObject {
         private ArrayList<String> members;
         private LatLng location;
         private GspaContainer gspaContainer;
         private ArrayList<String> restaurants;
         private ArrayList<ArrayList<Integer>> voteArrays;
 
-        private CgaGroup() {
+        public CgaGroup() {
             members = new ArrayList<>();
         }
 
