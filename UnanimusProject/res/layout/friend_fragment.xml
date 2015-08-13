@@ -4,15 +4,16 @@
     android:id="@+id/friend_fragment"
     style="@style/Button">
 
-      <com.facebook.login.widget.ProfilePictureView
-          android:id="@+id/fpa_profile_picture"
-          style="@style/Wrap"
-          android:padding="@dimen/standard_pad_margin"/>
-      <TextView
-          android:id="@+id/fpa_facebook_name"
-          style="@style/TextView"
-          android:layout_gravity="center_vertical|start"
-          android:hint="@string/untitled"/>
+    <com.facebook.login.widget.ProfilePictureView
+        android:id="@+id/fpa_profile_picture"
+        style="@style/Wrap"
+        android:padding="@dimen/standard_pad_margin" />
+
+    <TextView
+        android:id="@+id/fpa_facebook_name"
+        style="@style/TextView"
+        android:layout_gravity="center_vertical|start"
+        android:hint="@string/untitled" />
 
 </LinearLayout>
 

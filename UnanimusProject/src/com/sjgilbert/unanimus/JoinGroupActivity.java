@@ -34,11 +34,11 @@ public class JoinGroupActivity extends UnanimusActivityTitle_TextEntryBar {
             e.printStackTrace();
         }
 
-        groupID = (EditText) findViewById(R.id.text_entry_bar).findViewById(R.id.te_text_field);
+        groupID = getTextEntryEditText((ViewGroup) findViewById(R.id.join_group_activity));
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-        Button joinButton = (Button) findViewById(R.id.text_entry_bar).findViewById(R.id.te_submit_button);
+        Button joinButton = getTextEntryButton((ViewGroup) findViewById(R.id.join_group_activity));
         joinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
