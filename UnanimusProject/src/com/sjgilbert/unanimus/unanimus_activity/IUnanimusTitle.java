@@ -8,7 +8,8 @@ import android.widget.TextView;
  * 8/6/15 (c) Isabell Cowan
  * isabellcowan@gmail.com
  */
-public interface IUnanimusTitle {
+@SuppressWarnings("unused")
+interface IUnanimusTitle {
     boolean setTitleBar(int title_r, ViewGroup parent);
 
     boolean setTitleBar(int title_r, ViewGroup parent, int base_id);

@@ -36,68 +36,24 @@ import java.util.concurrent.ExecutionException;
  */
 public class PlacePickActivity
         extends UnanimusActivityTitle_TextEntryBar
-        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
-{
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    /*
-     *  Start static members
-     */
-
-    /*
-     *  Start public static members
-     */
-
-    public final static String PPA = "ppa";
-    public final static String LAT = "ppa_lat";
-    public final static String LNG = "ppa_lng";
-
-    /*
-     *  End public static members
-     */
-
-    /*
-     *  Start private static members
-     */
+    final static String PPA = "ppa";
 
     private final static int PLACE_PICKER_REQUEST = 1;
-
-    /*
-     *  End private static members
-     */
-
-    /*
-     *  End static members
-     */
-
-    /*
-     *  Start members
-     */
-
-    /*
-     *  Start private members
-     */
 
     private final BuildGoogleApiClientWorker googleApiClientWorker
             = new BuildGoogleApiClientWorker(this);
     private final BuildGeocoderAsyncTask geocoderWorker
             = new BuildGeocoderAsyncTask(this);
-
+    private final PpaContainer ppaContainer = new PpaContainer();
     private GoogleApiClient googleApiClient = null;
     private Geocoder geocoder = null;
     private Location lastLocation = null;
-    private LatLng latLng = null;
 
-    /*
-     *  End private members
-     */
-
-    /*
-     *  End members
-     */
-
-    /*
-     *  Start Activity methods
-     */
+    public PlacePickActivity() {
+        super("ppa");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstances) {
@@ -111,15 +67,14 @@ public class PlacePickActivity
                     R.string.ppa_address_button,
                     (ViewGroup) findViewById(R.id.place_pick_activity));
         } catch (NullPointerException | ClassCastException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
 
         EditText addressBar = getTextEntryEditText((ViewGroup) findViewById(R.id.place_pick_activity));
         addressBar.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
 
         getTextEntryButton((ViewGroup) findViewById(R.id.place_pick_activity))
-                .setOnClickListener(new View.OnClickListener()
-                {
+                .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         ppa_viewGetByAddress(view);
@@ -142,22 +97,6 @@ public class PlacePickActivity
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (isFinishing()) {
-            doSetResult();
-        }
-    }
-
-    /*
-     *  End Activity methods
-     */
-
-    /*
-     *  Start GoogleApiClient.ConnectionCallbacks methods
-     */
-
-    @Override
     public void onConnected(Bundle connectionHint) {
         refreshLastLocation(false);
     }
@@ -167,32 +106,28 @@ public class PlacePickActivity
         // do nothing
     }
 
-    /*
-     *  End GoogleApiClient.ConnectionCallbacks methods
-     */
-
-    /*
-     *  Start GoogleApiClient.OnConnectionFailedListener methods
-     */
-
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.e(getString(R.string.app_name), connectionResult.toString());
     }
 
-    /*
-     *  End GoogleApiClient.OnConnectionFailedListener methods
-     */
-
-    /*
-     *  Start AsyncTask setters
-     */
+    private void setResult() {
+        Intent returnIntent = new Intent();
+        final int resultCode;
+        if (ppaContainer.isSet()) {
+            resultCode = RESULT_OK;
+            returnIntent.putExtra(PPA, ppaContainer.getAsBundle());
+        } else {
+            resultCode = RESULT_CANCELED;
+        }
+        setResult(resultCode, returnIntent);
+    }
 
     private void setGoogleApiClient(BuildGoogleApiClientWorker buildGoogleApiClientAsyncTask) {
         try {
             googleApiClient = buildGoogleApiClientAsyncTask.get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
             return;
         }
         googleApiClient.connect();
@@ -202,31 +137,28 @@ public class PlacePickActivity
         try {
             geocoder = buildGeocoderAsyncTask.get();
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
     }
 
-    /*
-     *  End AsyncTask setters
-     */
-
-    /*
-     *  Start onClick methods
-     */
-
+    @SuppressWarnings({"unused", "UnusedParameters"})
     public void ppa_viewFinish(View view) {
+        setResult();
         finish();
     }
 
+    @SuppressWarnings({"WeakerAccess", "UnusedParameters"})
     public void ppa_viewSetByLastLocation(View view) {
         setByLastLocation(lastLocation);
     }
 
+    @SuppressWarnings("unused")
     public void ppa_viewRefreshLastLocation(View view) {
         refreshLastLocation(true);
         ppa_viewSetByLastLocation(view);
     }
 
+    @SuppressWarnings({"unused", "UnusedParameters"})
     public void ppa_viewStartMap(View view) {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
@@ -234,10 +166,11 @@ public class PlacePickActivity
         try {
             startActivityForResult(builder.build(context), PLACE_PICKER_REQUEST);
         } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
     }
 
+    @SuppressWarnings("WeakerAccess")
     public void ppa_viewGetByAddress(View view) {
         ViewGroup viewGroup = (ViewGroup) view.getParent();
         int childCount = viewGroup.getChildCount();
@@ -256,16 +189,8 @@ public class PlacePickActivity
         setByString(address);
     }
 
-    /*
-     *  End onClick methods
-     */
-
-    /*
-     *  Start set latLng by methods
-     */
-
     private void setByLatLng(LatLng latLng) {
-        this.latLng = latLng;
+        this.ppaContainer.setLatLng(latLng.latitude, latLng.longitude);
         updatePlacePreview();
     }
 
@@ -282,10 +207,12 @@ public class PlacePickActivity
     }
 
     private void refreshLastLocation(boolean reconnect) {
-        if (AsyncTask.Status.FINISHED != googleApiClientWorker.getStatus())
+        if (AsyncTask.Status.FINISHED != googleApiClientWorker.getStatus()) {
+            Log.w(getString(R.string.app_name), "Attempt to refresh location, but Google API client is still building.");
             return;
+        }
 
-        if (reconnect || ! googleApiClient.isConnected()) {
+        if (reconnect || !googleApiClient.isConnected()) {
             googleApiClient.reconnect();
         } else {
             this.lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
@@ -307,16 +234,8 @@ public class PlacePickActivity
         new SetByStringWorker(this).execute(paramsContainer);
     }
 
-    /*
-     *  End set latLng by methods
-     */
-
-    /*
-     *  Start latLng preview methods
-     */
-
     private String getPreviewString() {
-        return latLng.toString();
+        return ppaContainer.getLatLng().toString();
     }
 
     private void updatePlacePreview() {
@@ -326,47 +245,61 @@ public class PlacePickActivity
                     .findViewById(R.id.ppa_place_as_string))
                     .setText(getPreviewString());
         } catch (NullPointerException | ClassCastException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
     }
 
-    /* *  End latLng preview methods
-     */
+    @SuppressWarnings("WeakerAccess")
+    protected static class PpaContainer extends CreateGroupActivity.ADependencyContainer {
+        private static final String LAT = "lat";
+        private static final String LNG = "lng";
 
+        private LatLng latLng;
 
-    /*
-     *  Start result methods
-     */
-
-    private Bundle getResult() {
-        Bundle bundle = new Bundle();
-        bundle.putDouble(LAT, latLng.latitude);
-        bundle.putDouble(LNG, latLng.longitude); return bundle;
-    }
-
-    private void doSetResult() {
-        Intent returnIntent = new Intent();
-        final int resultCode;
-        if (null != latLng) {
-            resultCode = RESULT_OK;
-            returnIntent.putExtra(PPA, getResult());
-        } else {
-            resultCode = RESULT_CANCELED;
+        @Override
+        public Bundle getAsBundle() {
+            Bundle bundle = new Bundle();
+            bundle.putDouble(LAT, latLng.latitude);
+            bundle.putDouble(LNG, latLng.longitude);
+            return bundle;
         }
-        setResult(resultCode, returnIntent);
-    }
 
-    /*
-     *  End result methods
-     */
+        @Override
+        public void setDefault() {
+            latLng = new LatLng(0D, 0D);
+            super.setDefault();
+        }
+
+        @Override
+        public void setFromBundle(Bundle bundle) {
+            setFromLatLng(
+                    new LatLng(
+                            bundle.getDouble(LAT),
+                            bundle.getDouble(LNG)
+                    )
+            );
+        }
+
+        private void setLatLng(Double lat, Double lng) {
+            setFromLatLng(new LatLng(lat, lng));
+        }
+
+        private void setFromLatLng(LatLng latLng) {
+            this.latLng = latLng;
+            super.isSet = true;
+        }
+
+        LatLng getLatLng() {
+            return latLng;
+        }
+    }
 
     /*
      * Start AsyncTask classes
      */
 
     private static abstract class PlacePickAsyncTask<T1, T2, T3>
-            extends AsyncTask<T1, T2, T3>
-    {
+            extends AsyncTask<T1, T2, T3> {
         private final PlacePickActivity placePickActivity;
 
         public PlacePickAsyncTask(PlacePickActivity placePickActivity) {
@@ -376,10 +309,20 @@ public class PlacePickActivity
     }
 
     private static class BuildGoogleApiClientWorker
-            extends PlacePickAsyncTask<Object, Object, GoogleApiClient>
-    {
+            extends PlacePickAsyncTask<Object, Object, GoogleApiClient> {
         public BuildGoogleApiClientWorker(PlacePickActivity placePickActivity) {
             super(placePickActivity);
+        }
+
+        private static GoogleApiClient buildGoogleApiClient(
+                Context context,
+                GoogleApiClient.ConnectionCallbacks callbacks,
+                GoogleApiClient.OnConnectionFailedListener connectionFailedListener
+        ) {
+            return new GoogleApiClient
+                    .Builder(context)
+                    .addConnectionCallbacks(callbacks)
+                    .addOnConnectionFailedListener(connectionFailedListener).addApi(LocationServices.API).build();
         }
 
         @Override
@@ -396,22 +339,10 @@ public class PlacePickActivity
             super.placePickActivity.setGoogleApiClient(this);
         }
 
-        private static GoogleApiClient buildGoogleApiClient(
-                Context context,
-                GoogleApiClient.ConnectionCallbacks callbacks,
-                GoogleApiClient.OnConnectionFailedListener connectionFailedListener
-        ) {
-            return new GoogleApiClient
-                    .Builder(context)
-                    .addConnectionCallbacks(callbacks)
-                    .addOnConnectionFailedListener(connectionFailedListener) .addApi(LocationServices.API) .build();
-        }
-
     }
 
     private static class BuildGeocoderAsyncTask
-            extends PlacePickAsyncTask<Object, Object, Geocoder>
-    {
+            extends PlacePickAsyncTask<Object, Object, Geocoder> {
         public BuildGeocoderAsyncTask(PlacePickActivity placePickActivity) {
             super(placePickActivity);
         }
@@ -428,49 +359,57 @@ public class PlacePickActivity
     }
 
     private static class SetByStringWorker
-        extends PlacePickAsyncTask<SetByStringWorker.ParamsContainer, Object, LatLng>
-    {
+            extends PlacePickAsyncTask<SetByStringWorker.ParamsContainer, Object, LatLng> {
         public SetByStringWorker(PlacePickActivity placePickActivity) {
             super(placePickActivity);
-        }
-
-        @Override protected LatLng doInBackground(ParamsContainer... params) { if (Status.FINISHED != super.placePickActivity.geocoderWorker.getStatus()) { new ExecutionException(new NullPointerException()).printStackTrace(); return null;
-            }
-            ParamsContainer paramsContainer = params[0];
-            Geocoder geocoder = paramsContainer.geocoder;
-            String address = paramsContainer.address;
-            try {
-                return getLatLngFromAddress(geocoder, address);
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(LatLng latLng) {
-            super.placePickActivity.setByLatLng(latLng);
         }
 
         private static LatLng getLatLngFromAddress(
                 Geocoder geocoder,
                 String addressString
         )
-                throws ExecutionException
-        {
+                throws ExecutionException {
             List<Address> addresses;
             try {
                 addresses = geocoder.getFromLocationName(addressString, 1);
             } catch (IOException e) {
                 throw new ExecutionException(e);
             }
-            LatLng latLng = null;
-            try {
-                latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
-            } catch (IndexOutOfBoundsException e) {
-                e.printStackTrace();
+            return new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+        }
+
+        @Override
+        protected LatLng doInBackground(ParamsContainer... params) {
+            if (Status.FINISHED != super.placePickActivity.geocoderWorker.getStatus()) {
+                Log.w(
+                        "Unanimus",
+                        "Failed to query address because the geocoder builder is not finished"
+                );
+                return null;
             }
-            return latLng;
+
+            ParamsContainer paramsContainer = params[0];
+            Geocoder geocoder = paramsContainer.geocoder;
+            String address = paramsContainer.address;
+            try {
+                return getLatLngFromAddress(geocoder, address);
+            } catch (ExecutionException | NullPointerException e) {
+                Log.e(
+                        "Unanimus",
+                        e.getMessage(),
+                        e
+                );
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(LatLng latLng) {
+            if (null == latLng) {
+                super.placePickActivity.log(ELog.d, "Address query gave zero results");
+                return;
+            }
+            super.placePickActivity.setByLatLng(latLng);
         }
 
         public static class ParamsContainer {
@@ -483,8 +422,4 @@ public class PlacePickActivity
             }
         }
     }
-
-    /*
-     *  End AsyncTask classes
-     */
 }

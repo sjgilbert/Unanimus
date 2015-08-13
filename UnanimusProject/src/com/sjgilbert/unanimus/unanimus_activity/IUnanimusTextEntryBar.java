@@ -10,7 +10,9 @@ import android.widget.TextView;
  * 8/6/15 (c) Isabell Cowan
  * isabellcowan@gmail.com
  */
-public interface IUnanimusTextEntryBar {
+@SuppressWarnings("unused")
+interface IUnanimusTextEntryBar {
+    @SuppressWarnings("SameParameterValue")
     boolean setTextEntryBar(int hint_r, int submit_r, ViewGroup parent);
 
     boolean setTextEntryBar(int hint_r, int submit_r, ViewGroup parent, int base_id);

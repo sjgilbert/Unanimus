@@ -6,16 +6,6 @@
     <include layout="@layout/activity_title" />
 
     <Button
-        android:id="@+id/ipa_register_link"
-        style="@style/Button"
-        android:text="@string/ipa_register_link" />
-
-    <Button
-        android:id="@+id/ipa_activity_login_link"
-        style="@style/Button"
-        android:text="@string/ipa_login_link" />
-
-    <Button
         android:id="@+id/ipa_facebook_login"
         style="@style/Button"
         android:text="@string/facebook_login" />

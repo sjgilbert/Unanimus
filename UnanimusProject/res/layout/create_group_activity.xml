@@ -9,7 +9,7 @@
     <Button
         android:id="@+id/cga_group"
         style="@style/Button"
-        android:onClick="createGroup"
+        android:onClick="cga_viewCreateGroup"
         android:text="@string/mga_title" />
 
     <TextView

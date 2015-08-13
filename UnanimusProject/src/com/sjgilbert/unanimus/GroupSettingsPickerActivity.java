@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,16 +20,21 @@ import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 import java.util.Calendar;
 import java.util.Locale;
 
+// TODO: lets get some licensing up in this joint
 /**
  * Created by sam on 8/9/15.
  */
 public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
-    public final static String GSPA = "gspa";
+    public final static String GSPA = "GspaContainer";
     private final static int radiusMax = 10;
     private final static int radiusStartProgress = radiusMax / 2;
     private final static GspaContainer.EPriceLevel startPriceLevel = GspaContainer.EPriceLevel.$$;
 
-    private GspaContainer gspaContainer;
+    private final GspaContainer gspaContainer = new GspaContainer();
+
+    public GroupSettingsPickerActivity() {
+        super("gspa");
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,10 +44,10 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         try {
             setTitleBar(R.string.gspa_title, (ViewGroup) findViewById(R.id.group_settings_picker_activity));
         } catch (ClassCastException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
 
-        gspaContainer = new GspaContainer();
+        gspaContainer.setDefault();
 
         Button dateButton = (Button) findViewById(R.id.gspa_date);
         dateButton.setOnClickListener(
@@ -97,7 +103,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
                             setPriceLevel(checkedButton.getText().length());
                             showPriceLevel();
                         } catch (NullPointerException | ClassCastException e) {
-                            e.printStackTrace();
+                            log(ELog.e, e.getMessage(), e);
                         }
                     }
                 }
@@ -107,7 +113,16 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                returnIntentFinish();
+                Intent intent = new Intent();
+                int result;
+                if (gspaContainer.isSet()) {
+                    intent.putExtra(GSPA, gspaContainer.getAsBundle());
+                    result = RESULT_OK;
+                } else {
+                    result = RESULT_CANCELED;
+                }
+                setResult(result, intent);
+                finish();
             }
         });
     }
@@ -121,7 +136,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
     private String getDateString() {
         return String.format(
                 Locale.getDefault(),
-                "%s: %d-%d-%d",
+                "%s: %02d-%02d-%04d",
                 getString(R.string.gspa_date),
                 gspaContainer.getDay(),
                 gspaContainer.getMonth() + 1,
@@ -236,7 +251,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         try {
             gspaContainer.priceLevel = GspaContainer.EPriceLevel.getPriceLevelFromInt(len);
         } catch (UnsupportedOperationException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
     }
 
@@ -252,14 +267,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         ).show();
     }
 
-    private void returnIntentFinish() {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(GSPA, gspaContainer.getAsBundle());
-        setResult(RESULT_OK);
-        finish();
-    }
-
-    protected static class GspaContainer {
+    protected static class GspaContainer extends CreateGroupActivity.ADependencyContainer {
         public final static String YEAR = "year";
         public final static String MONTH = "month";
         public final static String DAY = "day";
@@ -272,7 +280,8 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         private int radius;
         private EPriceLevel priceLevel;
 
-        public GspaContainer() {
+        @Override
+        public void setDefault() {
             final Calendar c = Calendar.getInstance();
             year = c.get(Calendar.YEAR);
             month = c.get(Calendar.MONTH);
@@ -283,18 +292,11 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
             radius = radiusStartProgress;
 
             priceLevel = startPriceLevel;
+
+            super.setDefault();
         }
 
-        public GspaContainer(Bundle retIntVals) {
-            this.year = retIntVals.getInt(YEAR);
-            this.month = retIntVals.getInt(MONTH);
-            this.day = retIntVals.getInt(DAY);
-            this.hourOfDay = retIntVals.getInt(HOUR_OF_DAY);
-            this.minute = retIntVals.getInt(MINUTE);
-            this.radius = retIntVals.getInt(RADIUS);
-            this.priceLevel = EPriceLevel.getPriceLevelFromInt(retIntVals.getInt(PRICE_LEVEL));
-        }
-
+        @Override
         public Bundle getAsBundle() {
             Bundle bundle = new Bundle();
             bundle.putInt(YEAR, year);
@@ -307,7 +309,27 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
             bundle.putInt(PRICE_LEVEL, priceLevel.getNum());
 
+            try {
+                super.getAsBundle();
+            } catch (NotSetException e) {
+                Log.e("Unanimus", e.getMessage(), e);
+                return null;
+            }
+
             return bundle;
+        }
+
+        @Override
+        public void setFromBundle(Bundle bundle) {
+            this.year = bundle.getInt(YEAR);
+            this.month = bundle.getInt(MONTH);
+            this.day = bundle.getInt(DAY);
+            this.hourOfDay = bundle.getInt(HOUR_OF_DAY);
+            this.minute = bundle.getInt(MINUTE);
+            this.radius = bundle.getInt(RADIUS);
+            this.priceLevel = EPriceLevel.getPriceLevelFromInt(bundle.getInt(PRICE_LEVEL));
+
+            super.setFromBundle(bundle);
         }
 
         public int getYear() {

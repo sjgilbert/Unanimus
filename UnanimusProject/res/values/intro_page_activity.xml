@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ipa_title">Welcome to Unanimus!</string>
-    <string name="ipa_login_link">Log In</string>
-    <string name="ipa_register_link">Register</string>
 </resources><!-- vim: set ts=4 sw=4 et syn=xml: -->

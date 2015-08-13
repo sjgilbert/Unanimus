@@ -9,9 +9,13 @@ import android.widget.TextView;
  * isabellcowan@gmail.com
  */
 public abstract class UnanimusActivityTitle extends UnanimusActivity implements IUnanimusTitle {
+    protected UnanimusActivityTitle(String tag) {
+        super(tag);
+    }
+
     @Override
     public boolean setTitleBar(int title_r, ViewGroup parent) {
-        return UnanimusActivity.setTitleBar(getResources().getString(title_r), parent);
+        return UnanimusActivity.setTitleBar(getResources().getString(title_r), parent, this.tag);
     }
 
     @Override

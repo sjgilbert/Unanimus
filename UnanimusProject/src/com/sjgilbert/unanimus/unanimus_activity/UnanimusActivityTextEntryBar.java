@@ -11,6 +11,10 @@ import android.widget.TextView;
  * isabellcowan@gmail.com
  */
 public abstract class UnanimusActivityTextEntryBar extends UnanimusActivity implements IUnanimusTextEntryBar {
+    UnanimusActivityTextEntryBar(String tag) {
+        super(tag);
+    }
+
     @Override
     public boolean setTextEntryBar(int hint_r, int submit_r, ViewGroup parent) {
         return setTextEntryBar(getResources().getString(hint_r), getResources().getString(submit_r), parent);

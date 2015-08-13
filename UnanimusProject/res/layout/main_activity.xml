@@ -18,41 +18,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/ma_join_group"
-            style="@style/Button"
+        <TextView
+            android:id="@+id/ma_facebook_name"
+            style="@style/TextView"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/standard_pad_margin"
-            android:layout_marginRight="@dimen/standard_pad_margin"
-            android:layout_weight="0.5"
-            android:text="@string/jga_title" />
-
-        <Button
-            android:id="@+id/ma_make_group_button"
-            style="@style/Button"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:text="@string/mga_title" />
+            android:textSize="@dimen/large_font" />
     </LinearLayout>
 
     <Button
         android:id="@+id/ma_friend_picker_button"
         style="@style/Button"
+        android:onClick="ma_viewFriendPicker"
         android:text="@string/ma_friend_picker_button" />
 
     <Button
         android:id="@+id/ma_pick_place_link"
         style="@style/Button"
-        android:onClick="startPlacePickActivity"
+        android:onClick="ma_viewPlacePick"
         android:text="@string/ppa_title" />
 
     <Button
         android:id="@+id/ma_group_settings_picker_button"
         style="@style/Button"
+        android:onClick="ma_viewGroupSettingsPicker"
         android:text="@string/gspa_title" />
 
-    <ListView
-        android:id="@+id/ma_groups_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/ma_create_group_button"
+        style="@style/Button"
+        android:onClick="ma_viewCreateGroup"
+        android:text="@string/cga_title" />
 </LinearLayout>
