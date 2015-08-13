@@ -23,6 +23,7 @@ import java.util.Locale;
  * Created by sam on 8/9/15.
  */
 public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
+    public final static String GSPA = "gspa";
     private final static int radiusMax = 10;
     private final static int radiusStartProgress = radiusMax / 2;
     private final static GspaContainer.EPriceLevel startPriceLevel = GspaContainer.EPriceLevel.$$;
@@ -174,7 +175,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
     private String getTimeString() {
         return String.format(
                 Locale.getDefault(),
-                "%s: %d:%d",
+                "%s: %d:%02d",
                 getString(R.string.gspa_time),
                 gspaContainer.getHourOfDay(),
                 gspaContainer.getMinute()
@@ -253,7 +254,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
     private void returnIntentFinish() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("gspaContainer", gspaContainer.getAsBundle());
+        returnIntent.putExtra(GSPA, gspaContainer.getAsBundle());
         setResult(RESULT_OK);
         finish();
     }

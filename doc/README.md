@@ -5,7 +5,7 @@
 #Unanimus -- README.md
 2015 (C) Sam Gilbert and Isabell Cowan.
 ##Status
-v0.9.+
+v0.12.+
 Build passing.
 Preparing for first beta release (v1.0.0)
 ##Description
