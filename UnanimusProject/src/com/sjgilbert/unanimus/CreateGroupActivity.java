@@ -1,12 +1,15 @@
 package com.sjgilbert.unanimus;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.facebook.Profile;
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseACL;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -16,7 +19,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static com.sjgilbert.unanimus.GroupSettingsPickerActivity.*;
@@ -25,6 +27,10 @@ import static com.sjgilbert.unanimus.GroupSettingsPickerActivity.*;
  * Activity for creating group.  Calls 3 other activities for input to build group.
  */
 public class CreateGroupActivity extends UnanimusActivityTitle {
+    private final int FPA_REQUEST = 1;
+    private final int GSPA_REQUEST = 2;
+    private final int PPA_REQUEST = 3;
+
     private CgaGroup cgaGroup;
 
     @Override
@@ -41,20 +47,25 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         cgaGroup = new CgaGroup();
     }
 
-    public void createGroup(View v) throws ParseException {
+    public void createGroup(View view) throws ParseException {
         final ProgressDialog wait = new ProgressDialog(CreateGroupActivity.this);
         wait.setMessage(getString(R.string.wait_message));
         wait.show();
 
         final CgaGroup newGroup = new CgaGroup();
+
         ParseACL acl = new ParseACL();
         acl.setPublicWriteAccess(true);
         acl.setPublicReadAccess(true);
+
         newGroup.setACL(acl);
         newGroup.put("user", ParseUser.getCurrentUser());
-        ArrayList<String> mems = new ArrayList<>();
-        mems.add(Profile.getCurrentProfile().getId());
-        setGroupMembers(mems);
+        ArrayList<String> members = new ArrayList<>();
+        members.add(Profile.getCurrentProfile().getId());
+        setGroupMembers(members);
+
+        launchGspaForResult();
+
         newGroup.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 wait.dismiss();
@@ -67,60 +78,73 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         });
     }
 
-    private void setGroupMembers(ArrayList<String> mems) {
-        cgaGroup.members = mems;
+    private void setGroupMembers(ArrayList<String> groupMembers) {
+        cgaGroup.members = groupMembers;
     }
 
-    private void setLocation(String loc) {
-        cgaGroup.location = loc;
+    private void setLocation(LatLng location) {
+        cgaGroup.location = location;
     }
 
-    private void setTime(
-            int hour,
-            int min
-    ) {
-        cgaGroup.hourOfDay = hour;
-        cgaGroup.minute = min;
+    private void setRestaurants(ArrayList<String> restaurants) {
+        cgaGroup.restaurants = restaurants;
     }
 
-    private void setDate(
-            int year,
-            int mon,
-            int day
-    ) {
-        cgaGroup.year = year;
-        cgaGroup.month = mon;
-        cgaGroup.day = day;
+    private void setGspaContainer(GspaContainer gspaContainer) {
+        cgaGroup.gspaContainer = gspaContainer;
     }
 
-    private void setRestaurants(ArrayList<String> rests) {
-        cgaGroup.restaurants = rests;
+    private GspaContainer getGspaContainerFromBundle(Bundle bundle) {
+        return new GspaContainer(bundle);
     }
 
-    private void setRadius(int rad) {
-        cgaGroup.radius = rad;
+    private void launchGspaForResult() {
+        startActivityForResult(
+                new Intent(this, GroupSettingsPickerActivity.class),
+                GSPA_REQUEST
+        );
     }
 
-    private void setPriceLevel(int len) {
-        try {
-            cgaGroup.priceLevel = GspaContainer.EPriceLevel.getPriceLevelFromInt(len);
+    private void processGspaResult(Intent result) {
+        Bundle gspaBundle = result.getBundleExtra(GroupSettingsPickerActivity.GSPA);
+        GspaContainer gspaContainer = getGspaContainerFromBundle(gspaBundle);
+        setGspaContainer(gspaContainer);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (RESULT_OK != resultCode) {
+            Log.d(
+                    getString(R.string.app_name),
+                    String.format(
+                            "%s. Request code: %d Result code: %d",
+                            "CreateGroupActivity got non-OK result from activity",
+                            requestCode,
+                            resultCode
+                    )
+            );
+            return;
         }
-        catch (UnsupportedOperationException e){
-            e.printStackTrace();
+
+        switch (requestCode) {
+            case GSPA_REQUEST:
+                processGspaResult(data);
+                break;
+            default:
+                throw new UnsupportedOperationException();
         }
     }
 
     @ParseClassName("CgaGroup")
     protected static class CgaGroup extends ParseObject {
         private ArrayList<String> members;
-        private String location;
-        private int year, month, day, hourOfDay, minute;
-        private int radius;
-        private GspaContainer.EPriceLevel priceLevel;
+        private LatLng location;
+        private GspaContainer gspaContainer;
         private ArrayList<String> restaurants;
         private ArrayList<ArrayList<Integer>> voteArrays;
 
-        public CgaGroup() {
+        private CgaGroup() {
+            members = new ArrayList<>();
         }
 
         public static ParseQuery<CgaGroup> getQuery() {
