@@ -1,11 +1,5 @@
 <!--
-  Unanimus - CHANGELOG.md
-  Copyright (c) 2015 Sam Gilbert et. al.
--->
-#Unanimus -- CHANGELOG.md
-##v0 -- Alpha
-###v0.0.0 -- Initial Commit
-* Make group with parse
+  Unanimus - CHANGELOG.md Copyright (c) 2015 Sam Gilbert et. al.  --> #Unanimus -- CHANGELOG.md ##v0 -- Alpha ###v0.0.0 -- Initial Commit * Make group with parse
 * Echo object id locally
 
 ###v0.1.0 -- Added group object
@@ -64,4 +58,6 @@
 ###v0.11.0 -- Select location by last known
 * Result from `PlacePickActivity` changed from `Place` to `LatLng`
 * Users can select location by their last known location
+###v0.13.0 -- Select location by address
+* Users can select a location by address
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->
