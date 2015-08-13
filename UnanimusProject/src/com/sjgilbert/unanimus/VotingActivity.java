@@ -59,7 +59,7 @@ public class VotingActivity extends UnanimusActivityTitle {
                     showVotes();
                 } else {
                     setYesVote();
-                   returnIntentFinish();
+                    returnIntentFinish();
                     showVotes();
                 }
             }
@@ -75,7 +75,7 @@ public class VotingActivity extends UnanimusActivityTitle {
                     showVotes();
                 } else {
                     setNoVote();
-                   returnIntentFinish();
+                    returnIntentFinish();
                     showVotes();
                 }
             }
@@ -137,6 +137,8 @@ public class VotingActivity extends UnanimusActivityTitle {
             return bundle;
         }
 
-        public ArrayList<Integer> getVotes() {return votes;}
+        public ArrayList<Integer> getVotes() {
+            return votes;
+        }
     }
 }
