@@ -11,13 +11,33 @@
     <Button
         android:id="@+id/ppa_map_button"
         style="@style/Button"
-        android:onClick="startMap"
+        android:onClick="ppa_viewStartMap"
         android:text="@string/ppa_map_button" />
 
-    <Button
-        android:id="@+id/ppa_last_know_button"
-        style="@style/Button"
-        android:text="@string/ppa_last_know_button" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="@integer/one">
+
+        <Button
+            android:id="@+id/ppa_last_know_button"
+            style="@style/Button"
+            android:layout_width="@dimen/zero"
+            android:layout_weight="1"
+            android:onClick="ppa_viewSetByLastLocation"
+            android:text="@string/ppa_last_know_button"
+            tools:ignore="InefficientWeight" />
+
+        <Button
+            style="@style/Button"
+            android:layout_width="wrap_content"
+            android:onClick="ppa_viewRefreshLastLocation"
+            android:text="@string/refresh" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ppa_place_preview_layout"
@@ -41,7 +61,7 @@
             android:id="@+id/ppa_submit_button"
             style="@style/Button"
             android:layout_gravity="center_horizontal|bottom"
-            android:onClick="returnIntentFinish"
+            android:onClick="ppa_viewFinish"
             android:text="@string/ppa_submit_button" />
     </LinearLayout>
 
