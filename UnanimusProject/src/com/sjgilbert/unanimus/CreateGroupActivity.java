@@ -119,8 +119,11 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         private GspaContainer.EPriceLevel priceLevel;
         private ArrayList<String> restaurants;
         private ArrayList<ArrayList<Integer>> voteArrays;
+        private String recommendation;
+        private boolean allVotesIn;
 
         public CgaGroup() {
+            allVotesIn = false;
         }
 
         public static ParseQuery<CgaGroup> getQuery() {
@@ -128,6 +131,35 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         }
 
         public ArrayList<String> getMembers() {return members;}
+
+        public int[] voteTally() {
+            int[] voteSum = new int[restaurants.size()];
+            for (ArrayList<Integer> oneUsersVotes : voteArrays) {
+                for (int i = 0; i < restaurants.size(); i++) {
+                    voteSum[i] = voteSum[i] += oneUsersVotes.get(i);
+                }
+            }
+            return voteSum;
+        }
+
+        public String getBestRestaurant(int[] talliedVotes) {
+            int winIndex = talliedVotes[0];
+            for (int num : talliedVotes) {
+                if (num > winIndex) {
+                    winIndex = num;
+                }
+            }
+            return restaurants.get(winIndex);
+        }
+
+        public boolean checkIfComplete() {
+            if (!allVotesIn && voteArrays.size() == members.size()) {
+                allVotesIn = !allVotesIn;
+                recommendation = getBestRestaurant(voteTally());
+                return true;
+            }
+            else {return false;}
+        }
 
     }
 }

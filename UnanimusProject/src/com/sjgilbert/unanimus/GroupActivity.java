@@ -53,6 +53,7 @@ public class GroupActivity extends UnanimusActivityTitle {
         //Query for the group_activity's data
         ParseQuery<CreateGroupActivity.CgaGroup> query = CreateGroupActivity.CgaGroup.getQuery();
         query.include("members");
+        query.include("user");
         try {
             group = query.get(groupName);
         } catch (ParseException e) {
