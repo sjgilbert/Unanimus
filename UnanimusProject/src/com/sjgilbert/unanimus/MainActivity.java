@@ -23,7 +23,7 @@ import static com.sjgilbert.unanimus.CreateGroupActivity.*;
  * user to access the make and join group_activity activities.
  */
 public class MainActivity extends UnanimusActivityTitle {
-    private ParseQueryAdapter<CgaGroup> groupQueryAdapter;
+    private ParseQueryAdapter<UnanimusGroup> groupQueryAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class MainActivity extends UnanimusActivityTitle {
         makeGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateGroupActivity.class);
+                Intent intent = new Intent(MainActivity.this, MakeGroupActivity.class);
                 startActivity(intent);
             }
         });
@@ -81,10 +81,10 @@ public class MainActivity extends UnanimusActivityTitle {
         });
 
         //Shows all the groups user is a member of
-        ParseQueryAdapter.QueryFactory<CgaGroup> factory =
-                new ParseQueryAdapter.QueryFactory<CgaGroup>() {
-                    public ParseQuery<CgaGroup> create() {
-                        ParseQuery<CgaGroup> query = CgaGroup.getQuery();
+        ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
+                new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
+                    public ParseQuery<UnanimusGroup> create() {
+                        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
                         query.include("objectID");
                         query.whereEqualTo("user", ParseUser.getCurrentUser());
                         query.orderByDescending("createdAt");
@@ -92,9 +92,9 @@ public class MainActivity extends UnanimusActivityTitle {
                     }
                 };
 
-        groupQueryAdapter = new ParseQueryAdapter<CgaGroup>(this, factory) {
+        groupQueryAdapter = new ParseQueryAdapter<UnanimusGroup>(this, factory) {
             @Override
-            public View getItemView(CgaGroup group, View view, ViewGroup parent) {
+            public View getItemView(UnanimusGroup group, View view, ViewGroup parent) {
                 if (view == null) {
                     view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
                 }
@@ -115,7 +115,7 @@ public class MainActivity extends UnanimusActivityTitle {
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final CgaGroup selectedGroup = groupQueryAdapter.getItem(position);
+                final UnanimusGroup selectedGroup = groupQueryAdapter.getItem(position);
                 String groupID = selectedGroup.getObjectId();
                 Intent intent = new Intent(MainActivity.this, GroupActivity.class);
                 intent.putExtra("objID", groupID);

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recommendation_activity"
+    style="@style/RootLayout">
+
+    <TextView
+        android:id="@+id/reca_recommendation"
+        style="@style/TextView"
+        android:layout_gravity="center_vertical"
+        android:background="#52D57E"
+        android:gravity="center_horizontal"
+        android:textSize="40sp" />
+
+</LinearLayout>

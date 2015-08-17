@@ -47,9 +47,10 @@
             android:text="@string/ga_play_game_button" />
 
         <Button
+            android:id="@+id/ga_view_recs_button"
             style="@style/Button"
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:text="@string/ga_view_button" />
+            android:text="@string/ga_view_recs_button" />
     </LinearLayout>
 </LinearLayout>

@@ -8,8 +8,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +23,14 @@ import java.util.List;
  * The activity for voting on restaurants
  */
 public class VotingActivity extends UnanimusActivityTitle {
-    private static final int NUMBER_OF_RESTAURANTS = 15;
+    public static final int NUMBER_OF_RESTAURANTS = 15;
     private static final int YES = 1;
     private static final int NO = -1;
 
     private VaContainer vaContainer;
+
+    private UnanimusGroup group;
+    private String groupName;
 
     private int i;
     private TextView counter;
@@ -38,13 +47,25 @@ public class VotingActivity extends UnanimusActivityTitle {
             e.printStackTrace();
         }
 
+        Bundle extras = getIntent().getExtras();    //The groupID of the selected group_activity
+        if (extras != null) {
+            groupName = extras.getString("groupID");
+        } else {
+            Toast.makeText(VotingActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
+        }
+
+        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
+        try {
+            group = query.get(groupName);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         vaContainer = new VaContainer();
 
         counter = (TextView) findViewById(R.id.va_voting_counter);
-        restaurants = new ArrayList<>(NUMBER_OF_RESTAURANTS);
-        for (int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
-            restaurants.add(String.format("Restaurant %d", i));
-        }
+        restaurants = group.getRestaurants();
+        System.out.println(restaurants.size());
 
         final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
         restaurant.setText(restaurants.get(i));
@@ -59,6 +80,8 @@ public class VotingActivity extends UnanimusActivityTitle {
                     showVotes();
                 } else {
                     setYesVote();
+                    group.addVoteArray(vaContainer.getVotes());
+                    group.checkIfComplete();
                     returnIntentFinish();
                     showVotes();
                 }
@@ -75,6 +98,8 @@ public class VotingActivity extends UnanimusActivityTitle {
                     showVotes();
                 } else {
                     setNoVote();
+                    group.addVoteArray(vaContainer.getVotes());
+                    group.checkIfComplete();
                     returnIntentFinish();
                     showVotes();
                 }
@@ -83,11 +108,11 @@ public class VotingActivity extends UnanimusActivityTitle {
     }
 
     private void setYesVote() {
-        vaContainer.votes.set(i, YES);
+        vaContainer.votes.add(YES);
     }
 
     private void setNoVote() {
-        vaContainer.votes.set(i, NO);
+        vaContainer.votes.add(NO);
     }
 
     private void incrementRestaurant() {
@@ -113,17 +138,14 @@ public class VotingActivity extends UnanimusActivityTitle {
         finish();
     }
 
-    protected static class VaContainer {
+    @ParseClassName("VaContainer")
+    protected static class VaContainer extends ParseObject {
         public final static String VOTES = "votes";
 
         private ArrayList<Integer> votes;
 
         public VaContainer() {
-            votes = new ArrayList<>(NUMBER_OF_RESTAURANTS);
-
-            for (int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
-                votes.add(0);
-            }
+            votes = new ArrayList<>();
         }
 
         public VaContainer(Bundle retArrayVals) {
@@ -137,8 +159,6 @@ public class VotingActivity extends UnanimusActivityTitle {
             return bundle;
         }
 
-        public ArrayList<Integer> getVotes() {
-            return votes;
-        }
+        public ArrayList<Integer> getVotes() {return votes; }
     }
 }

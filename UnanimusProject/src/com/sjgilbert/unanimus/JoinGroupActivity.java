@@ -39,26 +39,6 @@ public class JoinGroupActivity extends UnanimusActivityTitle_TextEntryBar {
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         Button joinButton = getTextEntryButton((ViewGroup) findViewById(R.id.join_group_activity));
-        joinButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String groupIDStr = groupID.getText().toString().trim();
-
-                UnanimusGroup first;
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("UnanimusGroup");
-                try {
-                    first = (UnanimusGroup) query.get(groupIDStr);
-                    if (first.setMember(ParseUser.getCurrentUser())) {
-                        first.save();
-                        Toast.makeText(JoinGroupActivity.this, "Success!", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(JoinGroupActivity.this, "Already a member of this group_activity!", Toast.LENGTH_LONG).show();
-                    }
-                } catch (ParseException e) {
-                    Toast.makeText(JoinGroupActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
     }
 
 }

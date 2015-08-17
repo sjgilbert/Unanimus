@@ -60,4 +60,8 @@
 * Users can select location by their last known location
 ###v0.13.0 -- Select location by address
 * Users can select a location by address
+
+###v0.14.0 -- Voting Logic
+* Voting logic for single user works
+* reimplemented GroupActivity
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->

@@ -61,11 +61,18 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
         acl.setPublicWriteAccess(true);
         acl.setPublicReadAccess(true);
         newGroup.setACL(acl);
-        newGroup.put("user", ParseUser.getCurrentUser());
-        ArrayList<ParseUser> members = new ArrayList<>();
-        members.add(ParseUser.getCurrentUser());
-        newGroup.put("members", members);
-        newGroup.saveInBackground(new SaveCallback() {
+		newGroup.put("user", ParseUser.getCurrentUser());
+        ArrayList<String> members = new ArrayList<>();
+        members.add(ParseUser.getCurrentUser().getString("facebookID"));
+		newGroup.put("members", members);
+
+        ArrayList<String> restaurants = new ArrayList<>(VotingActivity.NUMBER_OF_RESTAURANTS);
+        for (int i = 0; i < VotingActivity.NUMBER_OF_RESTAURANTS; i++) {
+            restaurants.add(String.format("Restaurant %d", i + 1));
+        }
+        newGroup.put("restaurants", restaurants);
+
+		newGroup.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 wait.dismiss();
                 if (e == null) {

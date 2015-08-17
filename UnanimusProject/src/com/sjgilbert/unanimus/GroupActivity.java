@@ -10,11 +10,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestBatch;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -23,10 +31,9 @@ import java.util.ArrayList;
  * eventually allow the user to indicate preferences/view recommendations.
  */
 public class GroupActivity extends UnanimusActivityTitle {
-
-
+    static final String groupID = "groupID";
     private String groupName;
-    private CreateGroupActivity.CgaGroup group;
+    private UnanimusGroup group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +58,7 @@ public class GroupActivity extends UnanimusActivityTitle {
         groupNameTextView.setText("GROUP ID: " + groupName);
 
         //Query for the group_activity's data
-        ParseQuery<CreateGroupActivity.CgaGroup> query = CreateGroupActivity.CgaGroup.getQuery();
+        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
         query.include("members");
         query.include("user");
         try {
@@ -65,13 +72,39 @@ public class GroupActivity extends UnanimusActivityTitle {
         createdBy.setText("Created by " + Profile.getCurrentProfile().getName());
 
         //Setting members of group_activity
-        ArrayList<String> usernames = new ArrayList<>();
-        for (String user : group.getMembers()) {
-            usernames.add(user);
+        ArrayList<String> members = group.getMembers();
+        final ArrayList<String> usernames = new ArrayList<>();
+        GraphRequest[] requests = new GraphRequest[members.size()];
+        for (int i = 0; i < members.size(); i++) {
+            String user = members.get(i);
+            requests[i] = new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    String.format("/%s", user),
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            try {
+                                usernames.add(response.getJSONObject().getString("name"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+            );
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.members_fragment, usernames);
-        ListView membersList = (ListView) findViewById(R.id.ga_members_list);
-        membersList.setAdapter(adapter);
+        GraphRequestBatch requestBatch = new GraphRequestBatch(requests);
+        requestBatch.addCallback(new GraphRequestBatch.Callback() {
+            @Override
+            public void onBatchCompleted(GraphRequestBatch graphRequestBatch) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(GroupActivity.this, R.layout.members_fragment, usernames);
+                ListView membersList = (ListView) findViewById(R.id.ga_members_list);
+                membersList.setAdapter(adapter);
+            }
+        });
+
+        requestBatch.executeAsync();
+
 
         //Play Button=
         Button playButton = (Button) findViewById(R.id.ga_play_button);
@@ -79,7 +112,21 @@ public class GroupActivity extends UnanimusActivityTitle {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GroupActivity.this, VotingActivity.class);
+                intent.putExtra(groupID, groupName);
                 startActivity(intent);
+            }
+        });
+
+        //View Recs Button
+        Button viewRecsButton = (Button) findViewById(R.id.ga_view_recs_button);
+        viewRecsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(group.get("recommendation") != null) {
+                    Intent intent = new Intent(GroupActivity.this, RecommendationActivity.class);
+                    intent.putExtra(groupID, groupName);
+                    startActivity(intent);
+                }
             }
         });
     }
