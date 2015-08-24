@@ -21,6 +21,10 @@ import java.util.ArrayList;
  * The page that allows the user to either log-in or register_activity.
  */
 public class IntroPageActivity extends UnanimusActivityTitle {
+    public IntroPageActivity() {
+        super("ipa");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,24 +33,8 @@ public class IntroPageActivity extends UnanimusActivityTitle {
         try {
             setTitleBar(R.string.ipa_title, (ViewGroup) findViewById(R.id.intro_page_activity));
         } catch (ClassCastException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
-
-        Button introRegister = (Button) findViewById(R.id.ipa_register_link);
-        introRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(IntroPageActivity.this, RegisterActivity.class));
-            }
-        });
-
-        Button login = (Button) findViewById(R.id.ipa_activity_login_link);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(IntroPageActivity.this, LoginActivity.class));
-            }
-        });
 
         Button facebookLogin = (Button) findViewById(R.id.ipa_facebook_login);
         facebookLogin.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +51,7 @@ public class IntroPageActivity extends UnanimusActivityTitle {
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void facebookLogin() {
+    private void facebookLogin() {
         final String publicProfile = getResources().getString(R.string.parse_public_profile);
         final String userFriends = getResources().getString(R.string.parse_user_friends);
         final String appName = getResources().getString(R.string.app_name);
@@ -99,7 +87,7 @@ public class IntroPageActivity extends UnanimusActivityTitle {
         });
     }
 
-    protected void StartMainActivity() {
+    private void StartMainActivity() {
         Intent intent = new Intent(IntroPageActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

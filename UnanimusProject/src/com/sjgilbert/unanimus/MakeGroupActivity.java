@@ -21,6 +21,11 @@ import java.util.ArrayList;
  * A button that creates a group_activity.
  */
 public class MakeGroupActivity extends UnanimusActivityTitle {
+
+    public MakeGroupActivity() {
+        super("ppa");
+    }
+
     /**
      * Called when the activity is first created.
      */
@@ -52,10 +57,6 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
     }
 
     public void makeGroup(View v) throws ParseException {
-        final ProgressDialog wait = new ProgressDialog(MakeGroupActivity.this);
-        wait.setMessage(getString(R.string.wait_message));
-        wait.show();
-
         final UnanimusGroup newGroup = new UnanimusGroup();
         ParseACL acl = new ParseACL();
         acl.setPublicWriteAccess(true);
@@ -74,7 +75,6 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
 
 		newGroup.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
-                wait.dismiss();
                 if (e == null) {
                     Toast.makeText(MakeGroupActivity.this, "Success!", Toast.LENGTH_LONG).show();
 

@@ -12,11 +12,14 @@ import android.widget.TextView;
  */
 public abstract class UnanimusActivityTitle_TextEntryBar
         extends UnanimusActivityTitle
-        implements IUnanimusTitle, IUnanimusTextEntryBar
-{
+        implements IUnanimusTitle, IUnanimusTextEntryBar {
+    protected UnanimusActivityTitle_TextEntryBar(@SuppressWarnings("SameParameterValue") String tag) {
+        super(tag);
+    }
+
     @Override
     public boolean setTitleBar(int title_r, ViewGroup parent) {
-        return UnanimusActivity.setTitleBar(getResources().getString(title_r), parent);
+        return UnanimusActivity.setTitleBar(getResources().getString(title_r), parent, this.tag);
     }
 
     @Override

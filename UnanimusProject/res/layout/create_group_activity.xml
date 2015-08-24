@@ -9,8 +9,8 @@
     <Button
         android:id="@+id/cga_group"
         style="@style/Button"
-        android:onClick="createGroup"
-        android:text="@string/mga_title" />
+        android:onClick="cga_viewCreateGroup"
+        android:text="@string/cga_title" />
 
     <TextView
         android:id="@+id/cga_echo_group_id"

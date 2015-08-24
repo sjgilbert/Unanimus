@@ -1,5 +1,7 @@
 package com.sjgilbert.unanimus;
 
+import android.os.Bundle;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -11,6 +13,8 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
+import static com.sjgilbert.unanimus.CreateGroupActivity.ADependencyContainer;
+
 /**
  * Model for a group_activity of users.
  */
@@ -18,17 +22,10 @@ import java.util.ArrayList;
 public class UnanimusGroup extends ParseObject {
     private ArrayList<String> members;
     private LatLng location;
-    private GroupSettingsPickerActivity.GspaContainer gspaContainer;
     private ArrayList<String> restaurants;
     private ArrayList<ArrayList<Integer>> voteArrays;
     private String recommendation;
     private boolean allVotesIn;
-
-    public UnanimusGroup() {
-        members = new ArrayList<>();
-        restaurants = new ArrayList<>();
-        allVotesIn = false;
-    }
 
     public static ParseQuery<UnanimusGroup> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
@@ -126,5 +123,50 @@ public class UnanimusGroup extends ParseObject {
             System.out.println("not all votes in");
             return false;
         }
+    }
+
+    private final FriendPickerActivity.FpaContainer fpaContainer;
+    private final GroupSettingsPickerActivity.GspaContainer gspaContainer;
+    private final PlacePickActivity.PpaContainer ppaContainer;
+
+    public UnanimusGroup() {
+        gspaContainer = new GroupSettingsPickerActivity.GspaContainer();
+        fpaContainer = new FriendPickerActivity.FpaContainer();
+        ppaContainer = new PlacePickActivity.PpaContainer();
+
+        members = new ArrayList<>();
+        restaurants = new ArrayList<>();
+        allVotesIn = false;
+    }
+
+    private void setContainer(ADependencyContainer container, Bundle bundle) {
+        container.setFromBundle(bundle);
+    }
+
+    @SuppressWarnings("unused")
+    GroupSettingsPickerActivity.GspaContainer getGspaContainer() {
+        return gspaContainer;
+    }
+
+    public void setGspaContainer(Bundle bundle) {
+        setContainer(gspaContainer, bundle);
+    }
+
+    @SuppressWarnings("unused")
+    FriendPickerActivity.FpaContainer getFpaContainer() {
+        return fpaContainer;
+    }
+
+    public void setFpaContainer(Bundle bundle) {
+        setContainer(fpaContainer, bundle);
+    }
+
+    @SuppressWarnings("unused")
+    PlacePickActivity.PpaContainer getPpaContainer() {
+        return ppaContainer;
+    }
+
+    public void setPpaContainer(Bundle bundle) {
+        setContainer(ppaContainer, bundle);
     }
 }

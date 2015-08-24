@@ -3,6 +3,7 @@ package com.sjgilbert.unanimus;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.facebook.Profile;
 import com.parse.ParseUser;
@@ -12,10 +13,6 @@ import com.parse.ParseUser;
  * It checks for a stored user, and if there isn't one, sends them to log-in/register_activity.
  */
 public class StartupActivity extends Activity {
-
-    public StartupActivity() {
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +28,7 @@ public class StartupActivity extends Activity {
             try {
                 currentUser.put(facebook_id_key, Profile.getCurrentProfile().getId()); //For future ParseUser queries
             } catch (NullPointerException e) {
-                e.printStackTrace();
+                Log.e(getString(R.string.app_name), e.getMessage(), e);
                 startActivity(new Intent(this, IntroPageActivity.class));
                 return;
             }

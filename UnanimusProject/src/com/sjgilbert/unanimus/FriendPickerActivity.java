@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -33,7 +32,12 @@ import java.util.List;
  * Custom ArrayList adapter idea for ListView fount at http://www.learn2crack.com/2013/10/android-custom-listview-images-text-example.html
  */
 public class FriendPickerActivity extends UnanimusActivityTitle {
-    private FpaContainer fpaContainer;
+    static final String FPA = "FpaContainer";
+    private final FpaContainer fpaContainer = new FpaContainer();
+
+    public FriendPickerActivity() {
+        super("fpa");
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,10 +47,10 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         try {
             setTitleBar(R.string.fpa_title, (ViewGroup) findViewById(R.id.friend_picker_activity).findViewById(R.id.fpa_title_bar));
         } catch (NullPointerException | ClassCastException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
 
-        fpaContainer = new FpaContainer();
+        fpaContainer.setDefault();
 
         //The request for facebook friends
         GraphRequest.newMyFriendsRequest(
@@ -55,7 +59,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                     @Override
                     public void onCompleted(JSONArray friends, GraphResponse response) {
                         if (response.getError() != null) {
-                            Log.d("Unanimus", response.getError().toString());
+                            log(ELog.e, response.getError().toString());
                             return;
                         }
 
@@ -69,7 +73,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                                 ids.add(friends.getJSONObject(i).getString("id"));
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            log(ELog.e, e.getMessage(), e);
                             return;
                         }
 
@@ -103,7 +107,6 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                                         }
 
                                         view.setBackgroundColor(color);
-                                        showFriends();
                                     }
                                 }
                         );
@@ -121,7 +124,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    returnIntentFinish();
+                                    finish();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -132,61 +135,78 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                     AlertDialog alert = builder.create();
                     alert.show();
                 } else {
-                    returnIntentFinish();
+                    finish();
                 }
             }
         });
-
     }
 
     private void addFacebookID(String friendID) {
         fpaContainer.facebookIDs.add(friendID);
+        if (fpaContainer.isSet()) fpaContainer.isSet = true;
     }
 
     private void removeFacebookID(String friendID) {
         fpaContainer.facebookIDs.remove(friendID);
+        if (! fpaContainer.isSet()) fpaContainer.isSet = false;
     }
 
-    private void showFriends() {
-        Toast.makeText(
-                FriendPickerActivity.this,
-                fpaContainer.getFacebookIDs().toString(),
-                Toast.LENGTH_LONG
-        ).show();
-    }
-
-    private void returnIntentFinish() {
+    @Override
+    public void finish() {
         Intent intent = new Intent();
-        intent.putExtra("fpaContainer", fpaContainer.getAsBundle());
-        setResult(RESULT_OK);
-        finish();
+        int result;
+        if (fpaContainer.isSet()) {
+            intent.putExtra(FPA, fpaContainer.getAsBundle());
+            result = RESULT_OK;
+        } else {
+            result = RESULT_CANCELED;
+        }
+        setResult(result, intent);
+
+        super.finish();
     }
 
-    protected static class FpaContainer {
-        public final static String FACEBOOK_IDS = "facebookIDs";
+    static class FpaContainer extends CreateGroupActivity.ADependencyContainer {
+        private final static String FACEBOOK_IDS = "facebookIDs";
 
         private ArrayList<String> facebookIDs;
 
-        public FpaContainer() {
+        @Override
+        public boolean isSet() {
+            return (1 < facebookIDs.size());
+        }
+
+        @Override
+        public Bundle getAsBundle() {
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList(FACEBOOK_IDS, facebookIDs);
+
+            try {
+                super.getAsBundle();
+            } catch (NotSetException e) {
+                Log.e("Unanimus", e.getMessage(), e);
+                return null;
+            }
+
+            return bundle;
+        }
+
+        @Override
+        public void setDefault() {
             final String userFacebookID = ParseUser.getCurrentUser().getString("facebookID");
             facebookIDs = new ArrayList<>();
             facebookIDs.add(userFacebookID);
         }
 
-        public FpaContainer(Bundle retArrayVals) {
-            this.facebookIDs = retArrayVals.getStringArrayList(FACEBOOK_IDS);
+        @Override
+        public void setFromBundle(Bundle bundle) {
+            facebookIDs = bundle.getStringArrayList(FACEBOOK_IDS);
+            super.setFromBundle(bundle);
         }
 
-        public Bundle getAsBundle() {
-            Bundle bundle = new Bundle();
-            bundle.putStringArrayList(FACEBOOK_IDS, facebookIDs);
-
-            return bundle;
-        }
-
-        public ArrayList<String> getFacebookIDs() {
+        @SuppressWarnings("unused")
+        ArrayList<String> getFacebookIDs() {
             return facebookIDs;
         }
     }
-
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Unanimus</string>
-    <string name="wait_message">Wait&#8230;</string>
     <string name="untitled">Untitled</string>
     <string name="done">Done</string>
     <string name="zero">0</string>

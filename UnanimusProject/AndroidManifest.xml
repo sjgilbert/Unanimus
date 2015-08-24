@@ -40,7 +40,11 @@
 
         <activity
             android:name="com.sjgilbert.unanimus.MakeGroupActivity"
-            android:label="@string/mga_title" />
+            android:value="@string/mga_title" />
+
+        <activity
+            android:name="com.sjgilbert.unanimus.GroupActivity"
+            android:value="@string/ga_title" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -51,14 +55,6 @@
         <activity
             android:name="com.sjgilbert.unanimus.IntroPageActivity"
             android:label="@string/ipa_title" />
-
-        <activity
-            android:name="com.sjgilbert.unanimus.LoginActivity"
-            android:label="@string/ipa_login_link" />
-
-        <activity
-            android:name="com.sjgilbert.unanimus.RegisterActivity"
-            android:label="@string/ipa_register_link" />
 
         <activity
             android:name="com.sjgilbert.unanimus.MainActivity"
@@ -77,10 +73,6 @@
             android:label="@string/voting_activity_title" />
 
         <activity
-            android:name="com.sjgilbert.unanimus.GroupActivity"
-            android:label="@string/ga_title" />
-
-        <activity
             android:name="com.sjgilbert.unanimus.StartupActivity"
             android:label="@string/app_name">
             <intent-filter>
@@ -88,10 +80,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="com.sjgilbert.unanimus.JoinGroupActivity"
-            android:label="@string/jga_title" />
 
         <activity
             android:name="com.sjgilbert.unanimus.GroupSettingsPickerActivity"

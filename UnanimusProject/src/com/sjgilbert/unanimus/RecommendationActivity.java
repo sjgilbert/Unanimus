@@ -17,6 +17,10 @@ public class RecommendationActivity extends UnanimusActivityTitle{
     private String groupName;
     private UnanimusGroup group;
 
+    public RecommendationActivity() {
+        super("reca");
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

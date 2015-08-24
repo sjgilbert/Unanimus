@@ -36,6 +36,10 @@ public class VotingActivity extends UnanimusActivityTitle {
     private TextView counter;
     private List<String> restaurants;
 
+    public VotingActivity() {
+        super("va");
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,7 @@ public class VotingActivity extends UnanimusActivityTitle {
         try {
             setTitleBar(R.string.voting_activity_title, (ViewGroup) findViewById(R.id.voting_activity));
         } catch (ClassCastException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
 
         Bundle extras = getIntent().getExtras();    //The groupID of the selected group_activity
@@ -142,17 +146,18 @@ public class VotingActivity extends UnanimusActivityTitle {
     protected static class VaContainer extends ParseObject {
         public final static String VOTES = "votes";
 
-        private ArrayList<Integer> votes;
+        private final ArrayList<Integer> votes;
 
         public VaContainer() {
             votes = new ArrayList<>();
         }
 
-        public VaContainer(Bundle retArrayVals) {
-            this.votes = retArrayVals.getIntegerArrayList(VOTES);
+        @SuppressWarnings("unused")
+        VaContainer(Bundle bundle) {
+            this.votes = bundle.getIntegerArrayList(VOTES);
         }
 
-        public Bundle getAsBundle() {
+        Bundle getAsBundle() {
             Bundle bundle = new Bundle();
             bundle.putIntegerArrayList(VOTES, votes);
 

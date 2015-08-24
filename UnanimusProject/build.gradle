@@ -1,17 +1,19 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.parse'
 
-apply plugin: 'com.android.application'
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleDependency
     compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.google.android.gms:play-services:7.5.0'
-    compile 'com.parse.bolts:bolts-android:1.2.1'
+    compile 'com.google.android.gms:play-services:7.8.0'
     compile 'com.facebook.android:facebook-android-sdk:4.1.0'
+    compile 'com.parse.bolts:bolts-android:1.2.1'
+    //noinspection GradleDynamicVersion
+    compile 'com.infstory:parse:+'
 }
 
 android {
+    //noinspection GroovyAssignabilityCheck
     compileSdkVersion = 'android-22'
     buildToolsVersion = '22.0.1'
     defaultConfig {
@@ -37,6 +39,8 @@ android {
             assets.srcDirs = ['assets']
         }
     }
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
 }
 
 /* Uncomment if you enable ProGuard and you want to automatically upload symbols on build.

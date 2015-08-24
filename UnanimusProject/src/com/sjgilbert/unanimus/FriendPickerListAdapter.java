@@ -2,6 +2,7 @@ package com.sjgilbert.unanimus;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import java.util.List;
  * This is for the ListView of the FriendPickerActivity.  It's just an adapter with two
  * Lists of strings, one for names and the other for facebook IDs.
  */
-public class FriendPickerListAdapter extends ArrayAdapter<String> {
+class FriendPickerListAdapter extends ArrayAdapter<String> {
     private final List<String> names;
     private final List<String> ids;
 
@@ -42,7 +43,29 @@ public class FriendPickerListAdapter extends ArrayAdapter<String> {
                 mViewHolder.profPic = (ProfilePictureView) convertView.findViewById(R.id.fpa_profile_picture);
                 mViewHolder.profPic.setProfileId(ids.get(position));
             } catch (NullPointerException | ClassCastException e) {
-                e.printStackTrace();
+                Log.e(
+                        "Unanimus",
+                        String.format(
+                                "%s\n%s: %s (\"%s\")\n%s",
+                                "Unexpected error!",
+                                "Check for resource with id",
+                                Integer.toHexString(R.id.fpa_profile_picture),
+                                "fpa_profile_picture",
+                                new Object() {
+                                    public String getMessage(Throwable tr) {
+                                        if (tr instanceof NullPointerException) {
+                                            return "Cannot find layout with id.";
+                                        }
+                                        if (tr instanceof ClassCastException) {
+                                            return "Found layout with id, but it is not a TextView.";
+                                        }
+                                        Log.w("Unanimus", "Caught unexpected exception with no log message to match.");
+                                        return null;
+                                    }
+                                }.getMessage(e)
+                        ),
+                        e
+                );
                 mViewHolder.profPic = new ProfilePictureView(getContext());
             }
 
@@ -50,7 +73,29 @@ public class FriendPickerListAdapter extends ArrayAdapter<String> {
                 mViewHolder.name = (TextView) convertView.findViewById(R.id.fpa_facebook_name);
                 mViewHolder.name.setText(names.get(position));
             } catch (NullPointerException | ClassCastException e) {
-                e.printStackTrace();
+                Log.e(
+                        "Unanimus",
+                        String.format(
+                                "%s\n%s: %s (\"%s\")\n%s",
+                                "Unexpected error!",
+                                "Check for resource with id",
+                                Integer.toHexString(R.id.fpa_facebook_name),
+                                "fpa_facebook_name.\n",
+                                new Object() {
+                                    public String getMessage(Throwable tr) {
+                                        if (tr instanceof NullPointerException) {
+                                            return "Cannot find layout with id.";
+                                        }
+                                        if (tr instanceof ClassCastException) {
+                                            return "Found layout with id, but it is not a TextView.";
+                                        }
+                                        Log.w("Unanimus", "Caught unexpected exception with no log message to match.");
+                                        return null;
+                                    }
+                                }.getMessage(e)
+                        ),
+                        e
+                );
                 mViewHolder.name = new TextView(getContext());
             }
 
@@ -59,7 +104,7 @@ public class FriendPickerListAdapter extends ArrayAdapter<String> {
             try {
                 mViewHolder = (ViewHolder) convertView.getTag();
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                Log.e("Unanimus", "Unexpected exception", e);
                 return getView(position, null, parent);
             }
         }

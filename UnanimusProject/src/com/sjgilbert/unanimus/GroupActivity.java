@@ -35,6 +35,11 @@ public class GroupActivity extends UnanimusActivityTitle {
     private String groupName;
     private UnanimusGroup group;
 
+
+    public GroupActivity() {
+        super("ppa");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

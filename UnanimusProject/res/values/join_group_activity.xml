@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="jga_title">Join Group</string>
-    <string name="jga_group_id_hint">Enter Group ID</string>
-    <string name="jga_form_submission">Join</string>
-</resources><!-- vim: set ts=4 sw=4 et syn=xml: -->
