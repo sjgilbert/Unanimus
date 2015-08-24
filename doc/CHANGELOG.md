@@ -70,7 +70,7 @@
 
 ###v0.13.0 -- Start and get result from CreateGroupActivity Activity dependencies
 * CreateGroupActivity starts PlacePickActivity, FriendPickerActivity, and GroupSettingsActivity for result
-* CreateGroupActivity recives and proccesses results from dependencies
+* CreateGroupActivity receives and processes results from dependencies
 * CreateGroupActivity Activity dependencies extend CreateGroupActivity.ADependencyContainer
 
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->

@@ -19,7 +19,7 @@ import java.util.Locale;
  */
 @SuppressLint("Registered")
 class UnanimusActivity extends Activity {
-    protected final String tag;
+    final String tag;
 
     UnanimusActivity(String tag) {
         this.tag = String.format(

@@ -55,7 +55,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
                 String.format(
                         Locale.getDefault(),
                         "%s  %s: %d  %s: %d",
-                        "Recived result",
+                        "Received result",
                         "Request code",
                         requestCode,
                         "Result code",
