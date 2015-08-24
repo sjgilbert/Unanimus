@@ -54,7 +54,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
                 ELog.i,
                 String.format(
                         Locale.getDefault(),
-                        "%s  %s: %d  %s: %d",
+                        "%s.  %s: %d  %s: %d",
                         "Received result",
                         "Request code",
                         requestCode,
