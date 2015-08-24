@@ -1,5 +1,10 @@
 <!--
-  Unanimus - CHANGELOG.md Copyright (c) 2015 Sam Gilbert et. al.  --> #Unanimus -- CHANGELOG.md ##v0 -- Alpha ###v0.0.0 -- Initial Commit * Make group with parse
+  Unanimus - CHANGELOG.md Copyright (c) 2015 Sam Gilbert et. al.
+-->
+#Unanimus -- CHANGELOG.md
+##v0 -- Alpha
+###v0.0.0 -- Initial Commit
+* Make group with parse
 * Echo object id locally
 
 ###v0.1.0 -- Added group object
@@ -40,7 +45,7 @@
 ###v0.8.0 -- Facebook Friend Picker
 * FriendPickerActivity implemented
 * Touch up to GroupActivity
-* Added facebookID as a field stored witin ParseUser for future lookups
+* Added facebookID as a field stored written ParseUser for future lookups
 
 ###v0.9.0 -- Google place picker
 * Select location on map
@@ -55,9 +60,17 @@
   * time
   * radius
   * price
+
 ###v0.11.0 -- Select location by last known
 * Result from `PlacePickActivity` changed from `Place` to `LatLng`
 * Users can select location by their last known location
-###v0.13.0 -- Select location by address
+
+###v0.12.0 -- Select location by address
 * Users can select a location by address
+
+###v0.13.0 -- Start and get result from CreateGroupActivity Activity dependencies
+* CreateGroupActivity starts PlacePickActivity, FriendPickerActivity, and GroupSettingsActivity for result
+* CreateGroupActivity receives and processes results from dependencies
+* CreateGroupActivity Activity dependencies extend CreateGroupActivity.ADependencyContainer
+
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->

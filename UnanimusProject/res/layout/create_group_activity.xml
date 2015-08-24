@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/make_group_activity"
+    android:id="@+id/create_group_activity"
     style="@style/RootLayout">
 
     <include layout="@layout/activity_title" />
 
     <Button
-        android:id="@+id/mga_group"
+        android:id="@+id/cga_group"
         style="@style/Button"
-        android:onClick="makeGroup"
-        android:text="@string/mga_title" />
+        android:onClick="cga_viewCreateGroup"
+        android:text="@string/cga_title" />
 
     <TextView
-        android:id="@+id/mga_echo_group_id"
+        android:id="@+id/cga_echo_group_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""

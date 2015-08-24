@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sjgilbert.unanimus"
-    android:versionName="0.12.0">
+    android:versionName="0.13.0">
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -39,10 +39,6 @@
             android:value="@string/ppa_title" />
 
         <activity
-            android:name="com.sjgilbert.unanimus.MakeGroupActivity"
-            android:label="@string/mga_title" />
-
-        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
@@ -51,14 +47,6 @@
         <activity
             android:name="com.sjgilbert.unanimus.IntroPageActivity"
             android:label="@string/ipa_title" />
-
-        <activity
-            android:name="com.sjgilbert.unanimus.LoginActivity"
-            android:label="@string/ipa_login_link" />
-
-        <activity
-            android:name="com.sjgilbert.unanimus.RegisterActivity"
-            android:label="@string/ipa_register_link" />
 
         <activity
             android:name="com.sjgilbert.unanimus.MainActivity"
@@ -73,10 +61,6 @@
             android:label="@string/voting_activity_title" />
 
         <activity
-            android:name="com.sjgilbert.unanimus.GroupActivity"
-            android:label="@string/ga_title" />
-
-        <activity
             android:name="com.sjgilbert.unanimus.StartupActivity"
             android:label="@string/app_name">
             <intent-filter>
@@ -86,12 +70,12 @@
         </activity>
 
         <activity
-            android:name="com.sjgilbert.unanimus.JoinGroupActivity"
-            android:label="@string/jga_title" />
-
-        <activity
             android:name="com.sjgilbert.unanimus.GroupSettingsPickerActivity"
             android:label="@string/gspa_title" />
+
+        <activity
+            android:name="com.sjgilbert.unanimus.CreateGroupActivity"
+            android:label="@string/cga_title" />
     </application>
 
 </manifest>

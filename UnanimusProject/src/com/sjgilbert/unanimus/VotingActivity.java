@@ -27,6 +27,10 @@ public class VotingActivity extends UnanimusActivityTitle {
     private TextView counter;
     private List<String> restaurants;
 
+    public VotingActivity() {
+        super("va");
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +39,7 @@ public class VotingActivity extends UnanimusActivityTitle {
         try {
             setTitleBar(R.string.voting_activity_title, (ViewGroup) findViewById(R.id.voting_activity));
         } catch (ClassCastException e) {
-            e.printStackTrace();
+            log(ELog.e, e.getMessage(), e);
         }
 
         vaContainer = new VaContainer();
@@ -113,12 +117,12 @@ public class VotingActivity extends UnanimusActivityTitle {
         finish();
     }
 
-    protected static class VaContainer {
-        public final static String VOTES = "votes";
+    static class VaContainer {
+        final static String VOTES = "votes";
 
-        private ArrayList<Integer> votes;
+        private final ArrayList<Integer> votes;
 
-        public VaContainer() {
+        VaContainer() {
             votes = new ArrayList<>(NUMBER_OF_RESTAURANTS);
 
             for (int i = 1; i <= NUMBER_OF_RESTAURANTS; i++) {
@@ -126,18 +130,19 @@ public class VotingActivity extends UnanimusActivityTitle {
             }
         }
 
-        public VaContainer(Bundle retArrayVals) {
-            this.votes = retArrayVals.getIntegerArrayList(VOTES);
+        @SuppressWarnings("unused")
+        VaContainer(Bundle bundle) {
+            this.votes = bundle.getIntegerArrayList(VOTES);
         }
 
-        public Bundle getAsBundle() {
+        Bundle getAsBundle() {
             Bundle bundle = new Bundle();
             bundle.putIntegerArrayList(VOTES, votes);
 
             return bundle;
         }
 
-        public ArrayList<Integer> getVotes() {
+        ArrayList<Integer> getVotes() {
             return votes;
         }
     }

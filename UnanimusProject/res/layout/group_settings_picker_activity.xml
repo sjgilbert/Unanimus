@@ -75,7 +75,7 @@
         style="@style/TextView"
         android:gravity="center"
         android:padding="15dp"
-        android:text="@string/gsps_price_level"
+        android:text="@string/gspa_price_level"
         android:textSize="20sp"
         android:textStyle="bold" />
 

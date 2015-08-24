@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="ra_title">Register</string>
-    <string name="ra_username_title">Username</string>
-    <string name="ra_password_title">Password</string>
-    <string name="ra_repeat_password_title">Repeat Password</string>
-</resources><!-- vim: set ts=4 sw=4 et syn=xml: -->
