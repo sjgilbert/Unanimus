@@ -23,15 +23,15 @@ public class UnanimusApplication extends Application {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
 
-        // Add your initialization code here
-        Parse.initialize(this, "hHNXiaKrXkRDW4Ma50aVW3G5zma7NJyptGO795Nb", "0GO9X3HNPu9JMLGk6BH0yccRA1P143vQ6MWUvnpV");
-        ParseFacebookUtils.initialize(this);
-
         ParseACL defaultACL = new ParseACL();
         // Optionally enable public read access.
         defaultACL.setPublicReadAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
 
-        ParseObject.registerSubclass(CreateGroupActivity.CgaGroup.class);
+        ParseObject.registerSubclass(UnanimusGroup.class);
+        ParseObject.registerSubclass(VotingActivity.VaContainer.class);
+
+        Parse.initialize(this, "hHNXiaKrXkRDW4Ma50aVW3G5zma7NJyptGO795Nb", "0GO9X3HNPu9JMLGk6BH0yccRA1P143vQ6MWUvnpV");
+        ParseFacebookUtils.initialize(this);
     }
 }

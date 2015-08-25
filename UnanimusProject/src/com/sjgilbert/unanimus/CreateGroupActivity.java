@@ -28,7 +28,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     private final int PPA_REQUEST = 2;
     private final int GSPA_REQUEST = 3;
 
-    private CgaGroup cgaGroup;
+    private UnanimusGroup unanimusGroup;
 
     public CreateGroupActivity() {
         super("cga");
@@ -45,7 +45,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
             log(ELog.e, e.getMessage(), e);
         }
 
-        cgaGroup = new CgaGroup();
+        unanimusGroup = new UnanimusGroup();
     }
 
     @Override
@@ -87,11 +87,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
 
     @SuppressWarnings({"UnusedParameters", "WeakerAccess", "unused"})
     public void cga_viewCreateGroup(View view) {
-//        final ProgressDialog wait = new ProgressDialog(CreateGroupActivity.this);
-//        wait.setMessage(getString(R.string.wait_message));
-//        wait.show();
-
-        final CgaGroup newGroup = new CgaGroup();
+        final UnanimusGroup newGroup = new UnanimusGroup();
 
         ParseACL acl = new ParseACL();
         acl.setPublicWriteAccess(true);
@@ -113,7 +109,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     }
 
     private void setGspaContainer(Bundle bundle) {
-        cgaGroup.setGspaContainer(bundle);
+        unanimusGroup.setGspaContainer(bundle);
     }
 
     private void processGspaResult(Intent data) {
@@ -129,7 +125,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     }
 
     private void setFpaContainer(Bundle bundle) {
-        cgaGroup.setFpaContainer(bundle);
+        unanimusGroup.setFpaContainer(bundle);
     }
 
     private void processFpaResult(Intent data) {
@@ -145,7 +141,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     }
 
     private void setPpaContainer(Bundle bundle) {
-        cgaGroup.setPpaContainer(bundle);
+        unanimusGroup.setPpaContainer(bundle);
     }
 
     private void processPpaResult(Intent data) {
@@ -184,51 +180,5 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         }
     }
 
-    @ParseClassName("CgaGroup")
-    public static class CgaGroup extends ParseObject {
-        private final FpaContainer fpaContainer;
-        private final GspaContainer gspaContainer;
-        private final PpaContainer ppaContainer;
 
-        public CgaGroup() {
-            gspaContainer = new GspaContainer();
-            fpaContainer = new FpaContainer();
-            ppaContainer = new PpaContainer();
-        }
-
-        static ParseQuery<CgaGroup> getQuery() {
-            return ParseQuery.getQuery(CgaGroup.class);
-        }
-
-        private void setContainer(ADependencyContainer container, Bundle bundle) {
-            container.setFromBundle(bundle);
-        }
-
-        @SuppressWarnings("unused")
-        GspaContainer getGspaContainer() {
-            return gspaContainer;
-        }
-
-        private void setGspaContainer(Bundle bundle) {
-            setContainer(gspaContainer, bundle);
-        }
-
-        @SuppressWarnings("unused")
-        FpaContainer getFpaContainer() {
-            return fpaContainer;
-        }
-
-        private void setFpaContainer(Bundle bundle) {
-            setContainer(fpaContainer, bundle);
-        }
-
-        @SuppressWarnings("unused")
-        PpaContainer getPpaContainer() {
-            return ppaContainer;
-        }
-
-        public void setPpaContainer(Bundle bundle) {
-            setContainer(ppaContainer, bundle);
-        }
-    }
 }

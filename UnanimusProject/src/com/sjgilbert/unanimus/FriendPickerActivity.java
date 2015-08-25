@@ -1,5 +1,7 @@
 package com.sjgilbert.unanimus;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -116,7 +118,25 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if(fpaContainer.getFacebookIDs().size() == 1) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(FriendPickerActivity.this);
+                    builder.setMessage("No friends selected!  Continue anyway?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                } else {
+                    finish();
+                }
             }
         });
     }

@@ -25,27 +25,21 @@
             android:textSize="@dimen/large_font" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/ma_friend_picker_button"
-        style="@style/Button"
-        android:onClick="ma_viewFriendPicker"
-        android:text="@string/ma_friend_picker_button" />
+    <ListView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ma_groups_list_view" />
 
     <Button
-        android:id="@+id/ma_pick_place_link"
+        android:id="@+id/ma_make_group_button"
         style="@style/Button"
-        android:onClick="ma_viewPlacePick"
-        android:text="@string/ppa_title" />
-
-    <Button
-        android:id="@+id/ma_group_settings_picker_button"
-        style="@style/Button"
-        android:onClick="ma_viewGroupSettingsPicker"
-        android:text="@string/gspa_title" />
+        android:text="@string/mga_title" />
 
     <Button
         android:id="@+id/ma_create_group_button"
         style="@style/Button"
         android:onClick="ma_viewCreateGroup"
         android:text="@string/cga_title" />
+
 </LinearLayout>

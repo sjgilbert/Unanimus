@@ -73,4 +73,8 @@
 * CreateGroupActivity receives and processes results from dependencies
 * CreateGroupActivity Activity dependencies extend CreateGroupActivity.ADependencyContainer
 
+###v0.14.0 -- Voting Logic
+* Voting logic for single user works
+* reimplemented GroupActivity
+
 <!-- vim : set ts=2 sw=2 et syn=markdown : -->
