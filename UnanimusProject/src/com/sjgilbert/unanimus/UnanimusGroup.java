@@ -1,31 +1,44 @@
 package com.sjgilbert.unanimus;
 
 import android.os.Bundle;
+import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import static com.sjgilbert.unanimus.CreateGroupActivity.ADependencyContainer;
-
 /**
  * Model for a group_activity of users.
  */
 @ParseClassName("UnanimusGroup")
 public class UnanimusGroup extends ParseObject {
-    private ArrayList<String> members;
-    private LatLng location;
-    private ArrayList<String> restaurants;
-    private ArrayList<ArrayList<Integer>> voteArrays;
-    private String recommendation;
-    private boolean allVotesIn;
+    public EStatus getStatus() {
+        return status;
+    }
+
+    private enum EStatus {
+        pending,
+        complete,
+        inProgress,
+        unread
+    }
+
+    public final FriendPickerActivity.FpaContainer fpaContainer;
+    public final GroupSettingsPickerActivity.GspaContainer gspaContainer;
+    public final PlacePickActivity.PpaContainer ppaContainer;
+    private EStatus status;
+
+    public UnanimusGroup() {
+        gspaContainer = new GroupSettingsPickerActivity.GspaContainer();
+        fpaContainer = new FriendPickerActivity.FpaContainer();
+        ppaContainer = new PlacePickActivity.PpaContainer();
+        status = EStatus.pending;
+    }
 
     public static ParseQuery<UnanimusGroup> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
@@ -45,11 +58,12 @@ public class UnanimusGroup extends ParseObject {
         ArrayList<String> al_p_members = new ArrayList<>();
         for (Object o : al_members)
             if (o instanceof String)
-                    al_p_members.add((String) o);
+                al_p_members.add((String) o);
 
         return al_p_members;
     }
 
+    @Deprecated
     public ArrayList<String> getRestaurants() {
         Object o_restaurants = get("restaurants");
 
@@ -65,24 +79,26 @@ public class UnanimusGroup extends ParseObject {
         for (Object o : al_restaurants)
             if (o instanceof String)
                 al_p_restaurants.add((String) o);
-        allVotesIn = false;
 
         return al_p_restaurants;
     }
 
+    @Deprecated
     public void addVoteArray(ArrayList<Integer> voteArray) {
         add("voteArrays", voteArray);
         saveInBackground();
     }
 
-    public ArrayList<Integer> voteTally() {
+
+    @Deprecated
+    private ArrayList<Integer> voteTally() {
         ArrayList<Integer> voteSum = new ArrayList<>();
-        for(int x = 0; x < VotingActivity.NUMBER_OF_RESTAURANTS; x++) {
+        for (int x = 0; x < VotingActivity.NUMBER_OF_RESTAURANTS; x++) {
             voteSum.add(0);
         }
         JSONArray array = getJSONArray("voteArrays");
         for (int i = 0; i < array.length(); i++) {
-            ArrayList<Integer> oneUsersVotes = null;
+            ArrayList<Integer> oneUsersVotes;
             try {
                 JSONArray vA = array.getJSONArray(i);
                 ArrayList<Integer> vAL = new ArrayList<>();
@@ -101,10 +117,11 @@ public class UnanimusGroup extends ParseObject {
         return voteSum;
     }
 
+    @Deprecated
     public String getBestRestaurant(ArrayList<Integer> talliedVotes) {
         int winIndex = talliedVotes.get(0);
         for (int i = 0; i < talliedVotes.size(); i++) {
-                int num = talliedVotes.get(i);
+            int num = talliedVotes.get(i);
             if (num > winIndex) {
                 winIndex = i;
             }
@@ -112,35 +129,20 @@ public class UnanimusGroup extends ParseObject {
         return getRestaurants().get(winIndex);
     }
 
+    @Deprecated
     public boolean checkIfComplete() {
-        if (!allVotesIn && (getJSONArray("voteArrays").length() == getMembers().size())) {
-            allVotesIn = !allVotesIn;
-            recommendation = getBestRestaurant(voteTally());
+        if ((getJSONArray("voteArrays").length() == getMembers().size())) {
+            String recommendation = getBestRestaurant(voteTally());
             put("recommendation", recommendation);
             saveInBackground();
             return true;
         } else {
-            System.out.println("not all votes in");
+            Log.i(
+                    "Unanimus",
+                    "Voting not complete"
+            );
             return false;
         }
-    }
-
-    private final FriendPickerActivity.FpaContainer fpaContainer;
-    private final GroupSettingsPickerActivity.GspaContainer gspaContainer;
-    private final PlacePickActivity.PpaContainer ppaContainer;
-
-    public UnanimusGroup() {
-        gspaContainer = new GroupSettingsPickerActivity.GspaContainer();
-        fpaContainer = new FriendPickerActivity.FpaContainer();
-        ppaContainer = new PlacePickActivity.PpaContainer();
-
-        members = new ArrayList<>();
-        restaurants = new ArrayList<>();
-        allVotesIn = false;
-    }
-
-    private void setContainer(ADependencyContainer container, Bundle bundle) {
-        container.setFromBundle(bundle);
     }
 
     @SuppressWarnings("unused")
@@ -149,7 +151,7 @@ public class UnanimusGroup extends ParseObject {
     }
 
     public void setGspaContainer(Bundle bundle) {
-        setContainer(gspaContainer, bundle);
+        gspaContainer.setFromBundle(bundle);
     }
 
     @SuppressWarnings("unused")
@@ -158,7 +160,7 @@ public class UnanimusGroup extends ParseObject {
     }
 
     public void setFpaContainer(Bundle bundle) {
-        setContainer(fpaContainer, bundle);
+        fpaContainer.setFromBundle(bundle);
     }
 
     @SuppressWarnings("unused")
@@ -167,6 +169,6 @@ public class UnanimusGroup extends ParseObject {
     }
 
     public void setPpaContainer(Bundle bundle) {
-        setContainer(ppaContainer, bundle);
+        ppaContainer.setFromBundle(bundle);
     }
 }

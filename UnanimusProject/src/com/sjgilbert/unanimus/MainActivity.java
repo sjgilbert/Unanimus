@@ -18,14 +18,12 @@ import com.parse.ParseQueryAdapter.QueryFactory;
 import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
-import java.util.Locale;
-
 /**
  * This class shows the groups a user is a part of, as well as allows the
  * user to access the make and join group_activity activities.
  */
 public class MainActivity extends UnanimusActivityTitle {
-//    private final GroupQueryWorker groupQueryWorker = new GroupQueryWorker();
+    //    private final GroupQueryWorker groupQueryWorker = new GroupQueryWorker();
     private ParseQueryAdapter<UnanimusGroup> groupQueryAdapter;
 
     public MainActivity() {
@@ -44,8 +42,8 @@ public class MainActivity extends UnanimusActivityTitle {
         }
 
         //Facebook Picture
-        ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.ma_prof_pic);
-        profpic.setProfileId((String) ParseUser.getCurrentUser().get("facebookID"));
+        ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.ma_prof_pic);
+        profilePictureView.setProfileId((String) ParseUser.getCurrentUser().get("facebookID"));
 
 //        //Button to access friend picker
 //        Button friendPickerButton = (Button) findViewById(R.id.ma_friend_picker_button);

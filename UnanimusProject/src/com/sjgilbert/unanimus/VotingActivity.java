@@ -8,14 +8,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,6 +162,8 @@ public class VotingActivity extends UnanimusActivityTitle {
             return bundle;
         }
 
-        public ArrayList<Integer> getVotes() {return votes; }
+        public ArrayList<Integer> getVotes() {
+            return votes;
+        }
     }
 }
