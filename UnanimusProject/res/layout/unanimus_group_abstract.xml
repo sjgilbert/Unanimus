@@ -6,6 +6,16 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Invited by:"/>
+
+    <com.facebook.login.widget.ProfilePictureView
+        android:id="@+id/uga_invited_by"
+        android:layout_width="20dp"
+        android:layout_height="20dp"/>
+
+    <TextView
         android:id="@+id/uga_groupID_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -6,18 +6,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestBatch;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseQueryAdapter.QueryFactory;
 import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -45,27 +56,7 @@ public class MainActivity extends UnanimusActivityTitle {
 
         //Facebook Picture
         ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.ma_prof_pic);
-        profpic.setProfileId((String) ParseUser.getCurrentUser().get("facebookID"));
-
-//        //Button to access friend picker
-//        Button friendPickerButton = (Button) findViewById(R.id.ma_friend_picker_button);
-//        friendPickerButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, FriendPickerActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        //Button for Group Settings Picker
-//        Button groupSettingsPickerButton = (Button) findViewById(R.id.ma_group_settings_picker_button);
-//        groupSettingsPickerButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, GroupSettingsPickerActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        profpic.setProfileId(ParseUser.getCurrentUser().getString("facebookID"));
 
         Button makeGroupButton = (Button) findViewById(R.id.ma_make_group_button);
         makeGroupButton.setOnClickListener(new View.OnClickListener() {
@@ -94,9 +85,42 @@ public class MainActivity extends UnanimusActivityTitle {
                 if (view == null) {
                     view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
                 }
-                TextView groupView = (TextView) view.findViewById(R.id.uga_groupID_view);
+                final TextView groupView = (TextView) view.findViewById(R.id.uga_groupID_view);
+                final ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
                 try {
-                    groupView.setText(group.getObjectId());
+                    ArrayList<String> members = group.getMembers();
+                    final ArrayList<String> usernames = new ArrayList<>();
+                    GraphRequest[] requests = new GraphRequest[members.size()];
+                    for (int i = 0; i < members.size(); i++) {
+                        String user = members.get(i);
+                        requests[i] = new GraphRequest(
+                                AccessToken.getCurrentAccessToken(),
+                                String.format("/%s", user),
+                                null,
+                                HttpMethod.GET,
+                                new GraphRequest.Callback() {
+                                    public void onCompleted(GraphResponse response) {
+                                        try {
+                                            usernames.add(response.getJSONObject().getString("name"));
+                                            profilePictureView.setProfileId(response.getJSONObject().getString("id"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                        );
+                    }
+                    GraphRequestBatch requestBatch = new GraphRequestBatch(requests);
+                    requestBatch.addCallback(new GraphRequestBatch.Callback() {
+                        @Override
+                        public void onBatchCompleted(GraphRequestBatch graphRequestBatch) {
+                            groupView.setText(usernames.toString());
+                        }
+                    });
+
+                    requestBatch.executeAsync();
+
+//                    groupView.setText(group.getMembers().toString());
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }

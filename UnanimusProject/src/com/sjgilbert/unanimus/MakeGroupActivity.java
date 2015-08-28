@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Profile;
 import com.parse.ParseACL;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
@@ -62,7 +63,7 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
         acl.setPublicWriteAccess(true);
         acl.setPublicReadAccess(true);
         newGroup.setACL(acl);
-		newGroup.put("user", ParseUser.getCurrentUser());
+		newGroup.put("user", Profile.getCurrentProfile().getId());
         ArrayList<String> members = new ArrayList<>();
         members.add(ParseUser.getCurrentUser().getString("facebookID"));
 		newGroup.put("members", members);

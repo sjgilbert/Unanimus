@@ -136,8 +136,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
     private String getDateString() {
         return String.format(
                 Locale.getDefault(),
-                "%s: %02d-%02d-%04d",
-                getString(R.string.gspa_date),
+                "%02d-%02d-%04d",
                 gspaContainer.getDay(),
                 gspaContainer.getMonth() + 1,
                 gspaContainer.getYear()
@@ -190,8 +189,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
     private String getTimeString() {
         return String.format(
                 Locale.getDefault(),
-                "%s: %d:%02d",
-                getString(R.string.gspa_time),
+                "%d:%02d",
                 gspaContainer.getHourOfDay(),
                 gspaContainer.getMinute()
         );
