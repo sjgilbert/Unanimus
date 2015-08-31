@@ -245,6 +245,15 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
             final ArrayList<String> parseIds = new ArrayList<>();
 
             for (UserIdPair pair : userIdPairs) {
+                if (null == pair.parseUserId) {
+                    Log.w(
+                            "Unanimus/" + tag,
+                            "Missing parse user id in a selected friend, skipping . . . "
+                    );
+
+                    continue;
+                }
+
                 facebookIds.add(pair.facebookUserId);
                 parseIds.add(pair.parseUserId);
             }
@@ -361,6 +370,9 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                     public void done(ParseUser parseUser, ParseException e) {
                         runningQueries.decrementAndGet();
 
+                        final String puId;
+                        final AtomicInteger integer;
+
                         if (null != e) {
                             log(
                                     ELog.e,
@@ -368,21 +380,23 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                                     e
                             );
 
-                            canceledQueries.incrementAndGet();
+                            puId = null;
+                            integer = canceledQueries;
                         } else {
-                            final String puId = parseUser.getObjectId();
-                            userIdPairs[i] = new FpaContainer.UserIdPair(facebookId, puId);
-
-                            completedQueries.incrementAndGet();
+                            puId = parseUser.getObjectId();
+                            integer = completedQueries;
                         }
 
+                        userIdPairs[i] = new FpaContainer.UserIdPair(facebookId, puId);
+
+                        integer.incrementAndGet();
                         publishProgress();
                     }
                 });
 
                 while (maxThreads <= runningQueries.get()) {
                     try {
-                        wait(waitTimeDenominator / (long) runningQueries.get());
+                        Thread.sleep(waitTimeDenominator / (long) runningQueries.get());
                     } catch (InterruptedException e) {
                         log(
                                 ELog.e,
