@@ -19,7 +19,7 @@ public abstract class UnanimusActivityTitle_TextEntryBar
 
     @Override
     public boolean setTitleBar(int title_r, ViewGroup parent) {
-        return UnanimusActivity.setTitleBar(getResources().getString(title_r), parent, this.tag);
+        return UnanimusActivity.setTitleBar(getResources().getString(title_r), parent);
     }
 
     @Override

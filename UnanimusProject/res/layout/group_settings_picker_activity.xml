@@ -1,120 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    style="@style/RootLayout">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/group_settings_picker_activity"
-    style="@style/RootLayout">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchParent"
+    android:fillViewport="false">
 
-    <include layout="@layout/activity_title" />
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/group_settings_picker_activity"
+        style="@style/RootLayout">
 
-    <Button
-        android:id="@+id/gspa_date"
-        style="@style/Button"
-        android:text="@string/gspa_date"
-        android:textStyle="bold" />
+        <include layout="@layout/activity_title" />
 
-    <Button
-        android:id="@+id/gspa_time"
-        style="@style/Button"
-        android:text="@string/gspa_time"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/gspa_date"
+            style="@style/Button"
+            android:text="@string/gspa_date"
+            android:textStyle="bold" />
 
-    <TextView
-        style="@style/TextView"
-        android:gravity="center"
-        android:padding="15dp"
-        android:text="@string/gspa_radius"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:weightSum="@integer/one">
+        <Button
+            android:id="@+id/gspa_time"
+            style="@style/Button"
+            android:text="@string/gspa_time"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/radius0"
-            android:layout_width="0dp"
+            style="@style/TextView"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@string/gspa_radius"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginLeft="@dimen/standard_pad_margin"
-            android:layout_weight="0.5"
-            android:gravity="start"
-            android:text="@string/zero"
-            android:textSize="@dimen/small_font"
-            tools:ignore="RtlHardcoded" />
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:weightSum="@integer/one">
+
+            <TextView
+                android:id="@+id/radius0"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginLeft="@dimen/standard_pad_margin"
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:text="@string/zero"
+                android:textSize="@dimen/small_font"
+                tools:ignore="RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/radius10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/standard_pad_margin"
+                android:layout_weight="0.5"
+                android:gravity="end"
+                android:text="@string/ten"
+                android:textSize="@dimen/small_font"
+                tools:ignore="RtlHardcoded" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/gspa_radius_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="10"
+            android:paddingBottom="@dimen/standard_pad_margin"
+            android:paddingLeft="@dimen/standard_pad_margin"
+            android:paddingRight="@dimen/standard_pad_margin" />
 
         <TextView
-            android:id="@+id/radius10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginRight="@dimen/standard_pad_margin"
-            android:layout_weight="0.5"
-            android:gravity="end"
-            android:text="@string/ten"
-            android:textSize="@dimen/small_font"
-            tools:ignore="RtlHardcoded" />
+            style="@style/TextView"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="@string/gspa_price_level"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/gspa_price_group"
+            style="@style/Wrap"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/gspa_price_$"
+                style="@style/Wrap"
+                android:padding="@dimen/standard_pad_margin"
+                android:text="@string/gspa_$" />
+
+            <RadioButton
+                android:id="@+id/gspa_price_$$"
+                style="@style/Wrap"
+                android:padding="@dimen/standard_pad_margin"
+                android:text="@string/gspa_$$" />
+
+            <RadioButton
+                android:id="@+id/gspa_price_$$$"
+                style="@style/Wrap"
+                android:padding="@dimen/standard_pad_margin"
+                android:text="@string/gspa_$$$" />
+
+            <RadioButton
+                android:id="@+id/gspa_price_$$$$"
+                style="@style/Wrap"
+                android:padding="@dimen/standard_pad_margin"
+                android:text="@string/gspa_$$$$" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/gspa_submit_button"
+            style="@style/Button"
+            android:text="@string/gspa_submit" />
+
 
     </LinearLayout>
-
-    <SeekBar
-        android:id="@+id/gspa_radius_slider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="10"
-        android:paddingBottom="@dimen/standard_pad_margin"
-        android:paddingLeft="@dimen/standard_pad_margin"
-        android:paddingRight="@dimen/standard_pad_margin" />
-
-    <TextView
-        style="@style/TextView"
-        android:gravity="center"
-        android:padding="15dp"
-        android:text="@string/gspa_price_level"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:id="@+id/gspa_price_group"
-        style="@style/Wrap"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/gspa_price_$"
-            style="@style/Wrap"
-            android:padding="@dimen/standard_pad_margin"
-            android:text="@string/gspa_$" />
-
-        <RadioButton
-            android:id="@+id/gspa_price_$$"
-            style="@style/Wrap"
-            android:padding="@dimen/standard_pad_margin"
-            android:text="@string/gspa_$$" />
-
-        <RadioButton
-            android:id="@+id/gspa_price_$$$"
-            style="@style/Wrap"
-            android:padding="@dimen/standard_pad_margin"
-            android:text="@string/gspa_$$$" />
-
-        <RadioButton
-            android:id="@+id/gspa_price_$$$$"
-            style="@style/Wrap"
-            android:padding="@dimen/standard_pad_margin"
-            android:text="@string/gspa_$$$$" />
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/gspa_submit_button"
-        style="@style/Button"
-        android:text="@string/gspa_submit" />
-
-
-</LinearLayout>
 
 </ScrollView>

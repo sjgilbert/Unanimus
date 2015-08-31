@@ -2,7 +2,6 @@ package com.sjgilbert.unanimus;
 
 import android.os.Bundle;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,7 +12,7 @@ import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 /**
  * Created by sam on 8/23/15.
  */
-public class RecommendationActivity extends UnanimusActivityTitle{
+public class RecommendationActivity extends UnanimusActivityTitle {
     private String groupName;
     private UnanimusGroup group;
 

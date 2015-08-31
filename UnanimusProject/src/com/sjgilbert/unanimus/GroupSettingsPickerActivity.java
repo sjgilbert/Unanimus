@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 // TODO: lets get some licensing up in this joint
+
 /**
  * Created by sam on 8/9/15.
  */
@@ -279,6 +280,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         private int year, month, day, hourOfDay, minute;
         private int radius;
         private EPriceLevel priceLevel;
+        private boolean hasBeenSet = false;
 
         @Override
         public void setDefault() {
@@ -293,7 +295,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
             priceLevel = startPriceLevel;
 
-            super.setDefault();
+            hasBeenSet = true;
         }
 
         @Override
@@ -329,7 +331,12 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
             this.radius = bundle.getInt(RADIUS);
             this.priceLevel = EPriceLevel.getPriceLevelFromInt(bundle.getInt(PRICE_LEVEL));
 
-            super.setFromBundle(bundle);
+            this.hasBeenSet = true;
+        }
+
+        @Override
+        boolean isSet() {
+            return hasBeenSet;
         }
 
         public int getYear() {

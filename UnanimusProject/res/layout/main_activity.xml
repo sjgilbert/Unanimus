@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_activity"
     style="@style/RootLayout">
 
@@ -26,10 +27,11 @@
     </LinearLayout>
 
     <ListView
-        android:layout_weight="1"
-        android:layout_width="match_parent"
+        android:id="@+id/ma_groups_list_view"
+        android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
-        android:id="@+id/ma_groups_list_view" />
+        android:layout_weight="1"
+        tools:ignore="InefficientWeight" />
 
     <Button
         android:id="@+id/ma_make_group_button"
