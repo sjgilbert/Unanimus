@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    style="@style/RootLayout">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/place_pick_activity"
@@ -7,6 +9,12 @@
     <include layout="@layout/activity_title" />
 
     <include layout="@layout/text_entry_bar" />
+
+    <fragment
+        class="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/ppa_map"/>
 
     <Button
         android:id="@+id/ppa_map_button"
@@ -66,3 +74,4 @@
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

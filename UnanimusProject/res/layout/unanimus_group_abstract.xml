@@ -3,21 +3,29 @@
     android:id="@+id/unanimus_group_abstract"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/dummy_text"
         android:text="Invited by:"/>
 
     <com.facebook.login.widget.ProfilePictureView
         android:id="@+id/uga_invited_by"
-        android:layout_width="20dp"
-        android:layout_height="20dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/uga_groupID_view"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="30dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />

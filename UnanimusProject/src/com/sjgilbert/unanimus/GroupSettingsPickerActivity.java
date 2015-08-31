@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -71,7 +72,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         );
         updateTimeText();
 
-        SeekBar radiusBar = (SeekBar) findViewById(R.id.gspa_radius_slider);
+        final SeekBar radiusBar = (SeekBar) findViewById(R.id.gspa_radius_slider);
         radiusBar.setMax(radiusMax);
         radiusBar.setProgress(gspaContainer.getRadius());
         radiusBar.setOnSeekBarChangeListener(
@@ -87,6 +88,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
+                        radiusBar.playSoundEffect(SoundEffectConstants.CLICK);
                         showRadius();
                     }
                 }
@@ -101,6 +103,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
                         try {
                             RadioButton checkedButton = (RadioButton) findViewById(checkedId);
                             setPriceLevel(checkedButton.getText().length());
+                            checkedButton.playSoundEffect(SoundEffectConstants.CLICK);
                             showPriceLevel();
                         } catch (NullPointerException | ClassCastException e) {
                             log(ELog.e, e.getMessage(), e);

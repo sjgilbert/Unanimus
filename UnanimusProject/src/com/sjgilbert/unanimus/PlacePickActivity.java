@@ -1,6 +1,8 @@
 package com.sjgilbert.unanimus;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -22,7 +24,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle_TextEntryBar;
 
 import java.io.IOException;
@@ -36,7 +43,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class PlacePickActivity
         extends UnanimusActivityTitle_TextEntryBar
-        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
     final static String PPA = "ppa";
 
@@ -70,6 +77,7 @@ public class PlacePickActivity
             log(ELog.e, e.getMessage(), e);
         }
 
+
         EditText addressBar = getTextEntryEditText((ViewGroup) findViewById(R.id.place_pick_activity));
         addressBar.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
 
@@ -83,6 +91,25 @@ public class PlacePickActivity
 
         googleApiClientWorker.execute();
         geocoderWorker.execute(this);
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.ppa_map);
+        mapFragment.getMapAsync(this);
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+//        Location curLocAsLoc = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+//        LatLng curLoc = new LatLng(curLocAsLoc.getLatitude(), curLocAsLoc.getLongitude());
+
+        LatLng fairmount = new LatLng(44.9372649, -93.16425);
+        map.setMyLocationEnabled(true);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(fairmount, 10));
+
+        map.addMarker(new MarkerOptions()
+            .title("Current Location")
+        .snippet("Where you are right now")
+        .position(fairmount));
     }
 
     @Override
@@ -143,8 +170,23 @@ public class PlacePickActivity
 
     @SuppressWarnings({"unused", "UnusedParameters"})
     public void ppa_viewFinish(View view) {
-        setResult();
-        finish();
+        if (ppaContainer.getLatLng() == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(PlacePickActivity.this);
+            builder.setMessage("No location selected!  Continue anyway?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            setResult();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();        }
     }
 
     @SuppressWarnings({"WeakerAccess", "UnusedParameters"})

@@ -86,13 +86,13 @@ public class MainActivity extends UnanimusActivityTitle {
                     view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
                 }
                 final TextView groupView = (TextView) view.findViewById(R.id.uga_groupID_view);
-                final ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
+//                final ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
                 try {
                     ArrayList<String> members = group.getMembers();
                     final ArrayList<String> usernames = new ArrayList<>();
                     GraphRequest[] requests = new GraphRequest[members.size()];
                     for (int i = 0; i < members.size(); i++) {
-                        String user = members.get(i);
+                        final String user = members.get(i);
                         requests[i] = new GraphRequest(
                                 AccessToken.getCurrentAccessToken(),
                                 String.format("/%s", user),
@@ -102,7 +102,8 @@ public class MainActivity extends UnanimusActivityTitle {
                                     public void onCompleted(GraphResponse response) {
                                         try {
                                             usernames.add(response.getJSONObject().getString("name"));
-                                            profilePictureView.setProfileId(response.getJSONObject().getString("id"));
+                                            ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
+                                            profilePictureView.setProfileId(user);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -114,7 +115,7 @@ public class MainActivity extends UnanimusActivityTitle {
                     requestBatch.addCallback(new GraphRequestBatch.Callback() {
                         @Override
                         public void onBatchCompleted(GraphRequestBatch graphRequestBatch) {
-                            groupView.setText(usernames.toString());
+                            groupView.setText(usernames.get(0));
                         }
                     });
 
