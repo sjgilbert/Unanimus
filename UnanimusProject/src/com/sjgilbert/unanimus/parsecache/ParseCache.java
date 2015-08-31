@@ -23,7 +23,7 @@ public final class ParseCache<K extends CharSequence, V extends ParseObject> {
     }
 
     public static boolean isInit() {
-        return (parseCache == null);
+        return (parseCache != null);
     }
 
     private final QueueMap<String, ParseQuery<V>> queueMap = new QueueMap<>();
