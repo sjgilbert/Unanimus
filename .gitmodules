@@ -1,0 +1,4 @@
+[submodule "UnanimusProject/src/com/izzette"]
+	path = UnanimusProject/src/com/izzette
+	url = https://github.com/Izzette/queuemap.git
+	branch = izzette
