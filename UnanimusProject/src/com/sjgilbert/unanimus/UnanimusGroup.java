@@ -17,22 +17,10 @@ import java.util.ArrayList;
  */
 @ParseClassName("UnanimusGroup")
 public class UnanimusGroup extends ParseObject {
-    public EStatus getStatus() {
-        return status;
-    }
-
-    private enum EStatus {
-        pending,
-        complete,
-        inProgress,
-        unread
-    }
-
-    public final FriendPickerActivity.FpaContainer fpaContainer;
-    public final GroupSettingsPickerActivity.GspaContainer gspaContainer;
-    public final PlacePickActivity.PpaContainer ppaContainer;
+    private final FriendPickerActivity.FpaContainer fpaContainer;
+    private final GroupSettingsPickerActivity.GspaContainer gspaContainer;
+    private final PlacePickActivity.PpaContainer ppaContainer;
     private EStatus status;
-
     public UnanimusGroup() {
         gspaContainer = new GroupSettingsPickerActivity.GspaContainer();
         fpaContainer = new FriendPickerActivity.FpaContainer();
@@ -42,6 +30,10 @@ public class UnanimusGroup extends ParseObject {
 
     public static ParseQuery<UnanimusGroup> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
+    }
+
+    public EStatus getStatus() {
+        return status;
     }
 
     public ArrayList<String> getMembers() {
@@ -89,7 +81,6 @@ public class UnanimusGroup extends ParseObject {
         saveInBackground();
     }
 
-
     @Deprecated
     private ArrayList<Integer> voteTally() {
         ArrayList<Integer> voteSum = new ArrayList<>();
@@ -118,7 +109,7 @@ public class UnanimusGroup extends ParseObject {
     }
 
     @Deprecated
-    public String getBestRestaurant(ArrayList<Integer> talliedVotes) {
+    private String getBestRestaurant(ArrayList<Integer> talliedVotes) {
         int winIndex = talliedVotes.get(0);
         for (int i = 0; i < talliedVotes.size(); i++) {
             int num = talliedVotes.get(i);
@@ -130,18 +121,16 @@ public class UnanimusGroup extends ParseObject {
     }
 
     @Deprecated
-    public boolean checkIfComplete() {
+    public void checkIfComplete() {
         if ((getJSONArray("voteArrays").length() == getMembers().size())) {
             String recommendation = getBestRestaurant(voteTally());
             put("recommendation", recommendation);
             saveInBackground();
-            return true;
         } else {
             Log.i(
                     "Unanimus",
                     "Voting not complete"
             );
-            return false;
         }
     }
 
@@ -170,5 +159,12 @@ public class UnanimusGroup extends ParseObject {
 
     public void setPpaContainer(Bundle bundle) {
         ppaContainer.setFromBundle(bundle);
+    }
+
+    private enum EStatus {
+        pending,
+        complete,
+        inProgress,
+        unread
     }
 }

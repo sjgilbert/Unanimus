@@ -1,7 +1,6 @@
 package com.sjgilbert.unanimus;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.ParseQueryAdapter.QueryFactory;
 import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
@@ -220,46 +218,4 @@ public class MainActivity extends UnanimusActivityTitle {
         doListQuery();
     }
 
-    private class GroupQueryWorker extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... voids) {
-            //Shows all the groups user is a member of
-            QueryFactory<UnanimusGroup> factory = new QueryFactory<UnanimusGroup>() {
-                public ParseQuery<UnanimusGroup> create() {
-                    ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
-                    query.include("objectID");
-                    query.whereEqualTo("user", ParseUser.getCurrentUser());
-                    query.orderByDescending("createdAt");
-                    return query;
-                }
-            };
-
-            groupQueryAdapter = new ParseQueryAdapter<UnanimusGroup>(MainActivity.this, factory) {
-                @Override
-                public View getItemView(UnanimusGroup group, View view, ViewGroup parent) {
-                    if (view == null) {
-                        view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
-                    }
-                    TextView groupView = (TextView) view.findViewById(R.id.uga_groupID_view);
-                    try {
-                        groupView.setText(group.getObjectId());
-                    } catch (NullPointerException e) {
-                        log(ELog.e, e.getMessage(), e);
-                    }
-                    return view;
-                }
-            };
-
-            groupQueryAdapter.setAutoload(false);
-
-            return null;
-        }
-
-//        @Override
-//        protected void onPostExecute(Void result) {
-//            super.onPostExecute(result);
-//
-//            doListQuery();
-//        }
-    }
 }

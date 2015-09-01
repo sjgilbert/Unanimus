@@ -175,7 +175,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                     private final Handler handler = updateBarHandler;
 
                     @Override
-                    protected void onProgressUpdate(Integer ... progress) {
+                    protected void onProgressUpdate(Integer... progress) {
                         super.onProgressUpdate(progress);
 
                         handler.post(new Runnable() {
@@ -307,32 +307,12 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
     }
 
     private class GetUserIdsPairsWorker extends AsyncTask<String[], Integer, FpaContainer.UserIdPair[]> {
-        protected int getMaxThreads() {
-            return maxThreads;
-        }
-
-        protected int getRunningQueries() {
-            return runningQueries.get();
-        }
-
-        protected int getCompletedQueries() {
-            return completedQueries.get();
-        }
-
-        protected int getCanceledQueries() {
-            return canceledQueries.get();
-        }
-
+        final int maxThreads = 2 * Runtime.getRuntime().availableProcessors() + 1;
         private final long waitTimeDenominator = 100L;
-
         private final String facebookIdKey = getString(IntroPageActivity.facebookID);
-
-        protected final int maxThreads = 2 * Runtime.getRuntime().availableProcessors() + 1;
         private final AtomicInteger runningQueries = new AtomicInteger(0);
-
         private final AtomicInteger completedQueries = new AtomicInteger(0);
-        private final AtomicInteger canceledQueries  = new AtomicInteger(0);
-
+        private final AtomicInteger canceledQueries = new AtomicInteger(0);
         private final String[] facebookUserIds;
         private final FpaContainer.UserIdPair[] userIdPairs;
 
@@ -349,6 +329,22 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                             getMaxThreads()
                     )
             );
+        }
+
+        int getMaxThreads() {
+            return maxThreads;
+        }
+
+        int getRunningQueries() {
+            return runningQueries.get();
+        }
+
+        int getCompletedQueries() {
+            return completedQueries.get();
+        }
+
+        int getCanceledQueries() {
+            return canceledQueries.get();
         }
 
         @Override
