@@ -98,9 +98,35 @@ public class PlacePickActivity
     }
 
     @Override
-    public void onMapReady(GoogleMap map) {
+    public void onMapReady(final GoogleMap map) {
+        /*
+        TODO: fix threading issue, make current location default
+         */
 //        Location curLocAsLoc = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 //        LatLng curLoc = new LatLng(curLocAsLoc.getLatitude(), curLocAsLoc.getLongitude());
+
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                map.clear();
+                map.addMarker(new MarkerOptions()
+                    .position(latLng));
+                setByLatLng(latLng);
+            }
+        });
+
+        map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                map.clear();
+//                Location curLoc = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+                map.addMarker(new MarkerOptions()
+                    .position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
+                map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
+                setByLastLocation(lastLocation);
+                return true;
+            }
+        });
 
         LatLng fairmount = new LatLng(44.9372649, -93.16425);
         map.setMyLocationEnabled(true);
@@ -111,6 +137,8 @@ public class PlacePickActivity
         .snippet("Where you are right now")
         .position(fairmount));
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -187,6 +215,10 @@ public class PlacePickActivity
                     });
             AlertDialog alert = builder.create();
             alert.show();        }
+        else {
+            setResult();
+            finish();
+        }
     }
 
     @SuppressWarnings({"WeakerAccess", "UnusedParameters"})
