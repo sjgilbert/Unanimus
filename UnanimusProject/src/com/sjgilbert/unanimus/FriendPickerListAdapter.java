@@ -3,7 +3,6 @@ package com.sjgilbert.unanimus;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.facebook.login.widget.ProfilePictureView;
+import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,96 +20,128 @@ import java.util.List;
  * Lists of strings, one for allFriendNames and the other for facebook IDs.
  */
 class FriendPickerListAdapter extends ArrayAdapter<String> {
-    static final int SELECTED_COLOR = Color.argb(127, 0, 0, 255);
-    static final int UNSELECTED_COLOR = Color.TRANSPARENT;
+    private static final int SELECTED_COLOR = Color.argb(127, 0, 0, 255);
+    private static final int UNSELECTED_COLOR = Color.TRANSPARENT;
 
     private final List<String> allFriendNames;
     private final List<FacebookId> allFacebookIds;
     private final List<FacebookId> selectedFacebookIds;
+    private final Context context;
 
-    public FriendPickerListAdapter(Activity context, List<String> allFriendNames, List<FacebookId> allFacebookIds, List<FacebookId> selectedFacebookIds) {
+    public FriendPickerListAdapter(
+            Activity context,
+            List<String> allFriendNames,
+            List<FacebookId> allFacebookIds) {
         super(context, R.layout.friend_fragment, allFriendNames);
+        this.context = context;
         this.allFriendNames = allFriendNames;
         this.allFacebookIds = allFacebookIds;
-        this.selectedFacebookIds = selectedFacebookIds;
+
+        this.selectedFacebookIds = new ArrayList<>(1);
+
+        selectedFacebookIds.add(
+                new FacebookId(ParseUser.getCurrentUser().getString("facebookID"))
+        );
+    }
+
+    public FacebookId[] getSelectedFacebookIds() {
+        return selectedFacebookIds.toArray(new FacebookId[selectedFacebookIds.size()]);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder mViewHolder;
+        ViewHolder viewHolder;
 
         if (convertView == null) {
-            mViewHolder = new ViewHolder();
-
-            LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+            LayoutInflater vi = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.friend_fragment, parent, false);
-
-            try {
-                mViewHolder.profPic = (ProfilePictureView) convertView.findViewById(R.id.fpa_profile_picture);
-                mViewHolder.profPic.setProfileId(allFacebookIds.get(position).toString());
-            } catch (NullPointerException | ClassCastException e) {
-                mViewHolder.profPic = new ProfilePictureView(getContext());
-            }
-
-            try {
-                mViewHolder.name = (TextView) convertView.findViewById(R.id.fpa_facebook_name);
-                mViewHolder.name.setText(allFriendNames.get(position));
-            } catch (NullPointerException | ClassCastException e) {
-                logError(R.id.fpa_facebook_name, e);
-                mViewHolder.name = new TextView(getContext());
-            }
-
-            convertView.setTag(mViewHolder);
-        } else {
-            try {
-                mViewHolder = (ViewHolder) convertView.getTag();
-            } catch (ClassCastException e) {
-                Log.e("Unanimus", "Unexpected exception", e);
-                return getView(position, null, parent);
-            }
         }
 
-        if (selectedFacebookIds.contains(allFacebookIds.get(position))) {
-            convertView.setBackgroundColor(SELECTED_COLOR);
-        } else {
-            convertView.setBackgroundColor(UNSELECTED_COLOR);
+        viewHolder = (ViewHolder) convertView.getTag();
+
+        if (viewHolder == null) {
+            final ViewGroup convertViewGroup = (ViewGroup) convertView;
+
+            viewHolder = new ViewHolder(
+                    convertViewGroup,
+                    position);
         }
 
-        mViewHolder.profPic.setProfileId(allFacebookIds.get(position).toString());
-        mViewHolder.name.setText(allFriendNames.get(position));
+        viewHolder.update(position);
 
         return convertView;
     }
 
-    private int logError(int id, Throwable e) {
-        return Log.e(
-                "Unanimus",
-                String.format(
-                        "%s\n%s: %s (\"%s\")\n%s",
-                        "Unexpected error!",
-                        "Check for resource with id",
-                        Integer.toHexString(id),
-                        "fpa_profile_picture",
-                        new Object() {
-                            public String getMessage(Throwable tr) {
-                                if (tr instanceof NullPointerException) {
-                                    return "Cannot find layout with id.";
-                                }
-                                if (tr instanceof ClassCastException) {
-                                    return "Found layout with id, but it is not a TextView.";
-                                }
-                                Log.w("Unanimus", "Caught unexpected exception with no log message to match.");
-                                return new String();
-                            }
-                        }.getMessage(e)
-                ),
-                e
-        );
-    }
+    class ViewHolder {
+        private final ProfilePictureView profilePictureView;
+        private final TextView textViewName;
+        private final ViewGroup viewGroup;
 
-    private static class ViewHolder {
-        private ProfilePictureView profPic;
-        private TextView name;
+        private FacebookId facebookId;
+
+        private ViewHolder(
+                ViewGroup viewGroup,
+                int position
+        ) {
+            this.viewGroup = viewGroup;
+
+            ProfilePictureView profilePictureView;
+            TextView textViewName;
+
+            profilePictureView = (ProfilePictureView) viewGroup
+                    .findViewById(R.id.fpa_profile_picture);
+
+            if (profilePictureView == null) {
+                profilePictureView = new ProfilePictureView(getContext());
+                profilePictureView.setId(R.id.fpa_profile_picture);
+
+                viewGroup.addView(profilePictureView);
+            }
+
+            textViewName = (TextView) viewGroup
+                    .findViewById(R.id.fpa_facebook_name);
+
+            if (textViewName == null) {
+                textViewName = new TextView(getContext());
+                textViewName.setId(R.id.fpa_facebook_name);
+
+                viewGroup.addView(textViewName);
+            }
+
+            textViewName.setText(allFriendNames.get(position));
+
+            this.profilePictureView = profilePictureView;
+            this.textViewName = textViewName;
+
+            this.viewGroup.setTag(this);
+
+            update(position);
+        }
+
+        void toggleSelected() {
+            if (selectedFacebookIds.contains(facebookId)) selectedFacebookIds.remove(facebookId);
+            else selectedFacebookIds.add(facebookId);
+
+            updateColor();
+        }
+
+        private void updateColor() {
+            viewGroup.setBackgroundColor(
+                    (selectedFacebookIds.contains(facebookId))
+                            ? SELECTED_COLOR
+                            : UNSELECTED_COLOR
+            );
+        }
+
+        private void update(int position) {
+            facebookId = allFacebookIds.get(position);
+
+            profilePictureView.setProfileId(facebookId.toString());
+            textViewName.setText(allFriendNames.get(position));
+
+            updateColor();
+        }
+
     }
 }
