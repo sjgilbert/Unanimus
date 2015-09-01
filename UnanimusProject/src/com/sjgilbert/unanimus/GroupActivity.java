@@ -29,13 +29,14 @@ import java.util.ArrayList;
  * eventually allow the user to indicate preferences/view recommendations.
  */
 public class GroupActivity extends UnanimusActivityTitle {
-    static final String groupID = "groupID";
+    static final String GROUP_ID = "GROUP_ID";
+    private static final String GA = "ga";
     private String groupName;
     private UnanimusGroup group;
 
 
     public GroupActivity() {
-        super("ppa");
+        super(GA);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class GroupActivity extends UnanimusActivityTitle {
             e.printStackTrace();
         }
 
-        Bundle extras = getIntent().getExtras();    //The groupID of the selected group_activity
+        Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
             groupName = extras.getString("objID");
         } else {
@@ -115,7 +116,7 @@ public class GroupActivity extends UnanimusActivityTitle {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(GroupActivity.this, VotingActivity.class);
-                intent.putExtra(groupID, groupName);
+                intent.putExtra(GROUP_ID, groupName);
                 startActivity(intent);
             }
         });
@@ -127,7 +128,7 @@ public class GroupActivity extends UnanimusActivityTitle {
             public void onClick(View v) {
                 if (group.get("recommendation") != null) {
                     Intent intent = new Intent(GroupActivity.this, RecommendationActivity.class);
-                    intent.putExtra(groupID, groupName);
+                    intent.putExtra(GROUP_ID, groupName);
                     startActivity(intent);
                 }
             }

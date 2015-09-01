@@ -49,9 +49,9 @@ public class VotingActivity extends UnanimusActivityTitle {
             log(ELog.e, e.getMessage(), e);
         }
 
-        Bundle extras = getIntent().getExtras();    //The groupID of the selected group_activity
+        Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupName = extras.getString("groupID");
+            groupName = extras.getString("GROUP_ID");
         } else {
             Toast.makeText(VotingActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
@@ -141,7 +141,7 @@ public class VotingActivity extends UnanimusActivityTitle {
     }
 
     @ParseClassName("VaContainer")
-    protected static class VaContainer extends ParseObject {
+    public static class VaContainer extends ParseObject {
         public final static String VOTES = "votes";
 
         private final ArrayList<Integer> votes;

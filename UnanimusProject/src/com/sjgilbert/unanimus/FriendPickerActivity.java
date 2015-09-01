@@ -307,7 +307,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
     }
 
     private class GetUserIdsPairsWorker extends AsyncTask<String[], Integer, FpaContainer.UserIdPair[]> {
-        protected final int maxThreads = 2 * Runtime.getRuntime().availableProcessors() + 1;
+        final int maxThreads = 2 * Runtime.getRuntime().availableProcessors() + 1;
         private final long waitTimeDenominator = 100L;
         private final String facebookIdKey = getString(IntroPageActivity.facebookID);
         private final AtomicInteger runningQueries = new AtomicInteger(0);
@@ -331,19 +331,19 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
             );
         }
 
-        protected int getMaxThreads() {
+        int getMaxThreads() {
             return maxThreads;
         }
 
-        protected int getRunningQueries() {
+        int getRunningQueries() {
             return runningQueries.get();
         }
 
-        protected int getCompletedQueries() {
+        int getCompletedQueries() {
             return completedQueries.get();
         }
 
-        protected int getCanceledQueries() {
+        int getCanceledQueries() {
             return canceledQueries.get();
         }
 

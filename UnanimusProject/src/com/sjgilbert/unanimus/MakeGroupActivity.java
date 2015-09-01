@@ -19,6 +19,7 @@ import java.util.ArrayList;
 /**
  * A button that creates a group_activity.
  */
+@Deprecated
 public class MakeGroupActivity extends UnanimusActivityTitle {
 
     public MakeGroupActivity() {
@@ -55,6 +56,7 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
         groupIDTextView.setVisibility(View.INVISIBLE);
     }
 
+    @SuppressWarnings({"unused", "UnusedParameters"})
     public void makeGroup(@SuppressWarnings("UnusedParameters") View v) {
         final UnanimusGroup newGroup = new UnanimusGroup();
         ParseACL acl = new ParseACL();

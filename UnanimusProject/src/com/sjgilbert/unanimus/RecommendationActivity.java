@@ -31,9 +31,9 @@ public class RecommendationActivity extends UnanimusActivityTitle {
             e.printStackTrace();
         }
 
-        Bundle extras = getIntent().getExtras();    //The groupID of the selected group_activity
+        Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupName = extras.getString("groupID");
+            groupName = extras.getString("GROUP_ID");
         } else {
             Toast.makeText(RecommendationActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }

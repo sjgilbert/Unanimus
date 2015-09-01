@@ -17,9 +17,9 @@ import java.util.ArrayList;
  */
 @ParseClassName("UnanimusGroup")
 public class UnanimusGroup extends ParseObject {
-    public final FriendPickerActivity.FpaContainer fpaContainer;
-    public final GroupSettingsPickerActivity.GspaContainer gspaContainer;
-    public final PlacePickActivity.PpaContainer ppaContainer;
+    private final FriendPickerActivity.FpaContainer fpaContainer;
+    private final GroupSettingsPickerActivity.GspaContainer gspaContainer;
+    private final PlacePickActivity.PpaContainer ppaContainer;
     private EStatus status;
     public UnanimusGroup() {
         gspaContainer = new GroupSettingsPickerActivity.GspaContainer();
@@ -109,7 +109,7 @@ public class UnanimusGroup extends ParseObject {
     }
 
     @Deprecated
-    public String getBestRestaurant(ArrayList<Integer> talliedVotes) {
+    private String getBestRestaurant(ArrayList<Integer> talliedVotes) {
         int winIndex = talliedVotes.get(0);
         for (int i = 0; i < talliedVotes.size(); i++) {
             int num = talliedVotes.get(i);
@@ -121,18 +121,16 @@ public class UnanimusGroup extends ParseObject {
     }
 
     @Deprecated
-    public boolean checkIfComplete() {
+    public void checkIfComplete() {
         if ((getJSONArray("voteArrays").length() == getMembers().size())) {
             String recommendation = getBestRestaurant(voteTally());
             put("recommendation", recommendation);
             saveInBackground();
-            return true;
         } else {
             Log.i(
                     "Unanimus",
                     "Voting not complete"
             );
-            return false;
         }
     }
 
