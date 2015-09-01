@@ -30,6 +30,8 @@ public class UnanimusApplication extends Application {
 
         ParseObject.registerSubclass(UnanimusGroup.class);
         ParseObject.registerSubclass(VotingActivity.VaContainer.class);
+        ParseObject.registerSubclass(UnanimusGroup2.class);
+        ParseObject.registerSubclass(VoteContainer.class);
 
         Parse.initialize(this, "hHNXiaKrXkRDW4Ma50aVW3G5zma7NJyptGO795Nb", "0GO9X3HNPu9JMLGk6BH0yccRA1P143vQ6MWUvnpV");
         ParseFacebookUtils.initialize(this);
