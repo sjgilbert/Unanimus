@@ -309,7 +309,6 @@ public class PlacePickActivity
         @Override
         public void setDefault() {
             latLng = new LatLng(0D, 0D);
-            super.setDefault();
         }
 
         @Override
@@ -322,13 +321,17 @@ public class PlacePickActivity
             );
         }
 
+        @Override
+        boolean isSet() {
+            return null != latLng;
+        }
+
         private void setLatLng(Double lat, Double lng) {
             setFromLatLng(new LatLng(lat, lng));
         }
 
         private void setFromLatLng(LatLng latLng) {
             this.latLng = latLng;
-            super.isSet = true;
         }
 
         LatLng getLatLng() {

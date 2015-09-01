@@ -18,11 +18,9 @@ import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -127,7 +125,7 @@ public class GroupActivity extends UnanimusActivityTitle {
         viewRecsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(group.get("recommendation") != null) {
+                if (group.get("recommendation") != null) {
                     Intent intent = new Intent(GroupActivity.this, RecommendationActivity.class);
                     intent.putExtra(groupID, groupName);
                     startActivity(intent);

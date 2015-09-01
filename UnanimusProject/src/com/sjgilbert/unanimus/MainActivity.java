@@ -36,7 +36,7 @@ import java.util.Locale;
  * user to access the make and join group_activity activities.
  */
 public class MainActivity extends UnanimusActivityTitle {
-//    private final GroupQueryWorker groupQueryWorker = new GroupQueryWorker();
+    //    private final GroupQueryWorker groupQueryWorker = new GroupQueryWorker();
     private ParseQueryAdapter<UnanimusGroup> groupQueryAdapter;
 
     public MainActivity() {

@@ -21,6 +21,11 @@ import java.util.ArrayList;
  * The page that allows the user to either log-in or register_activity.
  */
 public class IntroPageActivity extends UnanimusActivityTitle {
+    static final int publicProfile = R.string.parse_public_profile;
+    static final int userFriends = R.string.parse_user_friends;
+    static final int appName = R.string.app_name;
+    static final int facebookID = R.string.facebook_id_key;
+
     public IntroPageActivity() {
         super("ipa");
     }
@@ -52,14 +57,9 @@ public class IntroPageActivity extends UnanimusActivityTitle {
     }
 
     private void facebookLogin() {
-        final String publicProfile = getResources().getString(R.string.parse_public_profile);
-        final String userFriends = getResources().getString(R.string.parse_user_friends);
-        final String appName = getResources().getString(R.string.app_name);
-        final String facebookID = getResources().getString(R.string.facebook_id_key);
-
         ArrayList<String> permissions = new ArrayList<>();
-        permissions.add(publicProfile);
-        permissions.add(userFriends);
+        permissions.add(getString(publicProfile));
+        permissions.add(getString(userFriends));
 
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
             @Override
@@ -69,10 +69,10 @@ public class IntroPageActivity extends UnanimusActivityTitle {
                     return;
                 }
                 if (user == null) {
-                    Log.d(appName, "Uh oh. The user cancelled the Facebook login.");
+                    Log.d(getString(appName), "Uh oh. The user cancelled the Facebook login.");
                 } else if (user.isNew()) {
-                    Log.d(appName, "User signed up and logged in through Facebook!");
-                    user.put(facebookID, Profile.getCurrentProfile().getId()); //for future ParseUser queries
+                    Log.d(getString(appName), "User signed up and logged in through Facebook!");
+                    user.put(getString(facebookID), Profile.getCurrentProfile().getId()); //for future ParseUser queries
                     user.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -80,7 +80,7 @@ public class IntroPageActivity extends UnanimusActivityTitle {
                         }
                     });
                 } else {
-                    Log.d(appName, "User logged in through Facebook!");
+                    Log.d(getString(appName), "User logged in through Facebook!");
                     StartMainActivity();
                 }
             }

@@ -1,6 +1,5 @@
 package com.sjgilbert.unanimus;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,7 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
         groupIDTextView.setVisibility(View.INVISIBLE);
     }
 
-    public void makeGroup(View v) throws ParseException {
+    public void makeGroup(@SuppressWarnings("UnusedParameters") View v) {
         final UnanimusGroup newGroup = new UnanimusGroup();
         ParseACL acl = new ParseACL();
         acl.setPublicWriteAccess(true);
@@ -66,7 +65,7 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
 		newGroup.put("user", Profile.getCurrentProfile().getId());
         ArrayList<String> members = new ArrayList<>();
         members.add(ParseUser.getCurrentUser().getString("facebookID"));
-		newGroup.put("members", members);
+        newGroup.put("members", members);
 
         ArrayList<String> restaurants = new ArrayList<>(VotingActivity.NUMBER_OF_RESTAURANTS);
         for (int i = 0; i < VotingActivity.NUMBER_OF_RESTAURANTS; i++) {
@@ -74,7 +73,7 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
         }
         newGroup.put("restaurants", restaurants);
 
-		newGroup.saveInBackground(new SaveCallback() {
+        newGroup.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 if (e == null) {
                     Toast.makeText(MakeGroupActivity.this, "Success!", Toast.LENGTH_LONG).show();

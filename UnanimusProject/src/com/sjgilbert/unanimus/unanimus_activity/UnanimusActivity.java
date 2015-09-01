@@ -19,7 +19,7 @@ import java.util.Locale;
  */
 @SuppressLint("Registered")
 class UnanimusActivity extends Activity {
-    final String tag;
+    private final String tag;
 
     UnanimusActivity(String tag) {
         this.tag = String.format(
@@ -31,7 +31,7 @@ class UnanimusActivity extends Activity {
     }
 
     // TODO: finish this tag shit
-    static boolean setTitleBar(String title, ViewGroup parent, String tag) {
+    static boolean setTitleBar(String title, ViewGroup parent) {
         return setTitleBar(title, parent, R.id.activity_title_layout);
     }
 

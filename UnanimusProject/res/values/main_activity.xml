@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ma_title">Main</string>
-    <string name="ma_friend_picker_button">Friend Picker</string>
 </resources><!-- vim: set ts=4 sw=4 et syn=xml: -->

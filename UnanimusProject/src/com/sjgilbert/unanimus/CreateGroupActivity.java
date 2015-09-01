@@ -6,19 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.parse.ParseACL;
-import com.parse.ParseClassName;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.Locale;
 
 import static com.sjgilbert.unanimus.FriendPickerActivity.FPA;
-import static com.sjgilbert.unanimus.FriendPickerActivity.FpaContainer;
-import static com.sjgilbert.unanimus.GroupSettingsPickerActivity.GspaContainer;
 import static com.sjgilbert.unanimus.PlacePickActivity.PPA;
-import static com.sjgilbert.unanimus.PlacePickActivity.PpaContainer;
 
 /**
  * Activity for creating group.  Calls 3 other activities for input to build group.
@@ -149,29 +143,19 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         setPpaContainer(ppaBundle);
     }
 
-    @SuppressWarnings("WeakerAccess")
     static abstract class ADependencyContainer {
-        @SuppressWarnings("WeakerAccess")
-        protected boolean isSet = false;
-
         Bundle getAsBundle() throws NotSetException {
-            if (!isSet) {
+            if (!isSet())
                 throw new NotSetException();
-            }
             return null;
         }
 
-        void setDefault() {
-            isSet = true;
-        }
+        abstract void setDefault();
 
-        void setFromBundle(Bundle bundle) {
-            isSet = true;
-        }
+        @Deprecated
+        abstract void setFromBundle(Bundle bundle);
 
-        boolean isSet() {
-            return isSet;
-        }
+        abstract boolean isSet();
 
         public static class NotSetException extends Exception {
             private NotSetException() {
@@ -179,6 +163,4 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
             }
         }
     }
-
-
 }

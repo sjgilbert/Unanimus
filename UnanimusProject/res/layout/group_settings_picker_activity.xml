@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/RootLayout"
-    android:fadeScrollbars="false"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:fadeScrollbars="false">
 <LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/group_settings_picker_activity"
     style="@style/RootLayout">
