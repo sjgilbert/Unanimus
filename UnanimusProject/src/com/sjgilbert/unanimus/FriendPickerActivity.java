@@ -26,6 +26,7 @@ import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
     static final String FPA = "FpaContainer";
     private static final String tag = "fpa";
     private final FpaContainer fpaContainer = new FpaContainer();
-    private final ArrayList<String> facebookUserIds = new ArrayList<>();
+    private final ArrayList<FacebookId> selectedFacebookIds = new ArrayList<>();
     private final String userFacebookID = ParseUser.getCurrentUser().getString("facebookID");
 
 
@@ -62,76 +63,20 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
             log(ELog.e, e.getMessage(), e);
         }
 
-        facebookUserIds.add(userFacebookID);
+        selectedFacebookIds.add(new FacebookId(userFacebookID));
         fpaContainer.setDefault();
 
         //The request for facebook friends
         GraphRequest.newMyFriendsRequest(
                 AccessToken.getCurrentAccessToken(),
-                new GraphRequest.GraphJSONArrayCallback() {
-                    @Override
-                    public void onCompleted(JSONArray friends, GraphResponse response) {
-                        if (response.getError() != null) {
-                            log(ELog.e, response.getError().toString());
-                            return;
-                        }
-
-                        int length = friends.length();
-                        List<String> names = new ArrayList<>(length);
-                        final List<String> ids = new ArrayList<>(length);
-
-                        try {
-                            for (int i = 0; i < length; ++i) {
-                                names.add(friends.getJSONObject(i).getString("name"));
-                                ids.add(friends.getJSONObject(i).getString("id"));
-                            }
-                        } catch (JSONException e) {
-                            log(ELog.e, e.getMessage(), e);
-                            return;
-                        }
-
-                        ListView friendListView = (ListView) findViewById(R.id.fpa_list_view);
-
-                        friendListView.setAdapter(
-                                new FriendPickerListAdapter(
-                                        FriendPickerActivity.this,
-                                        names,
-                                        ids
-                                )
-                        );
-
-                        friendListView.setOnItemClickListener(
-                                new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(
-                                            AdapterView<?> parent,
-                                            View view,
-                                            int position,
-                                            long id
-                                    ) {
-                                        final String idp = ids.get(position);
-                                        final int color;
-                                        if (facebookUserIds.contains(idp)) {
-                                            removeFacebookID(idp);
-                                            color = Color.TRANSPARENT;
-                                        } else {
-                                            addFacebookID(idp);
-                                            color = Color.argb(127, 0, 0, 255);
-                                        }
-
-                                        view.setBackgroundColor(color);
-                                    }
-                                }
-                        );
-                    }
-                }
+                new CustomGraphJSONArrayCallback()
         ).executeAsync();
 
         Button doneButton = (Button) findViewById(R.id.fpa_done_button);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (1 >= facebookUserIds.size()) {
+                if (1 >= selectedFacebookIds.size()) {
                     final boolean[] doFinish = new boolean[]{false};
                     AlertDialog.Builder builder = new AlertDialog.Builder(FriendPickerActivity.this);
 
@@ -163,12 +108,12 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                 progressDialog.setTitle("Getting member information");
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressDialog.setProgress(0);
-                progressDialog.setMax(FriendPickerActivity.this.facebookUserIds.size());
+                progressDialog.setMax(FriendPickerActivity.this.selectedFacebookIds.size());
                 progressDialog.show();
 
                 new GetUserIdsPairsWorker(
-                        FriendPickerActivity.this.facebookUserIds.toArray(
-                                new String[FriendPickerActivity.this.facebookUserIds.size()]
+                        FriendPickerActivity.this.selectedFacebookIds.toArray(
+                                new FacebookId[FriendPickerActivity.this.selectedFacebookIds.size()]
                         )
                 ) {
                     private final ProgressDialog dialog = progressDialog;
@@ -197,6 +142,16 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                             }
                         });
 
+                        try {
+                            Thread.sleep(100L);
+                        } catch (InterruptedException e) {
+                            log(
+                                    ELog.e,
+                                    e.getMessage(),
+                                    e
+                            );
+                        }
+
                         finish();
                     }
                 }.execute();
@@ -204,12 +159,12 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         });
     }
 
-    private void addFacebookID(String friendID) {
-        facebookUserIds.add(friendID);
+    private void addFacebookID(FacebookId friendID) {
+        selectedFacebookIds.add(friendID);
     }
 
-    private void removeFacebookID(String friendID) {
-        facebookUserIds.remove(friendID);
+    private void removeFacebookID(FacebookId friendID) {
+        selectedFacebookIds.remove(friendID);
     }
 
     @Override
@@ -306,17 +261,97 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         }
     }
 
-    private class GetUserIdsPairsWorker extends AsyncTask<String[], Integer, FpaContainer.UserIdPair[]> {
+    private final class CustomOnItemClickListener implements AdapterView.OnItemClickListener {
+        private final List<FacebookId> allFacebookIds;
+
+        CustomOnItemClickListener(List<FacebookId> allFacebookIds) {
+            this.allFacebookIds = allFacebookIds;
+        }
+
+        @Override
+        public void onItemClick(
+                AdapterView<?> adapterView,
+                View view,
+                int position,
+                long id
+        ) {
+            final FacebookId facebookId = allFacebookIds.get(position);
+            final int color;
+            if (selectedFacebookIds.contains(facebookId)) {
+                removeFacebookID(facebookId);
+                color = FriendPickerListAdapter.SELECTED_COLOR;
+            } else {
+                addFacebookID(facebookId);
+                color = Color.argb(127, 0, 0, 255);
+            }
+
+            view.setBackgroundColor(color);
+        }
+    }
+
+    private final class CustomGraphJSONArrayCallback
+            implements GraphRequest.GraphJSONArrayCallback {
+        @Override
+        public void onCompleted(JSONArray friends, GraphResponse response) {
+            if (response.getError() != null) {
+                log(ELog.e, response.getError().toString());
+                return;
+            }
+
+            int length = friends.length();
+            final List<String> allFriendNames = new ArrayList<>(length);
+            final List<FacebookId> allFacebookIds = new ArrayList<>(length);
+
+            for (int i = 0; i < length; ++i) {
+                final String nameKey = "name";
+                final String idKey = "id";
+
+                final JSONObject jsonObject;
+                final String name;
+                final String id;
+                try {
+                    jsonObject = friends.getJSONObject(i);
+                    name = jsonObject.getString(nameKey);
+                    id = jsonObject.getString(idKey);
+                } catch (JSONException e) {
+                    log(ELog.e, e.getMessage(), e);
+                    return;
+                }
+                allFriendNames.add(name);
+                allFacebookIds.add(new FacebookId(id));
+            }
+
+            ListView friendListView = (ListView) findViewById(R.id.fpa_list_view);
+
+            friendListView.setAdapter(
+                    new FriendPickerListAdapter(
+                            FriendPickerActivity.this,
+                            allFriendNames,
+                            allFacebookIds,
+                            selectedFacebookIds
+                    )
+            );
+
+            AdapterView.OnItemClickListener onItemClickListener
+                    = new CustomOnItemClickListener(allFacebookIds);
+
+            friendListView.setOnItemClickListener(onItemClickListener);
+        }
+    }
+
+
+    private class GetUserIdsPairsWorker
+            extends AsyncTask<String[], Integer, FpaContainer.UserIdPair[]> {
         final int maxThreads = 2 * Runtime.getRuntime().availableProcessors() + 1;
         private final long waitTimeDenominator = 100L;
         private final String facebookIdKey = getString(IntroPageActivity.facebookID);
         private final AtomicInteger runningQueries = new AtomicInteger(0);
         private final AtomicInteger completedQueries = new AtomicInteger(0);
         private final AtomicInteger canceledQueries = new AtomicInteger(0);
-        private final String[] facebookUserIds;
+        private final FacebookId[] facebookUserIds;
         private final FpaContainer.UserIdPair[] userIdPairs;
 
-        public GetUserIdsPairsWorker(String[] facebookUserIds) {
+        public GetUserIdsPairsWorker(FacebookId[] facebookUserIds) {
             this.facebookUserIds = facebookUserIds;
             this.userIdPairs = new FpaContainer.UserIdPair[facebookUserIds.length];
 
@@ -353,14 +388,15 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                 final int finalI = i;
 
                 ParseQuery<ParseUser> parseUserQuery = ParseQuery.getQuery(ParseUser.class)
-                        .whereEqualTo(facebookIdKey, facebookUserIds[i]);
+                        .whereEqualTo(facebookIdKey, facebookUserIds[i].toString());
 
                 runningQueries.incrementAndGet();
 
                 parseUserQuery.getFirstInBackground(new GetCallback<ParseUser>() {
                     private final int i = finalI;
                     private final FpaContainer.UserIdPair[] userIdPairs = GetUserIdsPairsWorker.this.userIdPairs;
-                    private final String facebookId = GetUserIdsPairsWorker.this.facebookUserIds[i];
+                    private final String facebookId
+                            = GetUserIdsPairsWorker.this.facebookUserIds[i].toString();
 
                     @Override
                     public void done(ParseUser parseUser, ParseException e) {

@@ -2,6 +2,7 @@ package com.sjgilbert.unanimus;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +16,21 @@ import java.util.List;
 
 /**
  * This is for the ListView of the FriendPickerActivity.  It's just an adapter with two
- * Lists of strings, one for names and the other for facebook IDs.
+ * Lists of strings, one for allFriendNames and the other for facebook IDs.
  */
 class FriendPickerListAdapter extends ArrayAdapter<String> {
-    private final List<String> names;
-    private final List<String> ids;
+    static final int SELECTED_COLOR = Color.argb(127, 0, 0, 255);
+    static final int UNSELECTED_COLOR = Color.TRANSPARENT;
 
-    public FriendPickerListAdapter(Activity context, List<String> names, List<String> ids) {
-        super(context, R.layout.friend_fragment, names);
-        this.names = names;
-        this.ids = ids;
+    private final List<String> allFriendNames;
+    private final List<FacebookId> allFacebookIds;
+    private final List<FacebookId> selectedFacebookIds;
 
+    public FriendPickerListAdapter(Activity context, List<String> allFriendNames, List<FacebookId> allFacebookIds, List<FacebookId> selectedFacebookIds) {
+        super(context, R.layout.friend_fragment, allFriendNames);
+        this.allFriendNames = allFriendNames;
+        this.allFacebookIds = allFacebookIds;
+        this.selectedFacebookIds = selectedFacebookIds;
     }
 
     @Override
@@ -41,61 +46,16 @@ class FriendPickerListAdapter extends ArrayAdapter<String> {
 
             try {
                 mViewHolder.profPic = (ProfilePictureView) convertView.findViewById(R.id.fpa_profile_picture);
-                mViewHolder.profPic.setProfileId(ids.get(position));
+                mViewHolder.profPic.setProfileId(allFacebookIds.get(position).toString());
             } catch (NullPointerException | ClassCastException e) {
-                Log.e(
-                        "Unanimus",
-                        String.format(
-                                "%s\n%s: %s (\"%s\")\n%s",
-                                "Unexpected error!",
-                                "Check for resource with id",
-                                Integer.toHexString(R.id.fpa_profile_picture),
-                                "fpa_profile_picture",
-                                new Object() {
-                                    public String getMessage(Throwable tr) {
-                                        if (tr instanceof NullPointerException) {
-                                            return "Cannot find layout with id.";
-                                        }
-                                        if (tr instanceof ClassCastException) {
-                                            return "Found layout with id, but it is not a TextView.";
-                                        }
-                                        Log.w("Unanimus", "Caught unexpected exception with no log message to match.");
-                                        return null;
-                                    }
-                                }.getMessage(e)
-                        ),
-                        e
-                );
                 mViewHolder.profPic = new ProfilePictureView(getContext());
             }
 
             try {
                 mViewHolder.name = (TextView) convertView.findViewById(R.id.fpa_facebook_name);
-                mViewHolder.name.setText(names.get(position));
+                mViewHolder.name.setText(allFriendNames.get(position));
             } catch (NullPointerException | ClassCastException e) {
-                Log.e(
-                        "Unanimus",
-                        String.format(
-                                "%s\n%s: %s (\"%s\")\n%s",
-                                "Unexpected error!",
-                                "Check for resource with id",
-                                Integer.toHexString(R.id.fpa_facebook_name),
-                                "fpa_facebook_name.\n",
-                                new Object() {
-                                    public String getMessage(Throwable tr) {
-                                        if (tr instanceof NullPointerException) {
-                                            return "Cannot find layout with id.";
-                                        }
-                                        if (tr instanceof ClassCastException) {
-                                            return "Found layout with id, but it is not a TextView.";
-                                        }
-                                        Log.w("Unanimus", "Caught unexpected exception with no log message to match.");
-                                        return null;
-                                    }
-                                }.getMessage(e)
-                        ),
-                        e
-                );
+                logError(R.id.fpa_facebook_name, e);
                 mViewHolder.name = new TextView(getContext());
             }
 
@@ -109,10 +69,42 @@ class FriendPickerListAdapter extends ArrayAdapter<String> {
             }
         }
 
-        mViewHolder.profPic.setProfileId(ids.get(position));
-        mViewHolder.name.setText(names.get(position));
+        if (selectedFacebookIds.contains(allFacebookIds.get(position))) {
+            convertView.setBackgroundColor(SELECTED_COLOR);
+        } else {
+            convertView.setBackgroundColor(UNSELECTED_COLOR);
+        }
+
+        mViewHolder.profPic.setProfileId(allFacebookIds.get(position).toString());
+        mViewHolder.name.setText(allFriendNames.get(position));
 
         return convertView;
+    }
+
+    private int logError(int id, Throwable e) {
+        return Log.e(
+                "Unanimus",
+                String.format(
+                        "%s\n%s: %s (\"%s\")\n%s",
+                        "Unexpected error!",
+                        "Check for resource with id",
+                        Integer.toHexString(id),
+                        "fpa_profile_picture",
+                        new Object() {
+                            public String getMessage(Throwable tr) {
+                                if (tr instanceof NullPointerException) {
+                                    return "Cannot find layout with id.";
+                                }
+                                if (tr instanceof ClassCastException) {
+                                    return "Found layout with id, but it is not a TextView.";
+                                }
+                                Log.w("Unanimus", "Caught unexpected exception with no log message to match.");
+                                return new String();
+                            }
+                        }.getMessage(e)
+                ),
+                e
+        );
     }
 
     private static class ViewHolder {
