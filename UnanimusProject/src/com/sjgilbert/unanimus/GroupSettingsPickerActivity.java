@@ -17,7 +17,10 @@ import android.widget.Toast;
 
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 // TODO: lets get some licensing up in this joint
@@ -128,6 +131,21 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         });
     }
 
+    private Date getDate() {
+        final Calendar calendar = new GregorianCalendar(
+                gspaContainer.getYear(),
+                gspaContainer.getMonth(),
+                gspaContainer.getDay(),
+                gspaContainer.getHourOfDay(),
+                gspaContainer.getMinute(),
+                0
+        );
+
+        final long millis = calendar.getTimeInMillis();
+
+        return new Date(millis);
+    }
+
     private void setDate(int day, int month, int year) {
         gspaContainer.year = year;
         gspaContainer.month = month;
@@ -135,13 +153,18 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
     }
 
     private String getDateString() {
+        final Date date = getDate();
+
+        DateFormat dateFormat = DateFormat.getDateInstance(
+                DateFormat.DEFAULT,
+                Locale.getDefault()
+        );
+
         return String.format(
                 Locale.getDefault(),
-                "%s: %02d-%02d-%04d",
+                "%s: %s",
                 getString(R.string.gspa_date),
-                gspaContainer.getDay(),
-                gspaContainer.getMonth() + 1,
-                gspaContainer.getYear()
+                dateFormat.format(date)
         );
     }
 
@@ -189,12 +212,18 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
     }
 
     private String getTimeString() {
+        final Date date = getDate();
+
+        DateFormat dateFormat = DateFormat.getTimeInstance(
+                DateFormat.SHORT,
+                Locale.getDefault()
+        );
+
         return String.format(
                 Locale.getDefault(),
-                "%s: %d:%02d",
+                "%s: %s",
                 getString(R.string.gspa_time),
-                gspaContainer.getHourOfDay(),
-                gspaContainer.getMinute()
+                dateFormat.format(date)
         );
     }
 
