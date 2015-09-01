@@ -11,10 +11,17 @@ import java.util.Queue;
  * 8/31/15 (c) Isabell Cowan
  * isabellcowan@gmail.com
  */
-public final class ParseCache<K extends CharSequence, V extends ParseObject> {
+public /* static */ final class ParseCache<K extends CharSequence, V extends ParseObject> {
     public static ParseCache<String, ParseObject> parseCache = new ParseCache<>();
+    private final QueueMap<String, ParseQuery<V>> queueMap = new QueueMap<>();
+    private final Queue<Map.Entry<String, ParseQuery<V>>> entryQueue = queueMap.asQueue;
+    private final Map<String, ParseQuery<V>> queryMap = queueMap.asMap;
 
-    public static void init(Object ... objects) {
+    private ParseCache(Object... ignore) {
+        // Singleton
+    }
+
+    public static void init(Object... objects) {
         parseCache = new ParseCache<>(objects);
     }
 
@@ -24,15 +31,6 @@ public final class ParseCache<K extends CharSequence, V extends ParseObject> {
 
     public static boolean isInit() {
         return (parseCache != null);
-    }
-
-    private final QueueMap<String, ParseQuery<V>> queueMap = new QueueMap<>();
-
-    private final Queue<Map.Entry<String, ParseQuery<V>>> entryQueue = queueMap.asQueue;
-    private final Map<String, ParseQuery<V>> queryMap = queueMap.asMap;
-
-    private ParseCache(Object ... ignore) {
-        // Singleton
     }
 
     public ParseQuery<V> get(K key) {
@@ -73,7 +71,7 @@ public final class ParseCache<K extends CharSequence, V extends ParseObject> {
 
         int i = 0;
         for (Map.Entry<String, ParseQuery<V>> entry : entryQueue) {
-            if (! (number > i)) break;
+            if (!(number > i)) break;
 
             ParseQuery<V> parseQuery = entry.getValue();
             if (parseQuery.hasCachedResult()) {

@@ -17,22 +17,10 @@ import java.util.ArrayList;
  */
 @ParseClassName("UnanimusGroup")
 public class UnanimusGroup extends ParseObject {
-    public EStatus getStatus() {
-        return status;
-    }
-
-    private enum EStatus {
-        pending,
-        complete,
-        inProgress,
-        unread
-    }
-
     public final FriendPickerActivity.FpaContainer fpaContainer;
     public final GroupSettingsPickerActivity.GspaContainer gspaContainer;
     public final PlacePickActivity.PpaContainer ppaContainer;
     private EStatus status;
-
     public UnanimusGroup() {
         gspaContainer = new GroupSettingsPickerActivity.GspaContainer();
         fpaContainer = new FriendPickerActivity.FpaContainer();
@@ -42,6 +30,10 @@ public class UnanimusGroup extends ParseObject {
 
     public static ParseQuery<UnanimusGroup> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
+    }
+
+    public EStatus getStatus() {
+        return status;
     }
 
     public ArrayList<String> getMembers() {
@@ -88,7 +80,6 @@ public class UnanimusGroup extends ParseObject {
         add("voteArrays", voteArray);
         saveInBackground();
     }
-
 
     @Deprecated
     private ArrayList<Integer> voteTally() {
@@ -170,5 +161,12 @@ public class UnanimusGroup extends ParseObject {
 
     public void setPpaContainer(Bundle bundle) {
         ppaContainer.setFromBundle(bundle);
+    }
+
+    private enum EStatus {
+        pending,
+        complete,
+        inProgress,
+        unread
     }
 }
