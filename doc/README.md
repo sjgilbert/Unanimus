@@ -14,6 +14,7 @@ Android application for the selection of restaurant(s) by a group.  Implements t
 * `./UnanimusProject` -- Application module
   * `res` -- Android framework resources
   * `src/com/sjgilbert/unanimus` -- Source files
+
 ##Build Instructions
 ```bash
 [user@localhost Unanimus]$ ./gradlew build
