@@ -148,11 +148,12 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
     public static class FpaContainer extends CreateGroupActivity.ADependencyContainer {
         private final static String FACEBOOK_IDS = "FacebookIds";
         private final static String PARSE_IDS = "ParseIds";
+
         private UserIdPair[] userIdPairs;
 
         @Override
         boolean isSet() {
-            return (0 < userIdPairs.length);
+            return (userIdPairs != null && 0 < userIdPairs.length);
         }
 
         @Override

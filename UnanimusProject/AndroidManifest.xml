@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sjgilbert.unanimus"
-    android:versionName="0.14.7">
+    android:versionName="0.14.8">
 
     <uses-sdk
         android:minSdkVersion="11"

@@ -18,28 +18,22 @@ import static com.sjgilbert.unanimus.PlacePickActivity.PPA;
  * Activity for creating group.  Calls 3 other activities for input to build group.
  */
 public class CreateGroupActivity extends UnanimusActivityTitle {
+    private static final String CGA = "cga";
     private final int FPA_REQUEST = 1;
     private final int PPA_REQUEST = 2;
     private final int GSPA_REQUEST = 3;
 
-    private UnanimusGroup unanimusGroup;
+    private final UnanimusGroup unanimusGroup = new UnanimusGroup();
 
     public CreateGroupActivity() {
-        super("cga");
+        super(CGA);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.create_group_activity);
-        try {
-            setTitleBar(R.string.cga_title, (ViewGroup) findViewById(R.id.create_group_activity));
-        } catch (ClassCastException e) {
-            log(ELog.e, e.getMessage(), e);
-        }
-
-        unanimusGroup = new UnanimusGroup();
+        lauchNext();
     }
 
     @Override
@@ -77,22 +71,20 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
             default:
                 throw new UnsupportedOperationException();
         }
+
+        lauchNext();
     }
 
-    @SuppressWarnings("UnusedParameters")
-    public void cga_viewCreateGroup(View view) {
-        final UnanimusGroup newGroup = new UnanimusGroup();
-
-        ParseACL acl = new ParseACL();
-        acl.setPublicWriteAccess(true);
-        acl.setPublicReadAccess(true);
-
-        newGroup.setACL(acl);
-        newGroup.put("user", ParseUser.getCurrentUser());
-
-        startGspaForResult();
-        startPpaForResult();
-        startFpaForResult();
+    private void lauchNext() {
+        if (! unanimusGroup.getGspaContainer().isSet()) {
+            startGspaForResult();
+        } else if (! unanimusGroup.getPpaContainer().isSet()) {
+            startPpaForResult();
+        } else if (! unanimusGroup.getFpaContainer().isSet()) {
+            startFpaForResult();
+        } else {
+            finish();
+        }
     }
 
     private void startGspaForResult() {
