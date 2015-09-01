@@ -57,7 +57,7 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
     }
 
     @SuppressWarnings({"unused", "UnusedParameters"})
-    public void makeGroup(@SuppressWarnings("UnusedParameters") View v) {
+    public void makeGroup(View v) {
         final UnanimusGroup newGroup = new UnanimusGroup();
         ParseACL acl = new ParseACL();
         acl.setPublicWriteAccess(true);

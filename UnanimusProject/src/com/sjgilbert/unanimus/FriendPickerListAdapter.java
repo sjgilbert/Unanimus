@@ -28,6 +28,7 @@ class FriendPickerListAdapter extends ArrayAdapter<String> {
     private final List<FacebookId> selectedFacebookIds;
     private final Context context;
 
+    @SuppressWarnings("unused")
     public FriendPickerListAdapter(
             Activity context,
             List<String> allFriendNames,
@@ -80,6 +81,7 @@ class FriendPickerListAdapter extends ArrayAdapter<String> {
 
         private FacebookId facebookId;
 
+        @SuppressWarnings("unused")
         private ViewHolder(
                 ViewGroup viewGroup,
                 int position

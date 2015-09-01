@@ -171,7 +171,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         super.finish();
     }
 
-    public FacebookId[] getSelectedFacebookIds() {
+    private FacebookId[] getSelectedFacebookIds() {
         return friendPickerListAdapter.getSelectedFacebookIds();
     }
 
@@ -254,6 +254,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         }
     }
 
+    @SuppressWarnings("unused")
     private final class CustomOnItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(
@@ -269,6 +270,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         }
     }
 
+    @SuppressWarnings("unused")
     private final class CustomGraphJSONArrayCallback
             implements GraphRequest.GraphJSONArrayCallback {
         @Override

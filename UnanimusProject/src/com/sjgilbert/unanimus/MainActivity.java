@@ -43,26 +43,6 @@ public class MainActivity extends UnanimusActivityTitle {
         ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.ma_prof_pic);
         profilePictureView.setProfileId((String) ParseUser.getCurrentUser().get("facebookID"));
 
-//        //Button to access friend picker
-//        Button friendPickerButton = (Button) findViewById(R.id.ma_friend_picker_button);
-//        friendPickerButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, FriendPickerActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        //Button for Group Settings Picker
-//        Button groupSettingsPickerButton = (Button) findViewById(R.id.ma_group_settings_picker_button);
-//        groupSettingsPickerButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, GroupSettingsPickerActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
         Button makeGroupButton = (Button) findViewById(R.id.ma_make_group_button);
         makeGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,61 +94,6 @@ public class MainActivity extends UnanimusActivityTitle {
                 startActivity(intent);
             }
         });
-
-//        groupQueryWorker.execute();
-    }
-
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (AsyncTask.Status.FINISHED == groupQueryWorker.getStatus()) {
-//            doListQuery();
-//            log(
-//                    ELog.i,
-//                    "Resumed successfully."
-//            );
-//        } else {
-//            log(
-//                    ELog.d,
-//                    String.format(
-//                            Locale.getDefault(),
-//                            "%s.  %s: %s",
-//                            "Resumed but group query worker not finished",
-//                            "Status",
-//                            groupQueryWorker.getStatus().toString()
-//                    )
-//            );
-//        }
-//    }
-
-    @SuppressWarnings({"unused", "UnusedParameters"})
-    public void ma_viewFriendPicker(View view) {
-        startActivity(
-                new Intent(
-                        this,
-                        FriendPickerActivity.class
-                )
-        );
-    }
-
-    @SuppressWarnings({"unused", "UnusedParameters"})
-    public void ma_viewPlacePick(View view) {
-        startActivity(
-                new Intent(
-                        this,
-                        PlacePickActivity.class
-                )
-        );
-    }
-
-    @SuppressWarnings({"unused", "UnusedParameters"})
-    public void ma_viewGroupSettingsPicker(View view) {
-        startActivity(
-                new Intent(
-                        this, GroupSettingsPickerActivity.class
-                )
-        );
     }
 
     @SuppressWarnings({"unused", "UnusedParameters"})

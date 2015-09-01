@@ -150,7 +150,6 @@ public class VotingActivity extends UnanimusActivityTitle {
             votes = new ArrayList<>();
         }
 
-        @SuppressWarnings("unused")
         VaContainer(Bundle bundle) {
             this.votes = bundle.getIntegerArrayList(VOTES);
         }

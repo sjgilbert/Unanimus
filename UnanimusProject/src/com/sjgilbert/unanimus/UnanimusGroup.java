@@ -20,21 +20,15 @@ public class UnanimusGroup extends ParseObject {
     private final FriendPickerActivity.FpaContainer fpaContainer;
     private final GroupSettingsPickerActivity.GspaContainer gspaContainer;
     private final PlacePickActivity.PpaContainer ppaContainer;
-    private EStatus status;
 
     public UnanimusGroup() {
         gspaContainer = new GroupSettingsPickerActivity.GspaContainer();
         fpaContainer = new FriendPickerActivity.FpaContainer();
         ppaContainer = new PlacePickActivity.PpaContainer();
-        status = EStatus.pending;
     }
 
     public static ParseQuery<UnanimusGroup> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
-    }
-
-    public EStatus getStatus() {
-        return status;
     }
 
     public ArrayList<String> getMembers() {
@@ -135,7 +129,6 @@ public class UnanimusGroup extends ParseObject {
         }
     }
 
-    @SuppressWarnings("unused")
     GroupSettingsPickerActivity.GspaContainer getGspaContainer() {
         return gspaContainer;
     }
@@ -144,7 +137,6 @@ public class UnanimusGroup extends ParseObject {
         gspaContainer.setFromBundle(bundle);
     }
 
-    @SuppressWarnings("unused")
     FriendPickerActivity.FpaContainer getFpaContainer() {
         return fpaContainer;
     }
@@ -153,19 +145,11 @@ public class UnanimusGroup extends ParseObject {
         fpaContainer.setFromBundle(bundle);
     }
 
-    @SuppressWarnings("unused")
     PlacePickActivity.PpaContainer getPpaContainer() {
         return ppaContainer;
     }
 
     public void setPpaContainer(Bundle bundle) {
         ppaContainer.setFromBundle(bundle);
-    }
-
-    private enum EStatus {
-        pending,
-        complete,
-        inProgress,
-        unread
     }
 }

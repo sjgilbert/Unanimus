@@ -141,13 +141,13 @@ public class PlacePickActivity
         }
     }
 
-    @SuppressWarnings({"unused", "UnusedParameters"})
+    @SuppressWarnings("unused")
     public void ppa_viewFinish(View view) {
         setResult();
         finish();
     }
 
-    @SuppressWarnings({"WeakerAccess", "UnusedParameters"})
+    @SuppressWarnings("WeakerAccess")
     public void ppa_viewSetByLastLocation(View view) {
         setByLastLocation(lastLocation);
     }
@@ -158,7 +158,7 @@ public class PlacePickActivity
         ppa_viewSetByLastLocation(view);
     }
 
-    @SuppressWarnings({"unused", "UnusedParameters"})
+    @SuppressWarnings("unused")
     public void ppa_viewStartMap(View view) {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
@@ -249,8 +249,7 @@ public class PlacePickActivity
         }
     }
 
-    @SuppressWarnings("WeakerAccess")
-    protected static class PpaContainer extends CreateGroupActivity.ADependencyContainer {
+    static class PpaContainer extends CreateGroupActivity.ADependencyContainer {
         private static final String LAT = "lat";
         private static final String LNG = "lng";
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 public abstract class UnanimusActivityTitle_TextEntryBar
         extends UnanimusActivityTitle
         implements IUnanimusTitle, IUnanimusTextEntryBar {
-    protected UnanimusActivityTitle_TextEntryBar(@SuppressWarnings("SameParameterValue") String tag) {
+    protected UnanimusActivityTitle_TextEntryBar(String tag) {
         super(tag);
     }
 

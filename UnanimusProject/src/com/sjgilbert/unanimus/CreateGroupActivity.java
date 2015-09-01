@@ -79,7 +79,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         }
     }
 
-    @SuppressWarnings({"UnusedParameters", "WeakerAccess", "unused"})
+    @SuppressWarnings("UnusedParameters")
     public void cga_viewCreateGroup(View view) {
         final UnanimusGroup newGroup = new UnanimusGroup();
 
