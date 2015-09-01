@@ -21,6 +21,7 @@ public class UnanimusGroup extends ParseObject {
     private final GroupSettingsPickerActivity.GspaContainer gspaContainer;
     private final PlacePickActivity.PpaContainer ppaContainer;
     private EStatus status;
+
     public UnanimusGroup() {
         gspaContainer = new GroupSettingsPickerActivity.GspaContainer();
         fpaContainer = new FriendPickerActivity.FpaContainer();
