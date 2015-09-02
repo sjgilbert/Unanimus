@@ -25,6 +25,8 @@ public class UnanimusGroup2 extends ParseObject {
         return ParseQuery.getQuery(UnanimusGroup2.class);
     }
 
+    public UnanimusGroup2() {}
+
     public UnanimusGroup2(Collection<String> voteContainerIds, Collection<String> userIds, Collection<String> restaurantIds) {
         addAll("voteContainerIds", voteContainerIds);
         addAll("userIds", userIds);

@@ -19,6 +19,10 @@ import java.util.ListIterator;
 public class VoteContainer extends ParseObject implements List<Integer>{
     private ArrayList<Integer> al = new ArrayList<>();
 
+    public VoteContainer() {
+
+    }
+
     public static ParseQuery<UnanimusGroup2> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup2.class);
     }

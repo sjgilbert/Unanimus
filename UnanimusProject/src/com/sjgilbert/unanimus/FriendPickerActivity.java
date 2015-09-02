@@ -279,10 +279,10 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
             final int color;
             if (selectedFacebookIds.contains(facebookId)) {
                 removeFacebookID(facebookId);
-                color = FriendPickerListAdapter.SELECTED_COLOR;
+                color = FriendPickerListAdapter.UNSELECTED_COLOR;
             } else {
                 addFacebookID(facebookId);
-                color = Color.argb(127, 0, 0, 255);
+                color = FriendPickerListAdapter.SELECTED_COLOR;
             }
 
             view.setBackgroundColor(color);
