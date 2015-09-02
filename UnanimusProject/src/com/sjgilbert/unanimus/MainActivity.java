@@ -88,7 +88,7 @@ public class MainActivity extends UnanimusActivityTitle {
                 try {
                     ArrayList<String> members = group.getMembers();
                     final ArrayList<String> usernames = new ArrayList<>();
-                    GraphRequest[] requests = new GraphRequest[members.size()];
+                    final GraphRequest[] requests = new GraphRequest[members.size()];
                     for (int i = 0; i < members.size(); i++) {
                         final String user = members.get(i);
                         requests[i] = new GraphRequest(
@@ -98,6 +98,14 @@ public class MainActivity extends UnanimusActivityTitle {
                                 HttpMethod.GET,
                                 new GraphRequest.Callback() {
                                     public void onCompleted(GraphResponse response) {
+                                        if (response.getError() != null) {
+                                            log(
+                                                    ELog.e,
+                                                    response.getError().getErrorMessage(),
+                                                    response.getError().getException()
+                                            );
+                                            return;
+                                        }
                                         try {
                                             usernames.add(response.getJSONObject().getString("name"));
                                             ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
