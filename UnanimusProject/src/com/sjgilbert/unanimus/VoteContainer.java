@@ -16,7 +16,7 @@ import java.util.ListIterator;
  * Created by sam on 9/1/15.
  */
 @ParseClassName("VoteContainer")
-public class VoteContainer extends ParseObject implements List<Integer>{
+public class VoteContainer extends ParseObject implements List<Integer> {
     private ArrayList<Integer> al = new ArrayList<>();
 
     public VoteContainer() {

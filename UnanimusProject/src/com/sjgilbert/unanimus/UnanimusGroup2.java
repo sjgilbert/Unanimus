@@ -18,11 +18,8 @@ import java.util.Set;
 @ParseClassName("UnanimusGroup2")
 public class UnanimusGroup2 extends ParseObject {
 
-    public static ParseQuery<UnanimusGroup2> getQuery() {
-        return ParseQuery.getQuery(UnanimusGroup2.class);
+    public UnanimusGroup2() {
     }
-
-    public UnanimusGroup2() {}
 
     public UnanimusGroup2(
             Collection<String> voteContainerIds,
@@ -31,6 +28,10 @@ public class UnanimusGroup2 extends ParseObject {
         addAll("voteContainerIds", voteContainerIds);
         addAll("userIds", userIds);
         addAll("restaurantIds", restaurantIds);
+    }
+
+    public static ParseQuery<UnanimusGroup2> getQuery() {
+        return ParseQuery.getQuery(UnanimusGroup2.class);
     }
 
     public List<String> getVoteContainerIds() {

@@ -2,11 +2,7 @@ package com.sjgilbert.unanimus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.parse.ParseACL;
-import com.parse.ParseUser;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.Locale;
@@ -76,11 +72,11 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     }
 
     private void lauchNext() {
-        if (! unanimusGroup.getGspaContainer().isSet()) {
+        if (!unanimusGroup.getGspaContainer().isSet()) {
             startGspaForResult();
-        } else if (! unanimusGroup.getPpaContainer().isSet()) {
+        } else if (!unanimusGroup.getPpaContainer().isSet()) {
             startPpaForResult();
-        } else if (! unanimusGroup.getFpaContainer().isSet()) {
+        } else if (!unanimusGroup.getFpaContainer().isSet()) {
             startFpaForResult();
         } else {
             finish();

@@ -43,12 +43,11 @@ import java.util.concurrent.ExecutionException;
  */
 public class PlacePickActivity
         extends
-                UnanimusActivityTitle_TextEntryBar
+        UnanimusActivityTitle_TextEntryBar
         implements
-                GoogleApiClient.ConnectionCallbacks,
-                GoogleApiClient.OnConnectionFailedListener,
-                OnMapReadyCallback
-{
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        OnMapReadyCallback {
     final static String PPA = "ppa";
 
     private final static int PLACE_PICKER_REQUEST = 1;

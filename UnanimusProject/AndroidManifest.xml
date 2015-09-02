@@ -16,9 +16,9 @@
     <application
         android:name="com.sjgilbert.unanimus.UnanimusApplication"
         android:allowBackup="true"
-        android:supportsRtl="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:supportsRtl="false"
         android:theme="@android:style/Theme.Light.NoTitleBar"
         tools:ignore="UnusedAttribute">
         <meta-data

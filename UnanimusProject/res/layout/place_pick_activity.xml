@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    style="@style/MatchParent">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/place_pick_activity"
-    style="@style/RootLayout">
+<ScrollView style="@style/MatchParent">
 
-    <include layout="@layout/activity_title" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/place_pick_activity"
+        style="@style/RootLayout">
 
-    <include layout="@layout/text_entry_bar" />
+        <include layout="@layout/activity_title" />
 
-    <fragment
-        class="com.google.android.gms.maps.MapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/ppa_map"/>
+        <include layout="@layout/text_entry_bar" />
 
-    <Button
-        android:id="@+id/ppa_map_button"
-        style="@style/Button"
-        android:onClick="ppa_viewStartMap"
-        android:text="@string/ppa_map_button" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="@integer/one">
+        <fragment
+            android:id="@+id/ppa_map"
+            class="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
 
         <Button
-            android:id="@+id/ppa_last_know_button"
+            android:id="@+id/ppa_map_button"
             style="@style/Button"
-            android:layout_width="@dimen/zero"
-            android:layout_weight="1"
-            android:onClick="ppa_viewSetByLastLocation"
-            android:text="@string/ppa_last_know_button"
-            tools:ignore="InefficientWeight" />
+            android:onClick="ppa_viewStartMap"
+            android:text="@string/ppa_map_button" />
 
-        <Button
-            style="@style/Button"
-            android:layout_width="wrap_content"
-            android:onClick="ppa_viewRefreshLastLocation"
-            android:text="@string/refresh" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="@integer/one">
+
+            <Button
+                android:id="@+id/ppa_last_know_button"
+                style="@style/Button"
+                android:layout_width="@dimen/zero"
+                android:layout_weight="1"
+                android:onClick="ppa_viewSetByLastLocation"
+                android:text="@string/ppa_last_know_button"
+                tools:ignore="InefficientWeight" />
+
+            <Button
+                style="@style/Button"
+                android:layout_width="wrap_content"
+                android:onClick="ppa_viewRefreshLastLocation"
+                android:text="@string/refresh" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ppa_place_preview_layout"
+            style="@style/MatchParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@android:color/darker_gray"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/ppa_place_as_string"
+                style="@style/TextView"
+                android:layout_height="@dimen/zero"
+                android:layout_weight="@integer/one"
+                android:text="@string/ppa_no_choice_prev"
+                tools:ignore="InefficientWeight" />
+
+            <Button
+                android:id="@+id/ppa_submit_button"
+                style="@style/Button"
+                android:layout_gravity="center_horizontal|bottom"
+                android:onClick="ppa_viewFinish"
+                android:text="@string/ppa_submit_button" />
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ppa_place_preview_layout"
-        style="@style/MatchParent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:background="@android:color/darker_gray"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/ppa_place_as_string"
-            style="@style/TextView"
-            android:layout_height="@dimen/zero"
-            android:layout_weight="@integer/one"
-            android:text="@string/ppa_no_choice_prev"
-            tools:ignore="InefficientWeight" />
-
-        <Button
-            android:id="@+id/ppa_submit_button"
-            style="@style/Button"
-            android:layout_gravity="center_horizontal|bottom"
-            android:onClick="ppa_viewFinish"
-            android:text="@string/ppa_submit_button" />
-    </LinearLayout>
-
-</LinearLayout>
 </ScrollView>

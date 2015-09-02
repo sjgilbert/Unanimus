@@ -10,15 +10,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/dummy_text"
-        style="@style/Wrap"
-        android:text="@string/invited_by"/>
+        <TextView
+            android:id="@+id/dummy_text"
+            style="@style/Wrap"
+            android:text="@string/invited_by" />
 
-    <com.facebook.login.widget.ProfilePictureView
-        android:id="@+id/uga_invited_by"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        <com.facebook.login.widget.ProfilePictureView
+            android:id="@+id/uga_invited_by"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
 
     </LinearLayout>
 
