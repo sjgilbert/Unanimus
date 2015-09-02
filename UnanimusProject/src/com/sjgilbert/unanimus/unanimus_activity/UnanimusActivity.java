@@ -1,6 +1,5 @@
 package com.sjgilbert.unanimus.unanimus_activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import java.util.Locale;
  * 8/1/15 (c) Isabell Cowan
  * isabellcowan@gmail.com
  */
-@SuppressLint("Registered")
 class UnanimusActivity extends Activity {
     private final String tag;
 
@@ -149,12 +147,10 @@ class UnanimusActivity extends Activity {
         return button;
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     protected int log(ELog log, String message) {
         return log.logger.log(this.tag, message);
     }
 
-    @SuppressWarnings({"UnusedReturnValue", "SameParameterValue"})
     protected int log(ELog log, String message, Throwable e) {
         return log.logger.log(this.tag, message, e);
     }
@@ -172,7 +168,7 @@ class UnanimusActivity extends Activity {
                 return Log.e(tag, message, throwable);
             }
         }),
-        @SuppressWarnings("unused")w(new Logger() {
+        w(new Logger() {
             @Override
             public int log(String tag, String message) {
                 return Log.w(tag, message);
@@ -183,7 +179,7 @@ class UnanimusActivity extends Activity {
                 return Log.w(tag, message, throwable);
             }
         }),
-        @SuppressWarnings("unused")i(new Logger() {
+        i(new Logger() {
             @Override
             public int log(String tag, String message) {
                 return Log.i(tag, message);
@@ -205,7 +201,7 @@ class UnanimusActivity extends Activity {
                 return Log.d(tag, message, throwable);
             }
         }),
-        @SuppressWarnings("unused")v(new Logger() {
+        v(new Logger() {
             @Override
             public int log(String tag, String message) {
                 return Log.v(tag, message);
@@ -226,7 +222,6 @@ class UnanimusActivity extends Activity {
         private interface Logger {
             int log(String tag, String message);
 
-            @SuppressWarnings("unused")
             int log(String tag, String message, Throwable throwable);
         }
     }

@@ -17,7 +17,8 @@ public /* static */ final class ParseCache<K extends CharSequence, V extends Par
     private final Queue<Map.Entry<String, ParseQuery<V>>> entryQueue = queueMap.asQueue;
     private final Map<String, ParseQuery<V>> queryMap = queueMap.asMap;
 
-    private ParseCache(@SuppressWarnings("UnusedParameters") Object... ignore) {
+    @SuppressWarnings("UnusedParameters")
+    private ParseCache(Object... ignore) {
         // Singleton
     }
 

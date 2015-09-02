@@ -1,5 +1,7 @@
 package com.sjgilbert.unanimus;
 
+import android.support.annotation.NonNull;
+
 /**
  * 9/1/15 (c) Isabell Cowan
  * isabellcowan@gmail.com
@@ -7,6 +9,7 @@ package com.sjgilbert.unanimus;
 public class FacebookId implements CharSequence {
     private final String facebookIdString;
 
+    @SuppressWarnings("unused")
     public FacebookId(String facebookIdString) {
         this.facebookIdString = facebookIdString;
     }
@@ -26,6 +29,7 @@ public class FacebookId implements CharSequence {
         return facebookIdString.subSequence(start, end);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return facebookIdString;

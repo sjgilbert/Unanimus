@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * eventually allow the user to indicate preferences/view recommendations.
  */
 public class GroupActivity extends UnanimusActivityTitle {
-    static final String GROUP_ID = "GROUP_ID";
+    private static final String GROUP_ID = "GROUP_ID";
     private static final String GA = "ga";
     private String groupName;
     private UnanimusGroup group;

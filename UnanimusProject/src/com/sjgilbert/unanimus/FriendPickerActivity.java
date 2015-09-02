@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,11 +41,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class FriendPickerActivity extends UnanimusActivityTitle {
     static final String FPA = "FpaContainer";
-    private static final String tag = "fpa";
-    private final FpaContainer fpaContainer = new FpaContainer();
-    private final ArrayList<FacebookId> selectedFacebookIds = new ArrayList<>();
-    private final String userFacebookID = ParseUser.getCurrentUser().getString("facebookID");
 
+    private static final String tag = "fpa";
+
+    private final FpaContainer fpaContainer = new FpaContainer();
+
+    private FriendPickerListAdapter friendPickerListAdapter;
 
     public FriendPickerActivity() {
         super(tag);
@@ -58,12 +58,14 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
 
         setContentView(R.layout.friend_picker_activity);
         try {
-            setTitleBar(R.string.fpa_title, (ViewGroup) findViewById(R.id.friend_picker_activity).findViewById(R.id.fpa_title_bar));
+            setTitleBar(
+                    R.string.fpa_title,
+                    (ViewGroup) findViewById(R.id.fpa_title_bar)
+            );
         } catch (NullPointerException | ClassCastException e) {
             log(ELog.e, e.getMessage(), e);
         }
 
-        selectedFacebookIds.add(new FacebookId(userFacebookID));
         fpaContainer.setDefault();
 
         //The request for facebook friends
@@ -73,98 +75,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         ).executeAsync();
 
         Button doneButton = (Button) findViewById(R.id.fpa_done_button);
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (1 >= selectedFacebookIds.size()) {
-                    final boolean[] doFinish = new boolean[]{false};
-                    AlertDialog.Builder builder = new AlertDialog.Builder(FriendPickerActivity.this);
-
-                    builder
-                            .setMessage("No friends selected!  Continue anyway?")
-                            .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    doFinish[0] = true;
-                                    dialog.cancel();
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    doFinish[0] = false;
-                                    dialog.cancel();
-                                }
-                            })
-                            .create()
-                            .show();
-
-                    if (!doFinish[0])
-                        return;
-                }
-
-                final ProgressDialog progressDialog = new ProgressDialog(FriendPickerActivity.this);
-                final Handler updateBarHandler = new Handler();
-
-                progressDialog.setTitle("Getting member information");
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                progressDialog.setProgress(0);
-                progressDialog.setMax(FriendPickerActivity.this.selectedFacebookIds.size());
-                progressDialog.show();
-
-                new GetUserIdsPairsWorker(
-                        FriendPickerActivity.this.selectedFacebookIds.toArray(
-                                new FacebookId[FriendPickerActivity.this.selectedFacebookIds.size()]
-                        )
-                ) {
-                    private final ProgressDialog dialog = progressDialog;
-                    private final Handler handler = updateBarHandler;
-
-                    @Override
-                    protected void onProgressUpdate(Integer... progress) {
-                        super.onProgressUpdate(progress);
-
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                dialog.setProgress(getCompletedQueries());
-                            }
-                        });
-                    }
-
-                    @Override
-                    protected void onPostExecute(FpaContainer.UserIdPair[] result) {
-                        FriendPickerActivity.this.fpaContainer.userIdPairs = result;
-
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        try {
-                            Thread.sleep(100L);
-                        } catch (InterruptedException e) {
-                            log(
-                                    ELog.e,
-                                    e.getMessage(),
-                                    e
-                            );
-                        }
-
-                        finish();
-                    }
-                }.execute();
-            }
-        });
-    }
-
-    private void addFacebookID(FacebookId friendID) {
-        selectedFacebookIds.add(friendID);
-    }
-
-    private void removeFacebookID(FacebookId friendID) {
-        selectedFacebookIds.remove(friendID);
+        doneButton.setOnClickListener(new DoneButtonOnClickListener());
     }
 
     @Override
@@ -182,14 +93,67 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         super.finish();
     }
 
+    private FacebookId[] getSelectedFacebookIds() {
+        return friendPickerListAdapter.getSelectedFacebookIds();
+    }
+
+    private void startFinish(FacebookId[] facebookIds) {
+        final ProgressDialog progressDialog = new ProgressDialog(FriendPickerActivity.this);
+        final Handler updateBarHandler = new Handler();
+
+        progressDialog.setTitle("Getting member information");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.setMax(FriendPickerActivity.this.getSelectedFacebookIds().length);
+        progressDialog.show();
+
+        new GetUserIdsPairsWorker(facebookIds) {
+            private final ProgressDialog dialog = progressDialog;
+            private final Handler handler = updateBarHandler;
+
+            @Override
+            protected void onProgressUpdate(Integer... progress) {
+                super.onProgressUpdate(progress);
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.setProgress(getCompletedQueries());
+                    }
+                });
+            }
+
+            @Override
+            protected void onPostExecute(FpaContainer.UserIdPair[] result) {
+                FriendPickerActivity.this.fpaContainer.userIdPairs = result;
+
+                try {
+                    Thread.sleep(100L);
+                } catch (InterruptedException e) {
+                    log(ELog.e, e.getMessage(), e);
+                }
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                });
+
+                finish();
+            }
+        }.execute();
+    }
+
     public static class FpaContainer extends CreateGroupActivity.ADependencyContainer {
         private final static String FACEBOOK_IDS = "FacebookIds";
         private final static String PARSE_IDS = "ParseIds";
+
         private UserIdPair[] userIdPairs;
 
         @Override
         boolean isSet() {
-            return (1 < userIdPairs.length);
+            return (userIdPairs != null && 0 < userIdPairs.length);
         }
 
         @Override
@@ -261,13 +225,39 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         }
     }
 
-    private final class CustomOnItemClickListener implements AdapterView.OnItemClickListener {
-        private final List<FacebookId> allFacebookIds;
+    private class DoneButtonOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            final FacebookId[] facebookIds = FriendPickerActivity.this.getSelectedFacebookIds();
 
-        CustomOnItemClickListener(List<FacebookId> allFacebookIds) {
-            this.allFacebookIds = allFacebookIds;
+            if (1 < facebookIds.length) {
+                startFinish(facebookIds);
+                return;
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(FriendPickerActivity.this);
+
+            builder
+                    .setMessage("No friends selected!  Continue anyway?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            startFinish(facebookIds);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create()
+                    .show();
         }
+    }
 
+    @SuppressWarnings("unused")
+    private final class CustomOnItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(
                 AdapterView<?> adapterView,
@@ -275,20 +265,14 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                 int position,
                 long id
         ) {
-            final FacebookId facebookId = allFacebookIds.get(position);
-            final int color;
-            if (selectedFacebookIds.contains(facebookId)) {
-                removeFacebookID(facebookId);
-                color = FriendPickerListAdapter.UNSELECTED_COLOR;
-            } else {
-                addFacebookID(facebookId);
-                color = FriendPickerListAdapter.SELECTED_COLOR;
-            }
+            final FriendPickerListAdapter.ViewHolder viewHolder
+                    = (FriendPickerListAdapter.ViewHolder) view.getTag();
 
-            view.setBackgroundColor(color);
+            viewHolder.toggleSelected();
         }
     }
 
+    @SuppressWarnings("unused")
     private final class CustomGraphJSONArrayCallback
             implements GraphRequest.GraphJSONArrayCallback {
         @Override
@@ -323,17 +307,16 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
 
             ListView friendListView = (ListView) findViewById(R.id.fpa_list_view);
 
-            friendListView.setAdapter(
-                    new FriendPickerListAdapter(
-                            FriendPickerActivity.this,
-                            allFriendNames,
-                            allFacebookIds,
-                            selectedFacebookIds
-                    )
+            FriendPickerActivity.this.friendPickerListAdapter = new FriendPickerListAdapter(
+                    FriendPickerActivity.this,
+                    allFriendNames,
+                    allFacebookIds
             );
 
+            friendListView.setAdapter(FriendPickerActivity.this.friendPickerListAdapter);
+
             AdapterView.OnItemClickListener onItemClickListener
-                    = new CustomOnItemClickListener(allFacebookIds);
+                    = new CustomOnItemClickListener();
 
             friendListView.setOnItemClickListener(onItemClickListener);
         }

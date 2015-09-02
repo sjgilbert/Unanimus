@@ -141,61 +141,6 @@ public class MainActivity extends UnanimusActivityTitle {
                 startActivity(intent);
             }
         });
-
-//        groupQueryWorker.execute();
-    }
-
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (AsyncTask.Status.FINISHED == groupQueryWorker.getStatus()) {
-//            doListQuery();
-//            log(
-//                    ELog.i,
-//                    "Resumed successfully."
-//            );
-//        } else {
-//            log(
-//                    ELog.d,
-//                    String.format(
-//                            Locale.getDefault(),
-//                            "%s.  %s: %s",
-//                            "Resumed but group query worker not finished",
-//                            "Status",
-//                            groupQueryWorker.getStatus().toString()
-//                    )
-//            );
-//        }
-//    }
-
-    @SuppressWarnings({"unused", "UnusedParameters"})
-    public void ma_viewFriendPicker(View view) {
-        startActivity(
-                new Intent(
-                        this,
-                        FriendPickerActivity.class
-                )
-        );
-    }
-
-    @SuppressWarnings({"unused", "UnusedParameters"})
-    public void ma_viewPlacePick(View view) {
-        startActivity(
-                new Intent(
-                        this,
-                        PlacePickActivity.class
-                )
-        );
-    }
-
-    @SuppressWarnings({"unused", "UnusedParameters"})
-    public void ma_viewGroupSettingsPicker(View view) {
-        startActivity(
-                new Intent(
-                        this, GroupSettingsPickerActivity.class
-                )
-        );
     }
 
     @SuppressWarnings({"unused", "UnusedParameters"})
