@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/RootLayout"
+    style="@style/MatchParent"
     android:fadeScrollbars="false">
 <LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/group_settings_picker_activity"
@@ -12,52 +12,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="@integer/one">
         <TextView
             style="@style/TextView"
             android:gravity="center"
             android:text="@string/gspa_date"
-            android:textSize="20sp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:textStyle="bold" />
         <TextView
             style="@style/TextView"
             android:gravity="center"
             android:text="@string/gspa_time"
-            android:textSize="20sp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:weightSum="@integer/one"
         android:orientation="horizontal">
         <Button
             android:id="@+id/gspa_date"
             style="@style/Button"
             android:text="@string/gspa_date"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/gspa_time"
             style="@style/Button"
             android:text="@string/gspa_time"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
         style="@style/TextView"
+        android:layout_marginTop="@dimen/double_margin"
+        android:layout_marginBottom="@dimen/zero"
         android:gravity="center"
-        android:padding="15dp"
         android:text="@string/gspa_radius"
-        android:textSize="20sp"
         android:textStyle="bold" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
@@ -65,26 +65,28 @@
 
         <TextView
             android:id="@+id/radius0"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginLeft="@dimen/standard_pad_margin"
-            android:layout_weight="0.5"
-            android:gravity="start"
-            android:text="@string/zero"
+            style="@style/TextView"
+            android:layout_width="@dimen/zero"
             android:textSize="@dimen/small_font"
+            android:layout_marginBottom="@dimen/zero"
+            android:layout_marginLeft="@dimen/standard_pad_margin"
+            android:layout_gravity="start|top"
+            android:gravity="start|bottom"
+            android:layout_weight="0.5"
+            android:text="@string/zero"
             tools:ignore="RtlHardcoded" />
 
         <TextView
             android:id="@+id/radius10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginRight="@dimen/standard_pad_margin"
-            android:layout_weight="0.5"
-            android:gravity="end"
-            android:text="@string/ten"
+            style="@style/TextView"
+            android:layout_width="@dimen/zero"
             android:textSize="@dimen/small_font"
+            android:layout_marginBottom="@dimen/zero"
+            android:layout_marginRight="@dimen/standard_pad_margin"
+            android:layout_gravity="end|top"
+            android:gravity="end|bottom"
+            android:layout_weight="0.5"
+            android:text="@string/ten"
             tools:ignore="RtlHardcoded" />
 
     </LinearLayout>
@@ -93,17 +95,16 @@
         android:id="@+id/gspa_radius_slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="10"
+        android:max="@integer/ten"
         android:paddingBottom="@dimen/standard_pad_margin"
         android:paddingLeft="@dimen/standard_pad_margin"
         android:paddingRight="@dimen/standard_pad_margin" />
 
     <TextView
         style="@style/TextView"
+        android:layout_marginTop="@dimen/double_margin"
         android:gravity="center"
-        android:padding="15dp"
         android:text="@string/gspa_price_level"
-        android:textSize="20sp"
         android:textStyle="bold" />
 
     <RadioGroup
@@ -155,6 +156,7 @@
     <Button
         android:id="@+id/gspa_submit_button"
         style="@style/Button"
+        android:layout_marginTop="@dimen/double_margin"
         android:text="@string/gspa_submit" />
 
 

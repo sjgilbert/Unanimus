@@ -46,12 +46,12 @@ public class VoteContainer extends ParseObject implements List<Integer>{
     }
 
     @Override
-    public boolean addAll(int location, Collection<? extends Integer> collection) {
+    public boolean addAll(int location, @NonNull Collection<? extends Integer> collection) {
         return al.addAll(location, collection);
     }
 
     @Override
-    public boolean addAll(Collection<? extends Integer> collection) {
+    public boolean addAll(@NonNull Collection<? extends Integer> collection) {
         return al.addAll(collection);
     }
 
@@ -66,7 +66,7 @@ public class VoteContainer extends ParseObject implements List<Integer>{
     }
 
     @Override
-    public boolean containsAll(Collection<?> collection) {
+    public boolean containsAll(@NonNull Collection<?> collection) {
         return al.containsAll(collection);
     }
 
@@ -119,12 +119,12 @@ public class VoteContainer extends ParseObject implements List<Integer>{
     }
 
     @Override
-    public boolean removeAll(Collection<?> collection) {
+    public boolean removeAll(@NonNull Collection<?> collection) {
         return al.removeAll(collection);
     }
 
     @Override
-    public boolean retainAll(Collection<?> collection) {
+    public boolean retainAll(@NonNull Collection<?> collection) {
         return al.retainAll(collection);
     }
 
@@ -147,12 +147,13 @@ public class VoteContainer extends ParseObject implements List<Integer>{
     @NonNull
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return al.toArray();
     }
 
     @NonNull
     @Override
-    public <T> T[] toArray(T[] array) {
-        return null;
+    public <T> T[] toArray(@NonNull T[] array) {
+        //noinspection SuspiciousToArrayCall
+        return al.toArray(array);
     }
 }

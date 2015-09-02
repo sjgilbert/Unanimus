@@ -64,7 +64,7 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
         acl.setPublicWriteAccess(true);
         acl.setPublicReadAccess(true);
         newGroup.setACL(acl);
-		newGroup.put("user", Profile.getCurrentProfile().getId());
+        newGroup.put("user", Profile.getCurrentProfile().getId());
         ArrayList<String> members = new ArrayList<>();
         members.add(ParseUser.getCurrentUser().getString("facebookID"));
         newGroup.put("members", members);

@@ -6,11 +6,8 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.util.AbstractMap;
-import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +24,10 @@ public class UnanimusGroup2 extends ParseObject {
 
     public UnanimusGroup2() {}
 
-    public UnanimusGroup2(Collection<String> voteContainerIds, Collection<String> userIds, Collection<String> restaurantIds) {
+    public UnanimusGroup2(
+            Collection<String> voteContainerIds,
+            Collection<String> userIds,
+            Collection<String> restaurantIds) {
         addAll("voteContainerIds", voteContainerIds);
         addAll("userIds", userIds);
         addAll("restaurantIds", restaurantIds);
@@ -85,7 +85,7 @@ public class UnanimusGroup2 extends ParseObject {
         }
 
         @Override
-        public void putAll(Map<? extends String, ? extends VoteContainer> map) {
+        public void putAll(@NonNull Map<? extends String, ? extends VoteContainer> map) {
             vcm.putAll(map);
         }
 

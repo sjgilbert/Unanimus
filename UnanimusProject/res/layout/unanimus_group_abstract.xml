@@ -11,10 +11,9 @@
         android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/dummy_text"
-        android:text="Invited by:"/>
+        style="@style/Wrap"
+        android:text="@string/invited_by"/>
 
     <com.facebook.login.widget.ProfilePictureView
         android:id="@+id/uga_invited_by"
@@ -25,9 +24,8 @@
 
     <TextView
         android:id="@+id/uga_groupID_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="30dp"
+        style="@style/Wrap"
+        android:padding="@dimen/double_margin"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>

@@ -42,9 +42,13 @@ import java.util.concurrent.ExecutionException;
  * isabellcowan@gmail.com
  */
 public class PlacePickActivity
-        extends UnanimusActivityTitle_TextEntryBar
-        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
-
+        extends
+                UnanimusActivityTitle_TextEntryBar
+        implements
+                GoogleApiClient.ConnectionCallbacks,
+                GoogleApiClient.OnConnectionFailedListener,
+                OnMapReadyCallback
+{
     final static String PPA = "ppa";
 
     private final static int PLACE_PICKER_REQUEST = 1;
@@ -99,18 +103,14 @@ public class PlacePickActivity
 
     @Override
     public void onMapReady(final GoogleMap map) {
-        /*
-        TODO: fix threading issue, make current location default
-         */
-//        Location curLocAsLoc = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-//        LatLng curLoc = new LatLng(curLocAsLoc.getLatitude(), curLocAsLoc.getLongitude());
+        // TODO: fix threading issue, make current location default
 
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 map.clear();
                 map.addMarker(new MarkerOptions()
-                    .position(latLng));
+                        .position(latLng));
                 setByLatLng(latLng);
             }
         });
@@ -121,7 +121,7 @@ public class PlacePickActivity
                 map.clear();
 //                Location curLoc = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
                 map.addMarker(new MarkerOptions()
-                    .position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
+                        .position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
                 map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
                 setByLastLocation(lastLocation);
                 return true;
@@ -133,40 +133,13 @@ public class PlacePickActivity
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(fairmount, 10));
 
         map.addMarker(new MarkerOptions()
-            .title("Current Location")
-        .snippet("Where you are right now")
-        .position(fairmount));
-    }
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (PLACE_PICKER_REQUEST == requestCode) {
-            if (RESULT_OK == resultCode) {
-                setByPlace(PlacePicker.getPlace(data, this));
-            }
-        } else {
-            throw new UnsupportedOperationException();
-        }
+                .title("Current Location")
+                .snippet("Where you are right now")
+                .position(fairmount));
     }
 
     @Override
-    public void onConnected(Bundle connectionHint) {
-        refreshLastLocation(false);
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        // do nothing
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.e(getString(R.string.app_name), connectionResult.toString());
-    }
-
-    private void setResult() {
+    public void finish() {
         Intent returnIntent = new Intent();
         final int resultCode;
         if (ppaContainer.isSet()) {
@@ -176,6 +149,31 @@ public class PlacePickActivity
             resultCode = RESULT_CANCELED;
         }
         setResult(resultCode, returnIntent);
+
+        super.finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (PLACE_PICKER_REQUEST == requestCode) {
+            if (RESULT_OK == resultCode)
+                setByPlace(PlacePicker.getPlace(data, this));
+        } else throw new IllegalArgumentException();
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        refreshLastLocation(false);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        log(ELog.w, "Google Places Api client connection was suspended.");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        log(ELog.w, connectionResult.toString());
     }
 
     private void setGoogleApiClient(BuildGoogleApiClientWorker buildGoogleApiClientAsyncTask) {
@@ -204,21 +202,18 @@ public class PlacePickActivity
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            setResult();
+                            dialog.dismiss();
                             finish();
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
+                            dialog.dismiss();
                         }
                     });
             AlertDialog alert = builder.create();
-            alert.show();        }
-        else {
-            setResult();
-            finish();
-        }
+            alert.show();
+        } else finish();
     }
 
     @SuppressWarnings("WeakerAccess")
