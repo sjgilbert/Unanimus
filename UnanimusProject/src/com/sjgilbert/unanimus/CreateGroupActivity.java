@@ -1,6 +1,7 @@
 package com.sjgilbert.unanimus;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
@@ -15,6 +16,7 @@ import static com.sjgilbert.unanimus.PlacePickActivity.PPA;
  */
 public class CreateGroupActivity extends UnanimusActivityTitle {
     private static final String CGA = "cga";
+    private final int NO_REQUEST = -1;
     private final int FPA_REQUEST = 1;
     private final int PPA_REQUEST = 2;
     private final int GSPA_REQUEST = 3;
@@ -29,11 +31,11 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        lauchNext();
+        launchNext(NO_REQUEST);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, int resultCode, final Intent data) {
         log(
                 ELog.i,
                 String.format(
@@ -51,36 +53,53 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
                     ELog.w,
                     "CreateGroupActivity got non-OK result from activity"
             );
+
+            finish();
             return;
         }
 
-        switch (requestCode) {
-            case GSPA_REQUEST:
-                processGspaResult(data);
-                break;
-            case FPA_REQUEST:
-                processFpaResult(data);
-                break;
-            case PPA_REQUEST:
-                processPpaResult(data);
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                switch (requestCode) {
+                    case GSPA_REQUEST:
+                        processGspaResult(data);
+                        break;
+                    case FPA_REQUEST:
+                        processFpaResult(data);
+                        break;
+                    case PPA_REQUEST:
+                        processPpaResult(data);
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
+                }
 
-        lauchNext();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                if (unanimusGroup.isSet()) finish();
+            }
+        }.execute();
+
+        launchNext(requestCode);
     }
 
-    private void lauchNext() {
-        if (!unanimusGroup.getGspaContainer().isSet()) {
+    private void launchNext(int requestCode) {
+        if (
+                requestCode != GSPA_REQUEST
+                && ! unanimusGroup.getGspaContainer().isSet())
             startGspaForResult();
-        } else if (!unanimusGroup.getPpaContainer().isSet()) {
+        else if (
+                requestCode != PPA_REQUEST
+                && ! unanimusGroup.getPpaContainer().isSet())
             startPpaForResult();
-        } else if (!unanimusGroup.getFpaContainer().isSet()) {
+        else if (
+                requestCode != FPA_REQUEST
+                && ! unanimusGroup.getFpaContainer().isSet())
             startFpaForResult();
-        } else {
-            finish();
-        }
     }
 
     private void startGspaForResult() {

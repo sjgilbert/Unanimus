@@ -152,4 +152,8 @@ public class UnanimusGroup extends ParseObject {
     public void setPpaContainer(Bundle bundle) {
         ppaContainer.setFromBundle(bundle);
     }
+
+    public boolean isSet() {
+        return (ppaContainer.isSet() && fpaContainer.isSet() && gspaContainer.isSet());
+    }
 }

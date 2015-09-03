@@ -401,10 +401,10 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
         public enum EPriceLevel {
             // funny as shit right?
-            $(0),
-            $$(1),
-            $$$(2),
-            $$$$(3);
+            $(1),
+            $$(2),
+            $$$(3),
+            $$$$(4);
 
             final int num;
 

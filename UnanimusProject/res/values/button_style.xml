@@ -8,5 +8,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@drawable/button</item>
         <item name="android:padding">@dimen/standard_pad_margin</item>
+        <item name="android:layout_marginLeft">@dimen/half_margin</item>
+        <item name="android:layout_marginRight">@dimen/half_margin</item>
     </style>
 </resources>
