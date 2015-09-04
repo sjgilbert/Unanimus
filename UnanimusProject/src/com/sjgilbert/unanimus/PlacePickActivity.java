@@ -13,8 +13,8 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -26,14 +26,18 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle_TextEntryBar;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 
@@ -47,7 +51,8 @@ public class PlacePickActivity
         implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        OnMapReadyCallback {
+        OnMapReadyCallback
+{
     final static String PPA = "ppa";
 
     private final static int PLACE_PICKER_REQUEST = 1;
@@ -56,10 +61,12 @@ public class PlacePickActivity
             = new BuildGoogleApiClientWorker(this);
     private final BuildGeocoderAsyncTask geocoderWorker
             = new BuildGeocoderAsyncTask(this);
+    private final OnCreateWorker createWorker = new OnCreateWorker();
     private final PpaContainer ppaContainer = new PpaContainer();
     private GoogleApiClient googleApiClient = null;
     private Geocoder geocoder = null;
     private Location lastLocation = null;
+    private MapLocationSource locationSource;
 
     public PlacePickActivity() {
         super("ppa");
@@ -70,71 +77,35 @@ public class PlacePickActivity
         super.onCreate(savedInstances);
 
         setContentView(R.layout.place_pick_activity);
-        try {
-            setTitleBar(R.string.ppa_title, (ViewGroup) findViewById(R.id.place_pick_activity));
-            setTextEntryBar(
-                    R.string.ppa_address_hint,
-                    R.string.ppa_address_button,
-                    (ViewGroup) findViewById(R.id.place_pick_activity));
-        } catch (NullPointerException | ClassCastException e) {
-            log(ELog.e, e.getMessage(), e);
-        }
 
-
-        EditText addressBar = getTextEntryEditText((ViewGroup) findViewById(R.id.place_pick_activity));
-        addressBar.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-
-        getTextEntryButton((ViewGroup) findViewById(R.id.place_pick_activity))
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ppa_viewGetByAddress(view);
-                    }
-                });
-
-        googleApiClientWorker.execute();
-        geocoderWorker.execute(this);
-
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.ppa_map);
-        mapFragment.getMapAsync(this);
-
+        createWorker.execute();
     }
 
     @Override
     public void onMapReady(final GoogleMap map) {
-        // TODO: fix threading issue, make current location default
+        this.locationSource = new MapLocationSource(map);
+        map.setLocationSource(locationSource);
 
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                map.clear();
-                map.addMarker(new MarkerOptions()
-                        .position(latLng));
-                setByLatLng(latLng);
-            }
-        });
+        map.setBuildingsEnabled(true);
+        map.setMyLocationEnabled(false);
+        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        map.setIndoorEnabled(false);
+        map.setTrafficEnabled(true);
 
-        map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-            @Override
-            public boolean onMyLocationButtonClick() {
-                map.clear();
-//                Location curLoc = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-                map.addMarker(new MarkerOptions()
-                        .position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
-                map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
-                setByLastLocation(lastLocation);
-                return true;
-            }
-        });
+        final UiSettings uiSettings = map.getUiSettings();
 
-        LatLng fairmount = new LatLng(44.9372649, -93.16425);
-        map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(fairmount, 10));
+        uiSettings.setCompassEnabled(true);
+        uiSettings.setZoomControlsEnabled(true);
 
-        map.addMarker(new MarkerOptions()
-                .title("Current Location")
-                .snippet("Where you are right now")
-                .position(fairmount));
+        uiSettings.setIndoorLevelPickerEnabled(false);
+        uiSettings.setMapToolbarEnabled(false);
+        uiSettings.setMyLocationButtonEnabled(false);
+        uiSettings.setRotateGesturesEnabled(false);
+        uiSettings.setScrollGesturesEnabled(false);
+        uiSettings.setTiltGesturesEnabled(false);
+        uiSettings.setZoomGesturesEnabled(false);
+
+        attemptSetDefault();
     }
 
     @Override
@@ -163,6 +134,8 @@ public class PlacePickActivity
     @Override
     public void onConnected(Bundle connectionHint) {
         refreshLastLocation(false);
+
+        attemptSetDefault();
     }
 
     @Override
@@ -173,6 +146,13 @@ public class PlacePickActivity
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         log(ELog.w, connectionResult.toString());
+    }
+
+    private void attemptSetDefault() {
+        if (! ppaContainer.isSet()
+                && (locationSource != null)
+                && (lastLocation != null))
+            setByLastLocation(lastLocation);
     }
 
     private void setGoogleApiClient(BuildGoogleApiClientWorker buildGoogleApiClientAsyncTask) {
@@ -259,7 +239,7 @@ public class PlacePickActivity
 
     private void setByLatLng(LatLng latLng) {
         this.ppaContainer.setLatLng(latLng.latitude, latLng.longitude);
-        updatePlacePreview();
+        updatePlacePreview(latLng);
     }
 
     private void setByPlace(Place place) {
@@ -302,19 +282,21 @@ public class PlacePickActivity
         new SetByStringWorker(this).execute(paramsContainer);
     }
 
-    private String getPreviewString() {
-        return ppaContainer.getLatLng().toString();
+    private String getPreviewString(LatLng latLng) {
+        return latLng.toString();
     }
 
-    private void updatePlacePreview() {
-        try {
-            ((TextView) findViewById(R.id.place_pick_activity)
-                    .findViewById(R.id.ppa_place_preview_layout)
-                    .findViewById(R.id.ppa_place_as_string))
-                    .setText(getPreviewString());
-        } catch (NullPointerException | ClassCastException e) {
-            log(ELog.e, e.getMessage(), e);
-        }
+    private void updatePlacePreview(LatLng latLng) {
+        log(
+                ELog.i,
+                String.format(
+                        Locale.getDefault(),
+                        "%s: %s",
+                        "Selected location: ",
+                        getPreviewString(latLng)
+                )
+        );
+        locationSource.update(latLng);
     }
 
     static class PpaContainer extends CreateGroupActivity.ADependencyContainer {
@@ -364,9 +346,32 @@ public class PlacePickActivity
         }
     }
 
-    /*
-     * Start AsyncTask classes
-     */
+    private static class MapLocationSource implements LocationSource {
+        OnLocationChangedListener locationChangedListener;
+        final GoogleMap googleMap;
+        Marker marker;
+
+        MapLocationSource(GoogleMap map) {
+            this.googleMap = map;
+        }
+
+        void update(LatLng latLng) {
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f));
+
+            if (null != marker) marker.remove();
+            marker = googleMap.addMarker(new MarkerOptions().position(latLng));
+        }
+
+        @Override
+        public void activate(OnLocationChangedListener onLocationChangedListener) {
+            this.locationChangedListener = onLocationChangedListener;
+        }
+
+        @Override
+        public void deactivate() {
+            locationChangedListener = null;
+        }
+    }
 
     private static abstract class PlacePickAsyncTask<T1, T2, T3>
             extends AsyncTask<T1, T2, T3> {
@@ -493,12 +498,50 @@ public class PlacePickActivity
         }
     }
 
-    /*
-     *  End result methods
-     */
+    private class OnCreateWorker extends AsyncTask<Void , Void, OnCreateWorker.Container> {
+        @Override
+        protected Container doInBackground(Void... params) {
+            final ViewGroup vg = (ViewGroup) findViewById(R.id.place_pick_activity);
+            final Button bt = getTextEntryButton(vg);
+            final EditText et = getTextEntryEditText(vg);
+            final MapFragment mf = (MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.ppa_map);
 
-    /*
-     * Start AsyncTask classes
-     */
+            return new Container(vg, bt, et, mf);
+        }
 
+        @Override
+        protected void onPostExecute(OnCreateWorker.Container result) {
+            result.bt.setOnClickListener(new btClickListener());
+            result.et.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+            result.mf.getMapAsync(PlacePickActivity.this);
+
+            setTitleBar(R.string.ppa_title, result.vg);
+            setTextEntryBar(R.string.ppa_address_hint, R.string.ppa_address_button, result.vg);
+
+            googleApiClientWorker.execute();
+            geocoderWorker.execute(this);
+        }
+
+        class Container {
+            final ViewGroup vg;
+            final Button bt;
+            final EditText et;
+            final MapFragment mf;
+
+            Container(ViewGroup vg, Button bt, EditText et, MapFragment mf) {
+                this.vg = vg;
+                this.bt = bt;
+                this.et = et;
+                this.mf = mf;
+            }
+        }
+
+        class btClickListener implements View.OnClickListener {
+            @Override
+            public void onClick(View v) {
+                ppa_viewGetByAddress(v);
+            }
+        }
+    }
 }

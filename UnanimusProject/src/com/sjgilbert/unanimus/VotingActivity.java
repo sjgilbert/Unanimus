@@ -1,6 +1,5 @@
 package com.sjgilbert.unanimus;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class VotingActivity extends UnanimusActivityTitle {
     private VaContainer vaContainer;
 
     private UnanimusGroup group;
-    private String groupName;
+    private String groupKey;
 
     private int i;
     private TextView counter;
@@ -51,14 +51,30 @@ public class VotingActivity extends UnanimusActivityTitle {
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupName = extras.getString("GROUP_ID");
+            groupKey = extras.getString("GROUP_ID");
         } else {
             Toast.makeText(VotingActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
 
+        ParseQuery<ParseObject> parseQuery = ParseCache.parseCache.get(groupKey);
+
+        if (parseQuery == null) {
+            log(ELog.e, "Fucked up real bad");
+            finish();
+        }
+
+        assert parseQuery != null;
+
+        try {
+            group = (UnanimusGroup) parseQuery.getFirst();
+        } catch (ClassCastException | ParseException e) {
+            log(ELog.e, e.getMessage(), e);
+            finish();
+        }
+
         ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
         try {
-            group = query.get(groupName);
+            group = query.get(groupKey);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -107,6 +123,23 @@ public class VotingActivity extends UnanimusActivityTitle {
                 }
             }
         });
+
+        ParseQuery.clearAllCachedResults();
+    }
+
+    @Override
+    protected void onStop() {
+        ParseQuery.clearAllCachedResults();
+
+        super.onStop();
+    }
+
+    @Override
+    public void finish() {
+        if (group == null) setResult(RESULT_CANCELED);
+        else setResult(RESULT_OK);
+
+        super.finish();
     }
 
     private void setYesVote() {
@@ -133,10 +166,8 @@ public class VotingActivity extends UnanimusActivityTitle {
         ).show();
     }
 
+    @Deprecated
     private void returnIntentFinish() {
-        Intent intent = new Intent();
-        intent.putExtra("vaContainer", vaContainer.getAsBundle());
-        setResult(RESULT_OK);
         finish();
     }
 
