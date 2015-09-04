@@ -17,6 +17,9 @@ import java.util.Set;
  */
 @ParseClassName("UnanimusGroup2")
 public class UnanimusGroup2 extends ParseObject {
+    private static final String VOTE_CONTAINER_IDS = "voteContainerIds";
+    private static final String USER_IDS = "userIds";
+    private static final String RESTAURANT_IDS = "restaurantIds";
 
     public UnanimusGroup2() {
     }
@@ -25,9 +28,9 @@ public class UnanimusGroup2 extends ParseObject {
             Collection<String> voteContainerIds,
             Collection<String> userIds,
             Collection<String> restaurantIds) {
-        addAll("voteContainerIds", voteContainerIds);
-        addAll("userIds", userIds);
-        addAll("restaurantIds", restaurantIds);
+        addAll(VOTE_CONTAINER_IDS, voteContainerIds);
+        addAll(USER_IDS, userIds);
+        addAll(RESTAURANT_IDS, restaurantIds);
     }
 
     public static ParseQuery<UnanimusGroup2> getQuery() {
@@ -35,15 +38,15 @@ public class UnanimusGroup2 extends ParseObject {
     }
 
     public List<String> getVoteContainerIds() {
-        return getList("voteContainerIds");
+        return getList(VOTE_CONTAINER_IDS);
     }
 
     public List<String> getUserIds() {
-        return getList("userIds");
+        return getList(USER_IDS);
     }
 
     public List<String> getRestaurantsIds() {
-        return getList("restaurantIds");
+        return getList(RESTAURANT_IDS);
     }
 
     public class VoteContainerMap extends ParseObject implements Map<String, VoteContainer> {

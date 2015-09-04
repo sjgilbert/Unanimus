@@ -12,6 +12,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.ArrayList;
@@ -25,10 +26,10 @@ public class VotingActivity extends UnanimusActivityTitle {
     private static final int YES = 1;
     private static final int NO = -1;
 
-    private VaContainer vaContainer;
+    private VoteContainer voteContainer;
 
-    private UnanimusGroup group;
-    private String groupName;
+    private UnanimusGroup2 group;
+    private String groupKey;
 
     private int i;
     private TextView counter;
@@ -51,19 +52,34 @@ public class VotingActivity extends UnanimusActivityTitle {
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupName = extras.getString("GROUP_ID");
+            groupKey = extras.getString(GroupActivity.GROUP_ID);
         } else {
             Toast.makeText(VotingActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
 
-        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
+        ParseQuery<ParseObject> query = ParseCache.parseCache.get(groupKey);
+        if (query == null) {
+            log(ELog.e, "messed up");
+            finish();
+        }
+
+        assert query != null;
+
         try {
-            group = query.get(groupName);
+            group = (UnanimusGroup2) query.getFirst();
+        } catch (ClassCastException | ParseException e) {
+            log(ELog.e, e.getMessage(), e);
+            finish();
+        }
+
+        ParseQuery<VoteContainer> query = VoteContainer.getQuery();
+        try {
+            group = query.get(groupKey);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        vaContainer = new VaContainer();
+        voteContainer = new VoteContainer();
 
         counter = (TextView) findViewById(R.id.va_voting_counter);
         restaurants = group.getRestaurants();
@@ -82,9 +98,9 @@ public class VotingActivity extends UnanimusActivityTitle {
                     showVotes();
                 } else {
                     setYesVote();
-                    group.addVoteArray(vaContainer.getVotes());
+                    group.addVoteArray(voteContainer.getVotes());
                     group.checkIfComplete();
-                    returnIntentFinish();
+                    finish();
                     showVotes();
                 }
             }
@@ -100,21 +116,23 @@ public class VotingActivity extends UnanimusActivityTitle {
                     showVotes();
                 } else {
                     setNoVote();
-                    group.addVoteArray(vaContainer.getVotes());
+                    group.addVoteArray(voteContainer.getVotes());
                     group.checkIfComplete();
-                    returnIntentFinish();
+                    finish();
                     showVotes();
                 }
             }
         });
+
+        ParseQuery.clearAllCachedResults();
     }
 
     private void setYesVote() {
-        vaContainer.votes.add(YES);
+        voteContainer.votes.add(YES);
     }
 
     private void setNoVote() {
-        vaContainer.votes.add(NO);
+        voteContainer.votes.add(NO);
     }
 
     private void incrementRestaurant() {
@@ -128,16 +146,9 @@ public class VotingActivity extends UnanimusActivityTitle {
     private void showVotes() {
         Toast.makeText(
                 VotingActivity.this,
-                vaContainer.getVotes().toString(),
+                voteContainer.getVotes().toString(),
                 Toast.LENGTH_LONG
         ).show();
-    }
-
-    private void returnIntentFinish() {
-        Intent intent = new Intent();
-        intent.putExtra("vaContainer", vaContainer.getAsBundle());
-        setResult(RESULT_OK);
-        finish();
     }
 
     @ParseClassName("VaContainer")
@@ -164,5 +175,24 @@ public class VotingActivity extends UnanimusActivityTitle {
         public ArrayList<Integer> getVotes() {
             return votes;
         }
+
+
+    }
+
+    @Override
+    protected void onStop() {
+        ParseQuery.clearAllCachedResults();
+        super.onStop();
+    }
+
+    @Override
+    public void finish() {
+        if (group == null) {
+            setResult(RESULT_CANCELED);
+        }
+        else {
+            setResult(RESULT_OK);
+        }
+        super.finish();
     }
 }

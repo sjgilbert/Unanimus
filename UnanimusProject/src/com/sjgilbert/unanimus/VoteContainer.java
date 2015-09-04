@@ -23,8 +23,8 @@ public class VoteContainer extends ParseObject implements List<Integer> {
 
     }
 
-    public static ParseQuery<UnanimusGroup2> getQuery() {
-        return ParseQuery.getQuery(UnanimusGroup2.class);
+    public static ParseQuery<VoteContainer> getQuery() {
+        return ParseQuery.getQuery(VoteContainer.class);
     }
 
     public List<Integer> getVotes() {
