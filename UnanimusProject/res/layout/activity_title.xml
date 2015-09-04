@@ -3,14 +3,22 @@
     android:id="@+id/activity_title_layout"
     style="@style/Margin"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="end"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/at_text"
         style="@style/TextView"
-        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:background="@drawable/bottom_border"
-        android:gravity="center"
         android:text="@string/untitled"
         android:textSize="@dimen/huge_font" />
+
+    <ImageView
+        style="@style/Padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher"/>
+
 </LinearLayout>
