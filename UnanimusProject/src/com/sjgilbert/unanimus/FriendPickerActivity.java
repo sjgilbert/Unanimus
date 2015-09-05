@@ -151,6 +151,10 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
 
         private UserIdPair[] userIdPairs;
 
+        UserIdPair[] getUserIdPairs() {
+            return userIdPairs;
+        }
+
         @Override
         boolean isSet() {
             return (userIdPairs != null && 0 < userIdPairs.length);

@@ -371,22 +371,27 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
             return hasBeenSet;
         }
 
+        @Deprecated
         public int getYear() {
             return year;
         }
 
+        @Deprecated
         public int getMonth() {
             return month;
         }
 
+        @Deprecated
         public int getDay() {
             return day;
         }
 
+        @Deprecated
         public int getHourOfDay() {
             return hourOfDay;
         }
 
+        @Deprecated
         public int getMinute() {
             return minute;
         }
@@ -397,6 +402,18 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
         public EPriceLevel getPriceLevel() {
             return priceLevel;
+        }
+
+        public Date getDate() {
+            final Calendar calender = new GregorianCalendar(
+                    year,
+                    month,
+                    day,
+                    hourOfDay,
+                    minute
+            );
+
+            return calender.getTime();
         }
 
         public enum EPriceLevel {
