@@ -156,4 +156,8 @@ public class UnanimusGroup extends ParseObject {
     public boolean isSet() {
         return (ppaContainer.isSet() && fpaContainer.isSet() && gspaContainer.isSet());
     }
+
+    public int getMaxRestaurants() {
+        return 15;
+    }
 }
