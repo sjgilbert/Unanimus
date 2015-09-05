@@ -3,8 +3,6 @@ package com.sjgilbert.unanimus;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -18,7 +16,6 @@ import com.sjgilbert.unanimus.GroupSettingsPickerActivity.GspaContainer.EPriceLe
 import com.sjgilbert.unanimus.PlacePickActivity.PpaContainer;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 
-import java.util.AbstractMap;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -41,18 +38,16 @@ public class UnanimusGroup2 extends ParseObject {
     public UnanimusGroup2() throws ParseException {
         final List<String> voteIds = getList(VOTE_CONTAINER_IDS);
         final List<String> userIds = getList(USER_IDS);
-        final List<String> restaurantIds = getList(RESTAURANT_IDS);
+        final List<String> parseRestaurantIds = getList(RESTAURANT_IDS);
 
-        final int size = voteIds.size();
+        final int numUsers = userIds.size();
 
-        if ((voteIds.size() != size) || (userIds.size() != size))
+        if ((voteIds.size() != numUsers) || (userIds.size() != numUsers))
             throw new ParseException(ParseException.OTHER_CAUSE, "Received invalid data initializing UnanimusGroup2");
 
-        userIdsVc = new Hashtable<>(size);
+        userIdsVc = new Hashtable<>(numUsers);
 
-        for (int i = 0; size > i; ++i) {
-            final int finI = i;
-
+        for (int i = 0; numUsers > i; ++i) {
             final String vId = voteIds.get(i);
 
             final ParseQuery parseQuery;
@@ -66,8 +61,14 @@ public class UnanimusGroup2 extends ParseObject {
 
             VoteContainer voteContainer = (VoteContainer) parseQuery.getFirst();
 
-            userIdsVc.put(userIds.get(finI), voteContainer);
+            userIdsVc.put(userIds.get(i), voteContainer);
         }
+
+        final int numRestaurants = parseRestaurantIds.size();
+
+        this.restaurantIds = new ImmutableList<>(numRestaurants);
+
+        for (int i = 0; numRestaurants > i; ++i) restaurantIds.set(i, parseRestaurantIds.get(i));
     }
 
     private UnanimusGroup2(
