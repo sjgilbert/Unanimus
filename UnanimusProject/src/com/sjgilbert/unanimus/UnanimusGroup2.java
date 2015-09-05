@@ -101,62 +101,67 @@ public class UnanimusGroup2 extends ParseObject {
                 throw new IllegalArgumentException("UnanimusGroup is not set");
         }
 
-        public UnanimusGroup2 newUnanimusGroup2() {
-            final ParseUser parseUser = ParseUser.getCurrentUser();
+        public void getInBackground(final Callback callback) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final ParseUser parseUser = ParseUser.getCurrentUser();
 
-            final int maxRestaurants = unanimusGroup.getMaxRestaurants();
+                    final int maxRestaurants = unanimusGroup.getMaxRestaurants();
 
-            final FpaContainer fpaContainer = unanimusGroup.getFpaContainer();
-            final PpaContainer ppaContainer = unanimusGroup.getPpaContainer();
-            final GspaContainer gspaContainer = unanimusGroup.getGspaContainer();
+                    final FpaContainer fpaContainer = unanimusGroup.getFpaContainer();
+                    final PpaContainer ppaContainer = unanimusGroup.getPpaContainer();
+                    final GspaContainer gspaContainer = unanimusGroup.getGspaContainer();
 
-            final UserIdPair[] userIdPairs = fpaContainer.getUserIdPairs();
+                    final UserIdPair[] userIdPairs = fpaContainer.getUserIdPairs();
 
-            final LatLng latLng = ppaContainer.getLatLng();
+                    final LatLng latLng = ppaContainer.getLatLng();
 
-            final Date date = gspaContainer.getDate();
-            final int radius = gspaContainer.getRadius();
-            final EPriceLevel ePriceLevel = gspaContainer.getPriceLevel();
+                    final Date date = gspaContainer.getDate();
+                    final int radius = gspaContainer.getRadius();
+                    final EPriceLevel ePriceLevel = gspaContainer.getPriceLevel();
 
-            final Map<String, VoteContainer> userIdsVc;
-            final List<String> restaurantIds;
+                    final Map<String, VoteContainer> userIdsVc;
+                    final List<String> restaurantIds;
 
-            userIdsVc = new Hashtable<>(maxRestaurants);
-            restaurantIds = new ImmutableList<>(maxRestaurants);
+                    userIdsVc = new Hashtable<>(maxRestaurants);
+                    restaurantIds = new ImmutableList<>(maxRestaurants);
 
-            for (int i = 0; maxRestaurants > i; ++i) {
-                final String voterId = userIdPairs[i].parseUserId;
-                final List<String> readers = new LinkedList<>();
+                    for (int i = 0; maxRestaurants > i; ++i) {
+                        final String voterId = userIdPairs[i].parseUserId;
+                        final List<String> readers = new LinkedList<>();
 
-                Iterator<String> iterator = readers.iterator();
+                        Iterator<String> iterator = readers.iterator();
 
-                while (iterator.hasNext())
-                    if (iterator.next().contentEquals(voterId))
-                        iterator.remove();
+                        while (iterator.hasNext())
+                            if (iterator.next().contentEquals(voterId))
+                                iterator.remove();
 
-                final VoteContainer voteContainer = new VoteContainer(
-                        maxRestaurants,
-                        parseUser,
-                        voterId,
-                        readers
-                );
+                        final VoteContainer voteContainer = new VoteContainer(
+                                maxRestaurants,
+                                parseUser,
+                                voterId,
+                                readers
+                        );
 
-                voteContainer.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Log.e("Unanimus", e.getMessage(), e);
-                            return;
-                        }
+                        voteContainer.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null) {
+                                    Log.e("Unanimus", e.getMessage(), e);
+                                    return;
+                                }
 
-                        userIdsVc.put(voterId, voteContainer);
+                                userIdsVc.put(voterId, voteContainer);
+                            }
+                        });
+
+                        restaurantIds.set(i, BOOT_STRAP[i]);
                     }
-                });
 
-                restaurantIds.set(i, BOOT_STRAP[i]);
-            }
-
-            return new UnanimusGroup2(userIdsVc, restaurantIds);
+                    callback.done(new UnanimusGroup2(userIdsVc, restaurantIds));
+                }
+            }).run();
         }
 
         private static final String[] BOOT_STRAP = new String[] {
@@ -176,5 +181,9 @@ public class UnanimusGroup2 extends ParseObject {
                 "13",
                 "14"
         };
+
+        interface Callback {
+            void done(UnanimusGroup2 unanimusGroup2);
+        }
     }
 }
