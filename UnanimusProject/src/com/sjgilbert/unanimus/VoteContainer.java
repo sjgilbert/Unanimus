@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import bolts.Task;
+
 /**
  * Created by sam on 9/1/15.
  */
@@ -19,20 +21,25 @@ import java.util.ListIterator;
 public class VoteContainer extends ParseObject implements List<Integer> {
     private ArrayList<Integer> al = new ArrayList<>();
 
-    public VoteContainer() {
+    private static final String VOTES = "votes";
 
+    public VoteContainer() {
     }
 
     public static ParseQuery<VoteContainer> getQuery() {
         return ParseQuery.getQuery(VoteContainer.class);
     }
 
-    public List<Integer> getVotes() {
-        return getList("votes");
+    public ArrayList<Integer> getAl() {
+        return al;
     }
 
-    public void setVotes(Collection<String> votes) {
-        put("votes", votes);
+    public List<Integer> getVotes() {
+        return getList(VOTES);
+    }
+
+    public void setVotes(Collection<Integer> votes) {
+        put(VOTES, votes);
     }
 
     @Override

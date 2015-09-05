@@ -108,30 +108,19 @@ public class GroupActivity extends UnanimusActivityTitle {
         });
 
         requestBatch.executeAsync();
+    }
 
+    protected void ga_viewStartVotingActivity(View view) {
+        Intent intent = new Intent(GroupActivity.this, VotingActivity.class);
+        intent.putExtra(GROUP_ID, groupName);
+        startActivity(intent);
+    }
 
-        //Play Button=
-        Button playButton = (Button) findViewById(R.id.ga_play_button);
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupActivity.this, VotingActivity.class);
-                intent.putExtra(GROUP_ID, groupName);
-                startActivity(intent);
-            }
-        });
-
-        //View Recs Button
-        Button viewRecsButton = (Button) findViewById(R.id.ga_view_recs_button);
-        viewRecsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (group.get("recommendation") != null) {
-                    Intent intent = new Intent(GroupActivity.this, RecommendationActivity.class);
-                    intent.putExtra(GROUP_ID, groupName);
-                    startActivity(intent);
-                }
-            }
-        });
+    protected void ga_viewStartRecommendationActivity(View view) {
+        if (group.get("recommendation") != null) {
+            Intent intent = new Intent(GroupActivity.this, RecommendationActivity.class);
+            intent.putExtra(GROUP_ID, groupName);
+            startActivity(intent);
+        }
     }
 }

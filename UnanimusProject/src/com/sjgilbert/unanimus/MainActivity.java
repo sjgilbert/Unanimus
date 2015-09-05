@@ -52,15 +52,6 @@ public class MainActivity extends UnanimusActivityTitle {
         ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.ma_prof_pic);
         profpic.setProfileId(ParseUser.getCurrentUser().getString("facebookID"));
 
-        Button makeGroupButton = (Button) findViewById(R.id.ma_make_group_button);
-        makeGroupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MakeGroupActivity.class);
-                startActivity(intent);
-            }
-        });
-
         //Shows all the groups user is a member of
         ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
                 new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {

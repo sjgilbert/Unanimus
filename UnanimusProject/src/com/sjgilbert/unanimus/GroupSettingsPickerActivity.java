@@ -115,23 +115,19 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
                     }
                 }
         );
+    }
 
-        Button submitButton = (Button) findViewById(R.id.gspa_submit_button);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                int result;
-                if (gspaContainer.isSet()) {
-                    intent.putExtra(GSPA, gspaContainer.getAsBundle());
-                    result = RESULT_OK;
-                } else {
-                    result = RESULT_CANCELED;
-                }
-                setResult(result, intent);
-                finish();
-            }
-        });
+    protected void gspa_viewSubmit(View view) {
+        Intent intent = new Intent();
+        int result;
+        if (gspaContainer.isSet()) {
+            intent.putExtra(GSPA, gspaContainer.getAsBundle());
+            result = RESULT_OK;
+        } else {
+            result = RESULT_CANCELED;
+        }
+        setResult(result, intent);
+        finish();
     }
 
     private Date getDate() {

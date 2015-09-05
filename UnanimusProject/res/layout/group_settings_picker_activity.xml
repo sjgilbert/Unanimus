@@ -161,7 +161,8 @@
             android:id="@+id/gspa_submit_button"
             style="@style/Button"
             android:layout_marginTop="@dimen/double_margin"
-            android:text="@string/gspa_submit" />
+            android:text="@string/gspa_submit"
+            android:onClick="gspa_viewSubmit"/>
 
 
     </LinearLayout>

@@ -40,14 +40,6 @@ public class IntroPageActivity extends UnanimusActivityTitle {
         } catch (ClassCastException e) {
             log(ELog.e, e.getMessage(), e);
         }
-
-        Button facebookLogin = (Button) findViewById(R.id.ipa_facebook_login);
-        facebookLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                facebookLogin();
-            }
-        });
     }
 
     @Override
@@ -56,7 +48,7 @@ public class IntroPageActivity extends UnanimusActivityTitle {
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void facebookLogin() {
+    protected void ipa_viewFacebookLogin(View view) {
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add(getString(publicProfile));
         permissions.add(getString(userFriends));

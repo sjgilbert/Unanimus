@@ -193,7 +193,6 @@ public class PlacePickActivity
         }
     }
 
-    @SuppressWarnings("unused")
     public void ppa_viewFinish(View view) {
         if (ppaContainer.getLatLng() == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(PlacePickActivity.this);

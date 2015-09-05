@@ -72,18 +72,16 @@ public class VotingActivity extends UnanimusActivityTitle {
             finish();
         }
 
-        ParseQuery<VoteContainer> query = VoteContainer.getQuery();
+        ParseQuery<VoteContainer> voteQuery = VoteContainer.getQuery();
+
         try {
-            group = query.get(groupKey);
+            voteContainer = voteQuery.getFirst();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        voteContainer = new VoteContainer();
-
         counter = (TextView) findViewById(R.id.va_voting_counter);
-        restaurants = group.getRestaurants();
-        System.out.println(restaurants.size());
+        restaurants = group.getRestaurantsIds();
 
         final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
         restaurant.setText(restaurants.get(i));
@@ -92,16 +90,15 @@ public class VotingActivity extends UnanimusActivityTitle {
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setYesVote();
+                showVotes();
                 if (i < NUMBER_OF_RESTAURANTS - 1) {
-                    setYesVote();
                     incrementRestaurant();
-                    showVotes();
                 } else {
-                    setYesVote();
-                    group.addVoteArray(voteContainer.getVotes());
-                    group.checkIfComplete();
+                    voteContainer.setVotes(voteContainer.getAl());
+                    voteContainer.saveInBackground();
+//                    group.checkIfComplete();
                     finish();
-                    showVotes();
                 }
             }
         });
@@ -110,16 +107,15 @@ public class VotingActivity extends UnanimusActivityTitle {
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setNoVote();
+                showVotes();
                 if (i < NUMBER_OF_RESTAURANTS - 1) {
-                    setNoVote();
                     incrementRestaurant();
-                    showVotes();
                 } else {
-                    setNoVote();
-                    group.addVoteArray(voteContainer.getVotes());
-                    group.checkIfComplete();
+                    voteContainer.setVotes(voteContainer.getAl());
+                    voteContainer.saveInBackground();
+//                    group.checkIfComplete();
                     finish();
-                    showVotes();
                 }
             }
         });
@@ -128,11 +124,10 @@ public class VotingActivity extends UnanimusActivityTitle {
     }
 
     private void setYesVote() {
-        voteContainer.votes.add(YES);
+        voteContainer.add(YES);
     }
 
-    private void setNoVote() {
-        voteContainer.votes.add(NO);
+    private void setNoVote() {voteContainer.add(NO);
     }
 
     private void incrementRestaurant() {
@@ -149,34 +144,6 @@ public class VotingActivity extends UnanimusActivityTitle {
                 voteContainer.getVotes().toString(),
                 Toast.LENGTH_LONG
         ).show();
-    }
-
-    @ParseClassName("VaContainer")
-    public static class VaContainer extends ParseObject {
-        public final static String VOTES = "votes";
-
-        private final ArrayList<Integer> votes;
-
-        public VaContainer() {
-            votes = new ArrayList<>();
-        }
-
-        VaContainer(Bundle bundle) {
-            this.votes = bundle.getIntegerArrayList(VOTES);
-        }
-
-        Bundle getAsBundle() {
-            Bundle bundle = new Bundle();
-            bundle.putIntegerArrayList(VOTES, votes);
-
-            return bundle;
-        }
-
-        public ArrayList<Integer> getVotes() {
-            return votes;
-        }
-
-
     }
 
     @Override

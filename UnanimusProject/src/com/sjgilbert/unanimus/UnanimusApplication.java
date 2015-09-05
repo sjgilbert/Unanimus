@@ -29,7 +29,6 @@ public class UnanimusApplication extends Application {
         ParseACL.setDefaultACL(defaultACL, true);
 
         ParseObject.registerSubclass(UnanimusGroup.class);
-        ParseObject.registerSubclass(VotingActivity.VaContainer.class);
         ParseObject.registerSubclass(UnanimusGroup2.class);
         ParseObject.registerSubclass(VoteContainer.class);
 
