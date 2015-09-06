@@ -397,7 +397,9 @@ public class PlacePickActivity
             return new GoogleApiClient
                     .Builder(context)
                     .addConnectionCallbacks(callbacks)
-                    .addOnConnectionFailedListener(connectionFailedListener).addApi(LocationServices.API).build();
+                    .addOnConnectionFailedListener(connectionFailedListener)
+                    .addApi(LocationServices.API)
+                    .build();
         }
 
         @Override

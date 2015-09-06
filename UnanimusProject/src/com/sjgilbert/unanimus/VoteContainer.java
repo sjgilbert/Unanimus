@@ -22,7 +22,6 @@ public class VoteContainer extends ParseObject implements List<String> {
     private final ImmutableList<String> votes;
 
     // Used by Parse, see annotation @ParseClassName
-    @SuppressWarnings("unused")
     public VoteContainer() {
         final List<String> list = getList(VOTES_KEY);
         final int size = list.size();

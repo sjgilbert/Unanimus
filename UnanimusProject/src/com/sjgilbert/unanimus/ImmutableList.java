@@ -18,13 +18,14 @@ public class ImmutableList<E> extends ArrayList<E> {
 
     ImmutableList(int size) {
         this.arrayList = new ArrayList<>(size);
+        for (int i = 0; size > i; ++i) this.arrayList.add(null);
     }
 
     ImmutableList(Collection<E> collection) {
         this.arrayList = new ArrayList<>(collection.size());
 
         int i = 0;
-        for (E e : collection) this.arrayList.set(i++, e);
+        for (E e : collection) this.arrayList.add(e);
     }
 
     @Override

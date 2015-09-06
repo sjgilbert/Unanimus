@@ -60,11 +60,10 @@ public class MakeGroupActivity extends UnanimusActivityTitle {
     @SuppressWarnings({"unused", "UnusedParameters"})
     public void makeGroup(View v) {
         final UnanimusGroup newGroup = new UnanimusGroup();
-        ParseACL acl = new ParseACL();
+        ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
         acl.setPublicWriteAccess(true);
         acl.setPublicReadAccess(true);
         newGroup.setACL(acl);
-        newGroup.put("user", Profile.getCurrentProfile().getId());
         ArrayList<String> members = new ArrayList<>();
         members.add(ParseUser.getCurrentUser().getString("facebookID"));
         newGroup.put("members", members);

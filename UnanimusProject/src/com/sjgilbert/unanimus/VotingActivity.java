@@ -51,7 +51,7 @@ public class VotingActivity extends UnanimusActivityTitle {
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupKey = extras.getString("GROUP_ID");
+            groupKey = extras.getString(GroupActivity.GROUP_ID);
         } else {
             Toast.makeText(VotingActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
@@ -70,13 +70,6 @@ public class VotingActivity extends UnanimusActivityTitle {
         } catch (ClassCastException | ParseException e) {
             log(ELog.e, e.getMessage(), e);
             finish();
-        }
-
-        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
-        try {
-            group = query.get(groupKey);
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
 
         vaContainer = new VaContainer();
@@ -123,14 +116,10 @@ public class VotingActivity extends UnanimusActivityTitle {
                 }
             }
         });
-
-        ParseQuery.clearAllCachedResults();
     }
 
     @Override
     protected void onStop() {
-        ParseQuery.clearAllCachedResults();
-
         super.onStop();
     }
 
