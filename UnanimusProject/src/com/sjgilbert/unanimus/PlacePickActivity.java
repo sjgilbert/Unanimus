@@ -515,7 +515,9 @@ public class PlacePickActivity
         @Override
         protected void onPostExecute(OnCreateWorker.Container result) {
             result.bt.setOnClickListener(new btClickListener());
+
             result.et.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+
             result.mf.getMapAsync(PlacePickActivity.this);
 
             setTitleBar(R.string.ppa_title, result.vg);

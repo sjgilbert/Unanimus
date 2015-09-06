@@ -1,12 +1,13 @@
 package com.sjgilbert.unanimus;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sjgilbert.unanimus.FriendPickerActivity.FpaContainer;
@@ -16,10 +17,14 @@ import com.sjgilbert.unanimus.GroupSettingsPickerActivity.GspaContainer.EPriceLe
 import com.sjgilbert.unanimus.PlacePickActivity.PpaContainer;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -43,7 +48,10 @@ public class UnanimusGroup2 extends ParseObject {
         final int numUsers = userIds.size();
 
         if ((voteIds.size() != numUsers) || (userIds.size() != numUsers))
-            throw new ParseException(ParseException.OTHER_CAUSE, "Received invalid data initializing UnanimusGroup2");
+            throw new ParseException(
+                    ParseException.OTHER_CAUSE,
+                    "Received invalid data while attempting to initialize UnanimusGroup2"
+            );
 
         userIdsVc = new Hashtable<>(numUsers);
 
@@ -59,17 +67,73 @@ public class UnanimusGroup2 extends ParseObject {
         this.userIdsVc = userIdsVc;
         this.restaurantIds = restaurantIds;
 
+        commit();
+    }
+
+    Iterator<String> getRestaurantIterator() {
+        return restaurantIds.iterator();
+    }
+
+    void vote(
+            @NonNull String restaurantId,
+            @NonNull final Vote vote,
+            @Nullable final SaveCallback saveCallback
+    ) {
+        final VoteContainer voteContainer = userIdsVc.get(
+                ParseUser.getCurrentUser().getObjectId()
+        );
+
+        final int index = restaurantIds.indexOf(restaurantId);
+        vote.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.d(UnanimusApplication.UNANIMUS, e.getMessage(), e);
+                    if (saveCallback != null)
+                        saveCallback.done(e);
+
+                    return;
+                }
+
+                voteContainer.set(index, vote);
+                voteContainer.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.d(UnanimusApplication.UNANIMUS, e.getMessage(), e);
+                            if (saveCallback != null)
+                                saveCallback.done(e);
+
+                            return;
+                        }
+
+                        Log.i(
+                                UnanimusApplication.UNANIMUS,
+                                String.format(
+                                        Locale.getDefault(),
+                                        "%s.  %s: %s",
+                                        "Successfully saved vote container",
+                                        ParseCache.OBJECT_ID,
+                                        voteContainer.getObjectId()
+                                )
+                        );
+
+                        if (saveCallback != null)
+                            saveCallback.done(null);
+                    }
+                });
+            }
+        });
+    }
+
+    public Collection<String> getMembers() {
+        return userIdsVc.keySet();
+    }
+
+    private void commit() {
         addAll(VOTE_CONTAINERS, userIdsVc.values());
         addAll(USER_IDS, userIdsVc.keySet());
         addAll(RESTAURANT_IDS, restaurantIds);
-    }
-
-    Map<String, VoteContainer> getUserIdsVc() {
-        return userIdsVc;
-    }
-
-    List<String> getRestaurantIds() {
-        return restaurantIds;
     }
 
     public static class Builder {
@@ -133,11 +197,12 @@ public class UnanimusGroup2 extends ParseObject {
                             @Override
                             public void done(ParseException e) {
                                 if (e != null) {
-                                    Log.e("Unanimus", e.getMessage(), e);
+                                    Log.e(UnanimusApplication.UNANIMUS, e.getMessage(), e);
                                     return;
                                 }
 
                                 userIdsVc.put(voterId, voteContainer);
+
                                 if (atomicInteger.decrementAndGet() == 0)
                                     callback.done(new UnanimusGroup2(userIdsVc, restaurantIds));
                             }

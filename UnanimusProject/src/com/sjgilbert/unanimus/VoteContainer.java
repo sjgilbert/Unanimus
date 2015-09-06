@@ -16,14 +16,14 @@ import java.util.ListIterator;
  * Created by sam on 9/1/15.
  */
 @ParseClassName("VoteContainer")
-public class VoteContainer extends ParseObject implements List<String> {
+public class VoteContainer extends ParseObject implements List<Vote> {
     private static final String VOTES_KEY = "votesKey";
 
-    private final ImmutableList<String> votes;
+    private final ImmutableList<Vote> votes;
 
     // Used by Parse, see annotation @ParseClassName
     public VoteContainer() {
-        final List<String> list = getList(VOTES_KEY);
+        final List<Vote> list = getList(VOTES_KEY);
         final int size = list.size();
 
         votes = new ImmutableList<>(size);
@@ -45,6 +45,10 @@ public class VoteContainer extends ParseObject implements List<String> {
 
         parseACL.setPublicReadAccess(false);
         parseACL.setPublicWriteAccess(false);
+
+        parseACL.setWriteAccess(admin, true);
+        parseACL.setReadAccess(admin, true);
+
         parseACL.setWriteAccess(voterId, true);
         parseACL.setReadAccess(voterId, true);
 
@@ -63,27 +67,27 @@ public class VoteContainer extends ParseObject implements List<String> {
     }
 
     @Override
-    public void add(int location, String object) {
+    public void add(int location, Vote object) {
         votes.add(location, object);
         commit();
     }
 
     @Override
-    public boolean add(String object) {
+    public boolean add(Vote object) {
         boolean ret = votes.add(object);
         commit();
         return ret;
     }
 
     @Override
-    public boolean addAll(int location, @NonNull Collection<? extends String> collection) {
+    public boolean addAll(int location, @NonNull Collection<? extends Vote> collection) {
         boolean ret = votes.addAll(location, collection);
         commit();
         return ret;
     }
 
     @Override
-    public boolean addAll(@NonNull Collection<? extends String> collection) {
+    public boolean addAll(@NonNull Collection<? extends Vote> collection) {
         boolean ret = votes.addAll(collection);
         commit();
         return ret;
@@ -106,7 +110,7 @@ public class VoteContainer extends ParseObject implements List<String> {
     }
 
     @Override
-    public String get(int location) {
+    public Vote get(int location) {
         return votes.get(location);
     }
 
@@ -122,7 +126,7 @@ public class VoteContainer extends ParseObject implements List<String> {
 
     @NonNull
     @Override
-    public Iterator<String> iterator() {
+    public Iterator<Vote> iterator() {
         return votes.iterator();
     }
 
@@ -132,19 +136,19 @@ public class VoteContainer extends ParseObject implements List<String> {
     }
 
     @Override
-    public ListIterator<String> listIterator() {
+    public ListIterator<Vote> listIterator() {
         return votes.listIterator();
     }
 
     @NonNull
     @Override
-    public ListIterator<String> listIterator(int location) {
+    public ListIterator<Vote> listIterator(int location) {
         return votes.listIterator();
     }
 
     @Override
-    public String remove(int location) {
-        String ret = votes.remove(location);
+    public Vote remove(int location) {
+        Vote ret = votes.remove(location);
         commit();
         return ret;
     }
@@ -171,8 +175,8 @@ public class VoteContainer extends ParseObject implements List<String> {
     }
 
     @Override
-    public String set(int location, String object) {
-        String ret = votes.set(location, object);
+    public Vote set(int location, Vote object) {
+        Vote ret = votes.set(location, object);
         commit();
         return ret;
     }
@@ -184,7 +188,7 @@ public class VoteContainer extends ParseObject implements List<String> {
 
     @NonNull
     @Override
-    public List<String> subList(int start, int end) {
+    public List<Vote> subList(int start, int end) {
         return votes.subList(start, end);
     }
 
