@@ -3,6 +3,7 @@ package com.sjgilbert.unanimus;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,7 +11,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -85,6 +90,19 @@ public class VotingActivity
 
         counter = (TextView) findViewById(R.id.va_voting_counter);
         restaurantIterator = group.getRestaurantIterator();
+
+        Places.GeoDataApi.getPlaceById(googleApiClient, "ChIJg-eOlowq9ocRrjQq2PKvNlc")
+                .setResultCallback(new ResultCallback<PlaceBuffer>() {
+                    @Override
+                    public void onResult(PlaceBuffer places) {
+                        if (places.getStatus().isSuccess()) {
+                            final Place myPlace = places.get(0);
+                            Log.i(null, "Place found: " + myPlace.getName());
+                        }
+                        places.release();
+                    }
+                });
+
 
 
         final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);

@@ -59,7 +59,7 @@ public class MainActivity extends UnanimusActivityTitle {
                     public ParseQuery<CgaContainer> create() {
                         ParseQuery<CgaContainer> query = ParseQuery.getQuery(CgaContainer.class);
                         query.include(ParseCache.OBJECT_ID);
-                        query.whereEqualTo("members", Profile.getCurrentProfile().getId());
+//                        query.whereEqualTo("members", Profile.getCurrentProfile().getId());
                         query.orderByDescending("createdAt");
                         return query;
                     }
@@ -133,7 +133,7 @@ public class MainActivity extends UnanimusActivityTitle {
                 final CgaContainer selectedGroup = groupQueryAdapter.getItem(position);
                 String groupID = selectedGroup.getObjectId();
                 Intent intent = new Intent(MainActivity.this, GroupActivity.class);
-                intent.putExtra("objID", groupID);
+                intent.putExtra(GroupActivity.GROUP_ID, groupID);
                 startActivity(intent);
             }
         });

@@ -54,7 +54,7 @@ public class GroupActivity extends UnanimusActivityTitle {
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupName = extras.getString("objID");
+            groupName = extras.getString(GROUP_ID);
         } else {
             Toast.makeText(GroupActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
