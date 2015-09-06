@@ -1,40 +1,50 @@
 package com.sjgilbert.unanimus;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
-import java.util.List;
+import java.util.ListIterator;
+import java.util.concurrent.ExecutionException;
 
 /**
- * The activity for voting on restaurants
+ * The activity for voting on restaurantIterator
  */
-public class VotingActivity extends UnanimusActivityTitle {
+public class VotingActivity
+        extends UnanimusActivityTitle
+        implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
 
     public static final int NUMBER_OF_RESTAURANTS = 15;
 
     private static final String VA = "va";
 
-    private static final int YES = 1;
-    private static final int NO = -1;
+    private final BuildGoogleApiClientWorker googleApiClientWorker
+            = new BuildGoogleApiClientWorker(this);
 
-    private VotesList voteContainer;
+    private GoogleApiClient googleApiClient = null;
+
 
     private UnanimusGroup group;
     private String groupKey;
 
     private int i;
     private TextView counter;
-    private List<String> restaurants;
+    private ListIterator<String> restaurantIterator;
 
     public VotingActivity() {
         super(VA);
@@ -74,44 +84,14 @@ public class VotingActivity extends UnanimusActivityTitle {
         }
 
         counter = (TextView) findViewById(R.id.va_voting_counter);
-        restaurants = group.getRestaurantsIds();
+        restaurantIterator = group.getRestaurantIterator();
+
 
         final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
-        restaurant.setText(restaurants.get(i));
 
-        Button yesButton = (Button) findViewById(R.id.va_voting_yes_button);
-        yesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setYesVote();
-                showVotes();
-                if (i < NUMBER_OF_RESTAURANTS - 1) {
-                    incrementRestaurant();
-                } else {
-                    voteContainer.setVotes(voteContainer.getAl());
-                    voteContainer.saveInBackground();
-//                    group.checkIfComplete();
-                    finish();
-                }
-            }
-        });
+        while (restaurantIterator.hasNext()) {
 
-        Button noButton = (Button) findViewById(R.id.va_voting_no_button);
-        noButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setNoVote();
-                showVotes();
-                if (i < NUMBER_OF_RESTAURANTS - 1) {
-                    incrementRestaurant();
-                } else {
-                    voteContainer.setVotes(voteContainer.getAl());
-                    voteContainer.saveInBackground();
-//                    group.checkIfComplete();
-                    finish();
-                }
-            }
-        });
+        }
 
         ParseQuery.clearAllCachedResults();
     }
@@ -133,7 +113,7 @@ public class VotingActivity extends UnanimusActivityTitle {
         group.vote(index, Vote.getUpVote(), null);
     }
 
-    private void setNoVote() {voteContainer.add(NO);
+    private void setNoVote(int index) {group.vote(index, Vote.getDownVote(), null);
     }
 
     private void incrementRestaurant() {
@@ -141,15 +121,106 @@ public class VotingActivity extends UnanimusActivityTitle {
         counter.setText(String.format("%d/15", i + 1));
 
         TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
-        restaurant.setText(restaurants.get(i));
+//        restaurant.setText(restaurantIterator.get(i));
     }
 
-    private void showVotes() {
-        Toast.makeText(
-                VotingActivity.this,
-                voteContainer.getVotes().toString(),
-                Toast.LENGTH_LONG
-        ).show();
+    public void va_viewVoteNo(View view) {
+//        setNoVote();
+//                showVotes();
+        if (i < NUMBER_OF_RESTAURANTS - 1) {
+            incrementRestaurant();
+        } else {
+//                    group.checkIfComplete();
+            finish();
+        }
     }
 
+    public void va_viewVoteYes(View view) {
+//        setYesVote();
+//                showVotes();
+        if (i < NUMBER_OF_RESTAURANTS - 1) {
+            incrementRestaurant();
+        } else {
+//                    group.checkIfComplete();
+            finish();
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        log(ELog.w, "Google Places Api client connection was suspended.");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        log(ELog.w, connectionResult.toString());
+    }
+
+//    private void showVotes() {
+//        Toast.makeText(
+//                VotingActivity.this,
+//                voteContainer.getVotes().toString(),
+//                Toast.LENGTH_LONG
+//        ).show();
+//    }
+
+    private static abstract class VotingActivityAsyncTask<T1, T2, T3>
+            extends AsyncTask<T1, T2, T3> {
+        private final VotingActivity votingActivity;
+
+        public VotingActivityAsyncTask(VotingActivity votingActivity) {
+            super();
+            this.votingActivity = votingActivity;
+        }
+    }
+
+    private static class BuildGoogleApiClientWorker
+            extends VotingActivityAsyncTask<Object, Object, GoogleApiClient> {
+        public BuildGoogleApiClientWorker(VotingActivity votingActivity) {
+            super(votingActivity);
+        }
+
+        private static GoogleApiClient buildGoogleApiClient(
+                Context context,
+                GoogleApiClient.ConnectionCallbacks callbacks,
+                GoogleApiClient.OnConnectionFailedListener connectionFailedListener
+        ) {
+            return new GoogleApiClient
+                    .Builder(context)
+                    .addConnectionCallbacks(callbacks)
+                    .addOnConnectionFailedListener(connectionFailedListener)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+        @Override
+        protected GoogleApiClient doInBackground(Object... params) {
+            return buildGoogleApiClient(
+                    super.votingActivity,
+                    super.votingActivity,
+                    super.votingActivity
+            );
+        }
+
+        @Override
+        protected void onPostExecute(GoogleApiClient googleApiClient) {
+            super.votingActivity.setGoogleApiClient(this);
+        }
+
+    }
+
+    private void setGoogleApiClient(BuildGoogleApiClientWorker buildGoogleApiClientAsyncTask) {
+        try {
+            googleApiClient = buildGoogleApiClientAsyncTask.get();
+        } catch (InterruptedException | ExecutionException e) {
+            log(ELog.e, e.getMessage(), e);
+            return;
+        }
+        googleApiClient.connect();
+    }
 }

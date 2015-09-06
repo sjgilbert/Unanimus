@@ -43,14 +43,16 @@
             style="@style/Button"
             android:layout_width="0dp"
             android:layout_weight=".5"
-            android:text="@string/no" />
+            android:text="@string/no"
+            android:onClick="va_viewVoteNo"/>
 
         <Button
             android:id="@+id/va_voting_yes_button"
             style="@style/Button"
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:text="@string/yes" />
+            android:text="@string/yes"
+            android:onClick="va_viewVoteYes"/>
 
     </LinearLayout>
 
