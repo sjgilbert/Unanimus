@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.parse.ParseACL;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Collection;
@@ -30,6 +31,11 @@ public class VotesList extends ParseObject implements List<Vote> {
 
         for (int i = 0; size > i; ++i) votes.set(i, list.get(i));
     }
+
+    static ParseQuery<VotesList> getQuery() {
+        return ParseQuery.getQuery(VotesList.class);
+    }
+
 
     VotesList(
             int voteLength,
