@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,15 +40,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class FriendPickerActivity extends UnanimusActivityTitle {
     static final String FPA = "FpaContainer";
-
-    private static final String tag = "fpa";
+    static final String TAG = "fpa";
+    public static final String FACEBOOK_ID = "facebookID";
 
     private final FpaContainer fpaContainer = new FpaContainer();
 
     private FriendPickerListAdapter friendPickerListAdapter;
 
     public FriendPickerActivity() {
-        super(tag);
+        super(TAG);
     }
 
     @Override
@@ -83,7 +82,11 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         Intent intent = new Intent();
         int result;
         if (fpaContainer.isSet()) {
-            intent.putExtra(FPA, fpaContainer.getAsBundle());
+            try {
+                intent.putExtra(FPA, fpaContainer.getAsBundle());
+            } catch (IDependencyContainer.NotSetException e) {
+                log(ELog.e, e.getMessage(), e);
+            }
             result = RESULT_OK;
         } else {
             result = RESULT_CANCELED;
@@ -125,7 +128,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
 
             @Override
             protected void onPostExecute(FpaContainer.UserIdPair[] result) {
-                FriendPickerActivity.this.fpaContainer.userIdPairs = result;
+                FriendPickerActivity.this.fpaContainer.setUserIdPairs(result);
 
                 try {
                     Thread.sleep(100L);
@@ -143,90 +146,6 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                 finish();
             }
         }.execute();
-    }
-
-    public static class FpaContainer extends CreateGroupActivity.ADependencyContainer {
-        private final static String FACEBOOK_IDS = "FacebookIds";
-        private final static String PARSE_IDS = "ParseIds";
-
-        private UserIdPair[] userIdPairs;
-
-        UserIdPair[] getUserIdPairs() {
-            return userIdPairs;
-        }
-
-        @Override
-        boolean isSet() {
-            return (userIdPairs != null && 0 < userIdPairs.length);
-        }
-
-        @Override
-        Bundle getAsBundle() {
-            Bundle bundle = new Bundle();
-
-            final ArrayList<String> facebookIds = new ArrayList<>();
-            final ArrayList<String> parseIds = new ArrayList<>();
-
-            for (UserIdPair pair : userIdPairs) {
-                if (null == pair.parseUserId) {
-                    Log.w(
-                            "Unanimus/" + tag,
-                            "Missing parse user id in a selected friend, skipping . . . "
-                    );
-
-                    continue;
-                }
-
-                facebookIds.add(pair.facebookUserId);
-                parseIds.add(pair.parseUserId);
-            }
-
-            bundle.putStringArrayList(FACEBOOK_IDS, facebookIds);
-            bundle.putStringArrayList(PARSE_IDS, parseIds);
-
-            try {
-                super.getAsBundle();
-            } catch (NotSetException e) {
-                Log.e("Unanimus", e.getMessage(), e);
-                return null;
-            }
-
-            return bundle;
-        }
-
-        @Override
-        void setDefault() {
-            final String userFacebookID = ParseUser.getCurrentUser().getString("facebookID");
-            final String userParseId = ParseUser.getCurrentUser().getObjectId();
-            userIdPairs = new UserIdPair[]{new UserIdPair(userFacebookID, userParseId)};
-        }
-
-        @Override
-        void setFromBundle(Bundle bundle) {
-            final ArrayList<String> facebookIds = bundle.getStringArrayList(FACEBOOK_IDS);
-            final ArrayList<String> parseUserIds = bundle.getStringArrayList(PARSE_IDS);
-
-            assert parseUserIds != null;
-            assert facebookIds != null;
-
-            if (parseUserIds.size() != facebookIds.size())
-                throw new IllegalArgumentException();
-
-            userIdPairs = new UserIdPair[facebookIds.size()];
-
-            for (int i = 0; userIdPairs.length > i; ++i)
-                userIdPairs[i] = new UserIdPair(facebookIds.get(i), parseUserIds.get(i));
-        }
-
-        public static class UserIdPair {
-            public final String facebookUserId;
-            public final String parseUserId;
-
-            private UserIdPair(String facebookUserId, String parseUserId) {
-                this.facebookUserId = facebookUserId;
-                this.parseUserId = parseUserId;
-            }
-        }
     }
 
     private class DoneButtonOnClickListener implements View.OnClickListener {
