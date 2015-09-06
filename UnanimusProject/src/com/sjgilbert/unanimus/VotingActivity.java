@@ -1,6 +1,5 @@
 package com.sjgilbert.unanimus;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,6 +120,19 @@ public class VotingActivity extends UnanimusActivityTitle {
         });
 
         ParseQuery.clearAllCachedResults();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void finish() {
+        if (group == null) setResult(RESULT_CANCELED);
+        else setResult(RESULT_OK);
+
+        super.finish();
     }
 
     private void setYesVote() {

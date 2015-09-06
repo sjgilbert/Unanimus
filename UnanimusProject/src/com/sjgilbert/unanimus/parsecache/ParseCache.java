@@ -12,7 +12,10 @@ import java.util.Queue;
  * isabellcowan@gmail.com
  */
 public /* static */ final class ParseCache<K extends CharSequence, V extends ParseObject> {
+    public static final String OBJECT_ID = "objectId";
+
     public static ParseCache<String, ParseObject> parseCache = new ParseCache<>();
+
     private final QueueMap<String, ParseQuery<V>> queueMap = new QueueMap<>();
     private final Queue<Map.Entry<String, ParseQuery<V>>> entryQueue = queueMap.asQueue;
     private final Map<String, ParseQuery<V>> queryMap = queueMap.asMap;
@@ -30,7 +33,7 @@ public /* static */ final class ParseCache<K extends CharSequence, V extends Par
         parseCache = null;
     }
 
-    public static boolean isInit() {
+    static boolean isInit() {
         return (parseCache != null);
     }
 
@@ -63,10 +66,12 @@ public /* static */ final class ParseCache<K extends CharSequence, V extends Par
         entryQueue.clear();
     }
 
+    @Deprecated
     public boolean clearCache() {
         return clearCache(1);
     }
 
+    @Deprecated
     public boolean clearCache(int number) {
         boolean ret = false;
 
@@ -85,6 +90,7 @@ public /* static */ final class ParseCache<K extends CharSequence, V extends Par
         return ret;
     }
 
+    @Deprecated
     public boolean clearAllCache() {
         return clearCache(size());
     }
@@ -95,5 +101,10 @@ public /* static */ final class ParseCache<K extends CharSequence, V extends Par
 
     public int size() {
         return entryQueue.size();
+    }
+
+    public boolean containsKey(K key) {
+        //noinspection SuspiciousMethodCalls
+        return queryMap.containsKey(key);
     }
 }

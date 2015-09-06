@@ -10,12 +10,6 @@
 
         <include layout="@layout/text_entry_bar" />
 
-        <fragment
-            android:id="@+id/ppa_map"
-            class="com.google.android.gms.maps.MapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="200dp" />
-
         <Button
             android:id="@+id/ppa_map_button"
             style="@style/Button"
@@ -57,13 +51,11 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
-                android:id="@+id/ppa_place_as_string"
-                style="@style/TextView"
-                android:layout_height="@dimen/zero"
-                android:layout_weight="@integer/one"
-                android:text="@string/ppa_no_choice_prev"
-                tools:ignore="InefficientWeight" />
+            <fragment
+                android:id="@+id/ppa_map"
+                class="com.google.android.gms.maps.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
 
             <Button
                 android:id="@+id/ppa_submit_button"
@@ -72,6 +64,5 @@
                 android:onClick="ppa_viewFinish"
                 android:text="@string/ppa_submit_button" />
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

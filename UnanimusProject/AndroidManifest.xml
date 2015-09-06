@@ -39,10 +39,6 @@
             android:value="@string/ppa_title" />
 
         <activity
-            android:name="com.sjgilbert.unanimus.MakeGroupActivity"
-            android:value="@string/mga_title" />
-
-        <activity
             android:name="com.sjgilbert.unanimus.GroupActivity"
             android:value="@string/ga_title" />
 

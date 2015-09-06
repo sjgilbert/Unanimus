@@ -19,6 +19,7 @@ import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import org.json.JSONException;
@@ -55,9 +56,10 @@ public class MainActivity extends UnanimusActivityTitle {
         //Shows all the groups user is a member of
         ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
                 new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
+                    @Override
                     public ParseQuery<UnanimusGroup> create() {
-                        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
-                        query.include("objectID");
+                        ParseQuery<UnanimusGroup> query = ParseQuery.getQuery(UnanimusGroup.class);
+                        query.include(ParseCache.OBJECT_ID);
                         query.whereEqualTo("members", Profile.getCurrentProfile().getId());
                         query.orderByDescending("createdAt");
                         return query;
