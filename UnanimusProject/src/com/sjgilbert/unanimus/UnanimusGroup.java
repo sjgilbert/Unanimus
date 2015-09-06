@@ -18,6 +18,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -75,12 +76,12 @@ public class UnanimusGroup extends ParseObject {
         commit();
     }
 
-    Iterator<String> getRestaurantIterator() {
-        return restaurantIds.iterator();
+    ListIterator<String> getRestaurantIterator() {
+        return restaurantIds.listIterator();
     }
 
     void vote(
-            @NonNull String restaurantId,
+            final int index,
             @NonNull final Vote vote,
             @Nullable final SaveCallback saveCallback
     ) {
@@ -88,8 +89,8 @@ public class UnanimusGroup extends ParseObject {
                 ParseUser.getCurrentUser().getObjectId()
         );
 
-        final int index = restaurantIds.indexOf(restaurantId);
-        vote.saveInBackground(new SaveCallback() {
+        votesList.set(index, vote);
+        votesList.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
@@ -100,33 +101,19 @@ public class UnanimusGroup extends ParseObject {
                     return;
                 }
 
-                votesList.set(index, vote);
-                votesList.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Log.d(UnanimusApplication.UNANIMUS, e.getMessage(), e);
-                            if (saveCallback != null)
-                                saveCallback.done(e);
+                Log.i(
+                        UnanimusApplication.UNANIMUS,
+                        String.format(
+                                Locale.getDefault(),
+                                "%s.  %s: %s",
+                                "Successfully saved vote container",
+                                ParseCache.OBJECT_ID,
+                                votesList.getObjectId()
+                        )
+                );
 
-                            return;
-                        }
-
-                        Log.i(
-                                UnanimusApplication.UNANIMUS,
-                                String.format(
-                                        Locale.getDefault(),
-                                        "%s.  %s: %s",
-                                        "Successfully saved vote container",
-                                        ParseCache.OBJECT_ID,
-                                        votesList.getObjectId()
-                                )
-                        );
-
-                        if (saveCallback != null)
-                            saveCallback.done(null);
-                    }
-                });
+                if (saveCallback != null)
+                    saveCallback.done(null);
             }
         });
     }
