@@ -15,14 +15,14 @@ import java.util.GregorianCalendar;
  * isabellcowan@gmail.com
  */
 @ParseClassName("GspaContainer")
-public class GspaContainer extends ParseObject implements IDependencyContainer {
-    public final static String YEAR = "year";
-    public final static String MONTH = "month";
-    public final static String DAY = "day";
-    public final static String HOUR_OF_DAY = "hourOfDay";
-    public final static String MINUTE = "minute";
-    public final static String RADIUS = "radius";
-    public final static String PRICE_LEVEL = "priceLevel";
+public class GspaContainer extends ParseObject implements IContainer {
+    private final static String YEAR = "year";
+    private final static String MONTH = "month";
+    private final static String DAY = "day";
+    private final static String HOUR_OF_DAY = "hourOfDay";
+    private final static String MINUTE = "minute";
+    private final static String RADIUS = "radius";
+    private final static String PRICE_LEVEL = "priceLevel";
 
     private int year = -1;
     private int month = -1;
@@ -37,12 +37,12 @@ public class GspaContainer extends ParseObject implements IDependencyContainer {
     public GspaContainer() {
         super();
 
-        if (! has(YEAR)
-                || ! has(MONTH)
-                || ! has(DAY)
-                || ! has(MINUTE)
-                || ! has(RADIUS)
-                || ! has(PRICE_LEVEL))
+        if (!has(YEAR)
+                || !has(MONTH)
+                || !has(DAY)
+                || !has(MINUTE)
+                || !has(RADIUS)
+                || !has(PRICE_LEVEL))
             return;
 
         this.year = getInt(YEAR);
@@ -74,7 +74,7 @@ public class GspaContainer extends ParseObject implements IDependencyContainer {
 
     @Override
     public Bundle getAsBundle() throws NotSetException {
-        if (! isSet())
+        if (!isSet())
             throw new NotSetException();
 
         Bundle bundle = new Bundle();
@@ -96,7 +96,7 @@ public class GspaContainer extends ParseObject implements IDependencyContainer {
 
     @Override
     public void commit() throws NotSetException {
-        if (! isSet())
+        if (!isSet())
             throw new NotSetException();
 
         put(YEAR, year);
@@ -140,9 +140,17 @@ public class GspaContainer extends ParseObject implements IDependencyContainer {
         return year;
     }
 
+    void setYear(int year) {
+        this.year = year;
+    }
+
     @Deprecated
     public int getMonth() {
         return month;
+    }
+
+    void setMonth(int month) {
+        this.month = month;
     }
 
     @Deprecated
@@ -150,9 +158,17 @@ public class GspaContainer extends ParseObject implements IDependencyContainer {
         return day;
     }
 
+    void setDay(int day) {
+        this.day = day;
+    }
+
     @Deprecated
     public int getHourOfDay() {
         return hourOfDay;
+    }
+
+    void setHourOfDay(int hourOfDay) {
+        this.hourOfDay = hourOfDay;
     }
 
     @Deprecated
@@ -160,12 +176,24 @@ public class GspaContainer extends ParseObject implements IDependencyContainer {
         return minute;
     }
 
+    void setMinute(int minute) {
+        this.minute = minute;
+    }
+
     public int getRadius() {
         return radius;
     }
 
+    void setRadius(int radius) {
+        this.radius = radius;
+    }
+
     public EPriceLevel getPriceLevel() {
         return priceLevel;
+    }
+
+    void setPriceLevel(EPriceLevel priceLevel) {
+        this.priceLevel = priceLevel;
     }
 
     public Date getDate() {
@@ -178,34 +206,6 @@ public class GspaContainer extends ParseObject implements IDependencyContainer {
         );
 
         return calender.getTime();
-    }
-
-    void setYear(int year) {
-        this.year = year;
-    }
-
-    void setMonth(int month) {
-        this.month = month;
-    }
-
-    void setDay(int day) {
-        this.day = day;
-    }
-
-    void setHourOfDay(int hourOfDay) {
-        this.hourOfDay = hourOfDay;
-    }
-
-    void setMinute(int minute) {
-        this.minute = minute;
-    }
-
-    void setRadius(int radius) {
-        this.radius = radius;
-    }
-
-    void setPriceLevel(EPriceLevel priceLevel) {
-        this.priceLevel = priceLevel;
     }
 
     public enum EPriceLevel {

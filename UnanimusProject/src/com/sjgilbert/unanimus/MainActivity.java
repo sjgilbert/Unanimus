@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,7 +31,7 @@ import java.util.ArrayList;
  */
 public class MainActivity extends UnanimusActivityTitle {
     //    private final GroupQueryWorker groupQueryWorker = new GroupQueryWorker();
-    private ParseQueryAdapter<UnanimusGroup> groupQueryAdapter;
+    private ParseQueryAdapter<CgaContainer> groupQueryAdapter;
 
     public MainActivity() {
         super("ma");
@@ -50,15 +49,15 @@ public class MainActivity extends UnanimusActivityTitle {
         }
 
         //Facebook Picture
-        ProfilePictureView profpic = (ProfilePictureView) findViewById(R.id.ma_prof_pic);
-        profpic.setProfileId(ParseUser.getCurrentUser().getString("facebookID"));
+        ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.ma_prof_pic);
+        profilePictureView.setProfileId(ParseUser.getCurrentUser().getString("facebookID"));
 
         //Shows all the groups user is a member of
-        ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
-                new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
+        ParseQueryAdapter.QueryFactory<CgaContainer> factory =
+                new ParseQueryAdapter.QueryFactory<CgaContainer>() {
                     @Override
-                    public ParseQuery<UnanimusGroup> create() {
-                        ParseQuery<UnanimusGroup> query = ParseQuery.getQuery(UnanimusGroup.class);
+                    public ParseQuery<CgaContainer> create() {
+                        ParseQuery<CgaContainer> query = ParseQuery.getQuery(CgaContainer.class);
                         query.include(ParseCache.OBJECT_ID);
                         query.whereEqualTo("members", Profile.getCurrentProfile().getId());
                         query.orderByDescending("createdAt");
@@ -66,9 +65,9 @@ public class MainActivity extends UnanimusActivityTitle {
                     }
                 };
 
-        groupQueryAdapter = new ParseQueryAdapter<UnanimusGroup>(this, factory) {
+        groupQueryAdapter = new ParseQueryAdapter<CgaContainer>(this, factory) {
             @Override
-            public View getItemView(UnanimusGroup group, View view, ViewGroup parent) {
+            public View getItemView(CgaContainer group, View view, ViewGroup parent) {
                 if (view == null) {
                     view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
                 }
@@ -131,7 +130,7 @@ public class MainActivity extends UnanimusActivityTitle {
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final UnanimusGroup selectedGroup = groupQueryAdapter.getItem(position);
+                final CgaContainer selectedGroup = groupQueryAdapter.getItem(position);
                 String groupID = selectedGroup.getObjectId();
                 Intent intent = new Intent(MainActivity.this, GroupActivity.class);
                 intent.putExtra("objID", groupID);

@@ -33,12 +33,12 @@ public class UnanimusApplication extends Application {
         ParseObject.registerSubclass(PpaContainer.class);
         ParseObject.registerSubclass(FpaContainer.class);
 
-        ParseObject.registerSubclass(UnanimusGroup.class);
+        ParseObject.registerSubclass(CgaContainer.class);
 
         ParseObject.registerSubclass(Vote.class);
-        ParseObject.registerSubclass(VoteContainer.class);
+        ParseObject.registerSubclass(VotesList.class);
 
-        ParseObject.registerSubclass(UnanimusGroup2.class);
+        ParseObject.registerSubclass(UnanimusGroup.class);
 
         Parse.initialize(
                 this,

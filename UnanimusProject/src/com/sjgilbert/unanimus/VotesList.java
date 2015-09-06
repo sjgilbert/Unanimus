@@ -12,20 +12,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import bolts.Task;
-
 /**
  * Created by sam on 9/1/15.
  */
-@ParseClassName("VoteContainer")
-public class VoteContainer extends ParseObject implements List<Vote> {
-    private static final String VOTES_KEY = "votesKey";
+@SuppressWarnings("WeakerAccess")
+@ParseClassName("VotesList")
+public class VotesList extends ParseObject implements List<Vote> {
+    private static final String VOTES_LIST = "votesList";
 
     private final ImmutableList<Vote> votes;
 
-    // Used by Parse, see annotation @ParseClassName
-    public VoteContainer() {
-        final List<Vote> list = getList(VOTES_KEY);
+    public VotesList() {
+        final List<Vote> list = getList(VOTES_LIST);
         final int size = list.size();
 
         votes = new ImmutableList<>(size);
@@ -33,7 +31,7 @@ public class VoteContainer extends ParseObject implements List<Vote> {
         for (int i = 0; size > i; ++i) votes.set(i, list.get(i));
     }
 
-    VoteContainer(
+    VotesList(
             int voteLength,
             ParseUser admin,
             String voterId,
@@ -65,7 +63,7 @@ public class VoteContainer extends ParseObject implements List<Vote> {
     }
 
     private void commit() {
-        put(VOTES_KEY, votes);
+        put(VOTES_LIST, votes);
     }
 
     @Override

@@ -15,13 +15,10 @@ import android.widget.SeekBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.parse.ParseException;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 // TODO: lets get some licensing up in this joint
@@ -30,9 +27,9 @@ import java.util.Locale;
  * Created by sam on 8/9/15.
  */
 public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
-    final static String GSPA = "GspaContainer";
+    final static String GSPA = "gspaContainer";
     final static GspaContainer.EPriceLevel PRICE_LEVEL_DEFAULT = GspaContainer.EPriceLevel.$$;
-    final static int RADIUS_MAX = 10;
+    private final static int RADIUS_MAX = 10;
     final static int RADIUS_PROGRESS_DEFAULT = RADIUS_MAX / 2;
 
     private final GspaContainer gspaContainer = new GspaContainer();
@@ -54,7 +51,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
         try {
             gspaContainer.setDefault();
-        } catch (IDependencyContainer.NotSetException e) {
+        } catch (IContainer.NotSetException e) {
             log(ELog.e, e.getMessage(), e);
         }
 
@@ -121,7 +118,8 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         );
     }
 
-    public void gspa_viewSubmit(View view) {
+    @SuppressWarnings("unused")
+    public void gspa_viewSubmit(@SuppressWarnings("UnusedParameters") View view) {
         finish();
     }
 
@@ -132,7 +130,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         if (gspaContainer.isSet()) {
             try {
                 intent.putExtra(GSPA, gspaContainer.getAsBundle());
-            } catch (IDependencyContainer.NotSetException e) {
+            } catch (IContainer.NotSetException e) {
                 log(ELog.e, e.getMessage(), e);
             }
             result = RESULT_OK;
@@ -145,18 +143,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
 
     private Date getDate() {
-        final Calendar calendar = new GregorianCalendar(
-                gspaContainer.getYear(),
-                gspaContainer.getMonth(),
-                gspaContainer.getDay(),
-                gspaContainer.getHourOfDay(),
-                gspaContainer.getMinute(),
-                0
-        );
-
-        final long millis = calendar.getTimeInMillis();
-
-        return new Date(millis);
+        return gspaContainer.getDate();
     }
 
     private void setDate(int day, int month, int year) {

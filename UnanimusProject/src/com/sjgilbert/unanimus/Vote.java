@@ -10,23 +10,23 @@ import com.parse.ParseObject;
  */
 @ParseClassName("Vote")
 public class Vote extends ParseObject {
-    public static final String SINGLE_VOTE_KEY = "singleVote";
+    private static final String VOTE = "vote";
 
     final int vote;
 
     public Vote() throws ParseException {
         super();
 
-        if (! has(SINGLE_VOTE_KEY))
+        if (!has(VOTE))
             throw new ParseException(ParseException.OTHER_CAUSE, "Used parameter-less constructor, but missing keys");
 
-        vote = getInt(SINGLE_VOTE_KEY);
+        vote = getInt(VOTE);
     }
 
     private Vote(EVote vote) {
         this.vote = vote.num;
 
-        put(SINGLE_VOTE_KEY, this.vote);
+        put(VOTE, this.vote);
     }
 
     public static Vote getUpVote() {

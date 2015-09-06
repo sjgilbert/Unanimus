@@ -6,5 +6,4 @@
     <string name="ppa_address_hint">Address</string>
     <string name="ppa_address_button">Go</string>
     <string name="ppa_submit_button">Submit</string>
-    <string name="ppa_no_choice_prev">Place not yet chosen</string>
 </resources>

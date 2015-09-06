@@ -39,10 +39,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Custom ArrayList adapter idea for ListView fount at http://www.learn2crack.com/2013/10/android-custom-listview-images-text-example.html
  */
 public class FriendPickerActivity extends UnanimusActivityTitle {
-    static final String FPA = "FpaContainer";
-    static final String TAG = "fpa";
     public static final String FACEBOOK_ID = "facebookID";
-
+    static final String FPA = "fpaContainer";
+    static final String TAG = "fpa";
     private final FpaContainer fpaContainer = new FpaContainer();
 
     private FriendPickerListAdapter friendPickerListAdapter;
@@ -84,7 +83,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
         if (fpaContainer.isSet()) {
             try {
                 intent.putExtra(FPA, fpaContainer.getAsBundle());
-            } catch (IDependencyContainer.NotSetException e) {
+            } catch (IContainer.NotSetException e) {
                 log(ELog.e, e.getMessage(), e);
             }
             result = RESULT_OK;

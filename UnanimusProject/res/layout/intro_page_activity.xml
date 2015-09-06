@@ -8,7 +8,7 @@
     <Button
         android:id="@+id/ipa_facebook_login"
         style="@style/Button"
-        android:text="@string/facebook_login"
-        android:onClick="ipa_viewFacebookLogin"/>
+        android:onClick="ipa_viewFacebookLogin"
+        android:text="@string/facebook_login" />
 
 </LinearLayout>

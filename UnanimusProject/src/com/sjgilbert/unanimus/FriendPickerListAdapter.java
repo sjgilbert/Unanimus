@@ -20,8 +20,8 @@ import java.util.List;
  * Lists of strings, one for allFriendNames and the other for facebook IDs.
  */
 class FriendPickerListAdapter extends ArrayAdapter<String> {
-    static final int SELECTED_COLOR = Color.parseColor("#81c784");
-    static final int UNSELECTED_COLOR = Color.TRANSPARENT;
+    private static final int SELECTED_COLOR = Color.parseColor("#81c784");
+    private static final int UNSELECTED_COLOR = Color.TRANSPARENT;
 
     private final List<String> allFriendNames;
     private final List<FacebookId> allFacebookIds;

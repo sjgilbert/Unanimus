@@ -12,7 +12,7 @@ import com.sjgilbert.unanimus.parsecache.ParseCache;
  * isabellcowan@gmail.com
  */
 @ParseClassName("PpaContainer")
-public class PpaContainer extends ParseObject implements  IDependencyContainer {
+public class PpaContainer extends ParseObject implements IContainer {
     private static final String LAT = "lat";
     private static final String LNG = "lng";
 
@@ -21,7 +21,7 @@ public class PpaContainer extends ParseObject implements  IDependencyContainer {
     public PpaContainer() {
         super();
 
-        if (! has(LAT) || ! has(LNG))
+        if (!has(LAT) || !has(LNG))
             return;
 
         int lat = getInt(LAT);
@@ -32,7 +32,7 @@ public class PpaContainer extends ParseObject implements  IDependencyContainer {
 
     @Override
     public Bundle getAsBundle() throws NotSetException {
-        if (! isSet())
+        if (!isSet())
             throw new NotSetException();
 
         Bundle bundle = new Bundle();
@@ -46,7 +46,7 @@ public class PpaContainer extends ParseObject implements  IDependencyContainer {
 
     @Override
     public void commit() throws NotSetException {
-        if (! isSet())
+        if (!isSet())
             throw new NotSetException();
 
         put(LAT, latLng.latitude);
@@ -74,11 +74,6 @@ public class PpaContainer extends ParseObject implements  IDependencyContainer {
     @Override
     public boolean isSet() {
         return null != latLng;
-    }
-
-    @Deprecated
-    void setLatLng(Double lat, Double lng) {
-        setFromLatLng(new LatLng(lat, lng));
     }
 
     void setFromLatLng(LatLng latLng) {

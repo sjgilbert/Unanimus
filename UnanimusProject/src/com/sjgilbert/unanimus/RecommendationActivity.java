@@ -14,7 +14,7 @@ import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
  */
 public class RecommendationActivity extends UnanimusActivityTitle {
     private String groupName;
-    private UnanimusGroup group;
+    private CgaContainer group;
 
     public RecommendationActivity() {
         super("reca");
@@ -38,7 +38,7 @@ public class RecommendationActivity extends UnanimusActivityTitle {
             Toast.makeText(RecommendationActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
 
-        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
+        ParseQuery<CgaContainer> query = CgaContainer.getQuery();
         query.include("members");
         query.include("user");
         try {

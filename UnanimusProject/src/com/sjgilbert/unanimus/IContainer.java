@@ -6,15 +6,19 @@ import android.os.Bundle;
  * 9/6/15 (c) Isabell Cowan
  * isabellcowan@gmail.com
  */
-interface IDependencyContainer {
+interface IContainer {
     Bundle getAsBundle() throws NotSetException;
-    void commit() throws  NotSetException;
+
+    void commit() throws NotSetException;
+
     void setDefault() throws NotSetException;
+
     void setFromBundle(Bundle bundle) throws NotSetException;
+
     boolean isSet();
 
     class NotSetException extends IllegalStateException {
-        protected NotSetException() {
+        NotSetException() {
             super();
         }
 

@@ -51,10 +51,10 @@ public class PlacePickActivity
         implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        OnMapReadyCallback
-{
-    final static String PPA = "ppa";
+        OnMapReadyCallback {
+    final static String PPA = "ppaContainer";
 
+    private final static String TAG = "ppa";
     private final static int PLACE_PICKER_REQUEST = 1;
 
     private final BuildGoogleApiClientWorker googleApiClientWorker
@@ -69,7 +69,7 @@ public class PlacePickActivity
     private MapLocationSource locationSource;
 
     public PlacePickActivity() {
-        super("ppa");
+        super(TAG);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class PlacePickActivity
         if (ppaContainer.isSet()) {
             try {
                 returnIntent.putExtra(PPA, ppaContainer.getAsBundle());
-            } catch (IDependencyContainer.NotSetException e) {
+            } catch (IContainer.NotSetException e) {
                 log(ELog.e, e.getMessage(), e);
             }
             resultCode = RESULT_OK;
@@ -153,7 +153,7 @@ public class PlacePickActivity
     }
 
     private void attemptSetDefault() {
-        if (! ppaContainer.isSet()
+        if (!ppaContainer.isSet()
                 && (locationSource != null)
                 && (lastLocation != null))
             setByLastLocation(lastLocation);
@@ -177,7 +177,8 @@ public class PlacePickActivity
         }
     }
 
-    public void ppa_viewFinish(View view) {
+    @SuppressWarnings("unused")
+    public void ppa_viewFinish(@SuppressWarnings("UnusedParameters") View view) {
         if (ppaContainer.getLatLng() == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(PlacePickActivity.this);
             builder.setMessage("No location selected!  Continue anyway?")
@@ -199,7 +200,7 @@ public class PlacePickActivity
     }
 
     @SuppressWarnings("WeakerAccess")
-    public void ppa_viewSetByLastLocation(View view) {
+    public void ppa_viewSetByLastLocation(@SuppressWarnings("UnusedParameters") View view) {
         setByLastLocation(lastLocation);
     }
 
@@ -303,8 +304,8 @@ public class PlacePickActivity
     }
 
     private static class MapLocationSource implements LocationSource {
-        OnLocationChangedListener locationChangedListener;
         final GoogleMap googleMap;
+        OnLocationChangedListener locationChangedListener;
         Marker marker;
 
         MapLocationSource(GoogleMap map) {
@@ -456,7 +457,7 @@ public class PlacePickActivity
         }
     }
 
-    private class OnCreateWorker extends AsyncTask<Void , Void, OnCreateWorker.Container> {
+    private class OnCreateWorker extends AsyncTask<Void, Void, OnCreateWorker.Container> {
         @Override
         protected Container doInBackground(Void... params) {
             final ViewGroup vg = (ViewGroup) findViewById(R.id.place_pick_activity);

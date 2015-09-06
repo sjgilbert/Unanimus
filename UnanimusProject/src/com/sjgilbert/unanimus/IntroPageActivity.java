@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.facebook.Profile;
 import com.parse.LogInCallback;
@@ -21,10 +20,10 @@ import java.util.ArrayList;
  * The page that allows the user to either log-in or register_activity.
  */
 public class IntroPageActivity extends UnanimusActivityTitle {
-    static final int publicProfile = R.string.parse_public_profile;
-    static final int userFriends = R.string.parse_user_friends;
-    static final int appName = R.string.app_name;
     static final int facebookID = R.string.facebook_id_key;
+    private static final int publicProfile = R.string.parse_public_profile;
+    private static final int userFriends = R.string.parse_user_friends;
+    private static final int appName = R.string.app_name;
 
     public IntroPageActivity() {
         super("ipa");
@@ -48,7 +47,8 @@ public class IntroPageActivity extends UnanimusActivityTitle {
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
     }
 
-    protected void ipa_viewFacebookLogin(View view) {
+    @SuppressWarnings("unused")
+    public void ipa_viewFacebookLogin(@SuppressWarnings("UnusedParameters") View view) {
         ArrayList<String> permissions = new ArrayList<>();
         permissions.add(getString(publicProfile));
         permissions.add(getString(userFriends));

@@ -11,6 +11,7 @@ import android.widget.TextView;
  * isabellcowan@gmail.com
  */
 
+@SuppressWarnings("unused")
 interface IUnanimusTextEntryBar {
 
     boolean setTextEntryBar(int hint_r, int submit_r, ViewGroup parent);

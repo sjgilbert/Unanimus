@@ -66,35 +66,6 @@ public /* static */ final class ParseCache<K extends CharSequence, V extends Par
         entryQueue.clear();
     }
 
-    @Deprecated
-    public boolean clearCache() {
-        return clearCache(1);
-    }
-
-    @Deprecated
-    public boolean clearCache(int number) {
-        boolean ret = false;
-
-        int i = 0;
-        for (Map.Entry<String, ParseQuery<V>> entry : entryQueue) {
-            if (!(number > i)) break;
-
-            ParseQuery<V> parseQuery = entry.getValue();
-            if (parseQuery.hasCachedResult()) {
-                ++i;
-                ret = true;
-                parseQuery.clearCachedResult();
-            }
-        }
-
-        return ret;
-    }
-
-    @Deprecated
-    public boolean clearAllCache() {
-        return clearCache(size());
-    }
-
     public boolean isEmpty() {
         return entryQueue.isEmpty();
     }

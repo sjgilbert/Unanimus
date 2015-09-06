@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +31,10 @@ import java.util.ArrayList;
  * eventually allow the user to indicate preferences/view recommendations.
  */
 public class GroupActivity extends UnanimusActivityTitle {
-    public static final String GROUP_ID = "GROUP_ID";
+    private static final String GROUP_ID = "GROUP_ID";
     private static final String GA = "ga";
     private String groupName;
-    private UnanimusGroup group;
+    private CgaContainer group;
 
 
     public GroupActivity() {
@@ -65,31 +64,27 @@ public class GroupActivity extends UnanimusActivityTitle {
         groupNameTextView.setText("GROUP ID: " + groupName);
 
         //Query for the group_activity's data
-        ParseQuery query = ParseQuery.getQuery(UnanimusGroup.class);
+        ParseQuery query = ParseQuery.getQuery(CgaContainer.class);
         query.whereEqualTo("objectId", groupName);
         ParseCache.parseCache.put(groupName, (ParseQuery<ParseObject>) query);
         try {
-            group = (UnanimusGroup) query.getFirst();
+            group = (CgaContainer) query.getFirst();
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
 
-        try {
-            UnanimusGroup2.Builder builder = new UnanimusGroup2.Builder(group);
-            builder.getInBackground(new UnanimusGroup2.Builder.Callback() {
-                @Override
-                public void done(UnanimusGroup2 unanimusGroup2) {
-                    unanimusGroup2.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) log(ELog.e, e.getMessage(), e);
-                        }
-                    });
-                }
-            });
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        UnanimusGroup.Builder builder = new UnanimusGroup.Builder(group);
+        builder.getInBackground(new UnanimusGroup.Builder.Callback() {
+            @Override
+            public void done(UnanimusGroup unanimusGroup) {
+                unanimusGroup.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) log(ELog.e, e.getMessage(), e);
+                    }
+                });
+            }
+        });
 
         //Setting owner of group_activity
         TextView createdBy = (TextView) findViewById(R.id.ga_created_by);
@@ -130,13 +125,15 @@ public class GroupActivity extends UnanimusActivityTitle {
         requestBatch.executeAsync();
     }
 
-    protected void ga_viewStartVotingActivity(View view) {
+    @SuppressWarnings("unused")
+    public void ga_viewStartVotingActivity(@SuppressWarnings("UnusedParameters") View view) {
         Intent intent = new Intent(GroupActivity.this, VotingActivity.class);
         intent.putExtra(GROUP_ID, groupName);
         startActivity(intent);
     }
 
-    protected void ga_viewStartRecommendationActivity(View view) {
+    @SuppressWarnings("unused")
+    public void ga_viewStartRecommendationActivity(@SuppressWarnings("UnusedParameters") View view) {
         if (group.get("recommendation") != null) {
             Intent intent = new Intent(GroupActivity.this, RecommendationActivity.class);
             intent.putExtra(GROUP_ID, groupName);

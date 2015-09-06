@@ -1,5 +1,6 @@
 package com.sjgilbert.unanimus.unanimus_activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.Locale;
  * 8/1/15 (c) Isabell Cowan
  * isabellcowan@gmail.com
  */
+@SuppressLint("Registered")
 class UnanimusActivity extends Activity {
     private final String tag;
 

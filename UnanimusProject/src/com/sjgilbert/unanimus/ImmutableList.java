@@ -13,7 +13,7 @@ import java.util.ListIterator;
  * isabellcowan@gmail.com
  */
 
-public class ImmutableList<E> extends ArrayList<E> {
+class ImmutableList<E> extends ArrayList<E> {
     private final ArrayList<E> arrayList;
 
     ImmutableList(int size) {
@@ -24,7 +24,6 @@ public class ImmutableList<E> extends ArrayList<E> {
     ImmutableList(Collection<E> collection) {
         this.arrayList = new ArrayList<>(collection.size());
 
-        int i = 0;
         for (E e : collection) this.arrayList.add(e);
     }
 
@@ -117,7 +116,7 @@ public class ImmutableList<E> extends ArrayList<E> {
         final int finLocation = location;
 
         return new ListIterator<E>() {
-            ListIterator<E> stringListIterator = arrayList.listIterator(finLocation);
+            final ListIterator<E> stringListIterator = arrayList.listIterator(finLocation);
 
             @Override
             public void add(E object) {

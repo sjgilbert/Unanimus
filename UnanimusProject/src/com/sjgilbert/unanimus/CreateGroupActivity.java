@@ -22,12 +22,13 @@ import static com.sjgilbert.unanimus.PlacePickActivity.PPA;
 public class CreateGroupActivity extends UnanimusActivityTitle {
     public static final String CGA = "cgaContainer";
     private static final String TAG = "cga";
+    @SuppressWarnings("FieldCanBeLocal")
     private final int NO_REQUEST = -1;
     private final int FPA_REQUEST = 1;
     private final int PPA_REQUEST = 2;
     private final int GSPA_REQUEST = 3;
 
-    private final UnanimusGroup unanimusGroup = new UnanimusGroup();
+    private final CgaContainer cgaContainer = new CgaContainer();
 
     public CreateGroupActivity() {
         super(TAG);
@@ -81,7 +82,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
                         default:
                             throw new IllegalArgumentException();
                     }
-                } catch (IDependencyContainer.NotSetException e) {
+                } catch (IContainer.NotSetException e) {
                     log(ELog.e, e.getMessage(), e);
                 }
 
@@ -90,24 +91,18 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
 
             @Override
             protected void onPostExecute(Void result) {
-                if (!unanimusGroup.isSet()) return;
+                if (!cgaContainer.isSet()) return;
 
-                unanimusGroup.commit();
+                cgaContainer.commit();
 
-                UnanimusGroup2.Builder builder;
+                UnanimusGroup.Builder builder;
 
-                try {
-                    builder = new UnanimusGroup2.Builder(unanimusGroup);
-                } catch (ParseException e1) {
-                    log(ELog.e, e1.getMessage(), e1);
-                    finish();
-                    return;
-                }
+                builder = new UnanimusGroup.Builder(cgaContainer);
 
-                builder.getInBackground(new UnanimusGroup2.Builder.Callback() {
+                builder.getInBackground(new UnanimusGroup.Builder.Callback() {
                     @Override
-                    public void done(final UnanimusGroup2 unanimusGroup2) {
-                        unanimusGroup2.saveInBackground(new SaveCallback() {
+                    public void done(final UnanimusGroup unanimusGroup) {
+                        unanimusGroup.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
                                 if (e != null) {
@@ -122,13 +117,13 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
                                                 "%s.  %s: %s",
                                                 "Successfully saved Unanimus group",
                                                 ParseCache.OBJECT_ID,
-                                                unanimusGroup2.getObjectId()
+                                                unanimusGroup.getObjectId()
                                         )
                                 );
 
-                                String objectId = unanimusGroup2.getObjectId();
+                                String objectId = unanimusGroup.getObjectId();
 
-                                ParseQuery parseQuery = ParseQuery.getQuery(UnanimusGroup2.class)
+                                ParseQuery parseQuery = ParseQuery.getQuery(UnanimusGroup.class)
                                         .whereEqualTo(ParseCache.OBJECT_ID, objectId);
 
                                 ParseCache.parseCache.put(
@@ -150,15 +145,15 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     private void launchNext(int requestCode) {
         if (
                 requestCode != GSPA_REQUEST
-                && unanimusGroup.getGspaContainer() == null)
+                        && cgaContainer.getGspaContainer() == null)
             startGspaForResult();
         else if (
                 requestCode != PPA_REQUEST
-                && unanimusGroup.getPpaContainer() == null)
+                        && cgaContainer.getPpaContainer() == null)
             startPpaForResult();
         else if (
                 requestCode != FPA_REQUEST
-                && unanimusGroup.getFpaContainer() == null)
+                        && cgaContainer.getFpaContainer() == null)
             startFpaForResult();
     }
 
@@ -169,11 +164,11 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         );
     }
 
-    private void setGspaContainer(Bundle bundle) throws IDependencyContainer.NotSetException {
-        unanimusGroup.setGspaContainer(bundle);
+    private void setGspaContainer(Bundle bundle) throws IContainer.NotSetException {
+        cgaContainer.setGspaContainer(bundle);
     }
 
-    private void processGspaResult(Intent data) throws IDependencyContainer.NotSetException {
+    private void processGspaResult(Intent data) throws IContainer.NotSetException {
         final Bundle gspaBundle = data.getBundleExtra(GroupSettingsPickerActivity.GSPA);
         setGspaContainer(gspaBundle);
     }
@@ -185,11 +180,11 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         );
     }
 
-    private void setFpaContainer(Bundle bundle) throws IDependencyContainer.NotSetException {
-        unanimusGroup.setFpaContainer(bundle);
+    private void setFpaContainer(Bundle bundle) throws IContainer.NotSetException {
+        cgaContainer.setFpaContainer(bundle);
     }
 
-    private void processFpaResult(Intent data) throws IDependencyContainer.NotSetException {
+    private void processFpaResult(Intent data) throws IContainer.NotSetException {
         Bundle fpaBundle = data.getBundleExtra(FPA);
         setFpaContainer(fpaBundle);
     }
@@ -201,11 +196,11 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         );
     }
 
-    private void setPpaContainer(Bundle bundle) throws IDependencyContainer.NotSetException {
-        unanimusGroup.setPpaContainer(bundle);
+    private void setPpaContainer(Bundle bundle) throws IContainer.NotSetException {
+        cgaContainer.setPpaContainer(bundle);
     }
 
-    private void processPpaResult(Intent data) throws IDependencyContainer.NotSetException {
+    private void processPpaResult(Intent data) throws IContainer.NotSetException {
         Bundle ppaBundle = data.getBundleExtra(PPA);
         setPpaContainer(ppaBundle);
     }

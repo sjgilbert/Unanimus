@@ -16,16 +16,16 @@ import java.util.List;
  * isabellcowan@gmail.com
  */
 @ParseClassName("FpaContainer")
-public class FpaContainer extends ParseObject implements IDependencyContainer {
-    private final static String FACEBOOK_IDS = "FacebookIds";
-    private final static String PARSE_IDS = "ParseIds";
+public class FpaContainer extends ParseObject implements IContainer {
+    private final static String FACEBOOK_IDS = "facebookIds";
+    private final static String PARSE_IDS = "parseIds";
 
     private UserIdPair[] userIdPairs;
 
     public FpaContainer() {
         super();
 
-        if (! has(FACEBOOK_IDS) || ! has(PARSE_IDS))
+        if (!has(FACEBOOK_IDS) || !has(PARSE_IDS))
             return;
 
         final List<String> facebookIds = getList(FACEBOOK_IDS);
@@ -72,7 +72,7 @@ public class FpaContainer extends ParseObject implements IDependencyContainer {
 
     @Override
     public Bundle getAsBundle() throws NotSetException {
-        if (! isSet())
+        if (!isSet())
             throw new NotSetException();
 
         Bundle bundle = new Bundle();
@@ -118,7 +118,7 @@ public class FpaContainer extends ParseObject implements IDependencyContainer {
         commit();
     }
 
-    private void setLists(List<String> parseUserIds, List<String> facebookUserIds)  {
+    private void setLists(List<String> parseUserIds, List<String> facebookUserIds) {
         for (UserIdPair pair : userIdPairs) {
             if (null == pair.parseUserId) {
                 Log.w(
