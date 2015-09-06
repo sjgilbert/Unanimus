@@ -1,11 +1,14 @@
 package com.sjgilbert.unanimus;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.sjgilbert.unanimus.parsecache.ParseCache;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,38 +19,57 @@ import java.util.ArrayList;
  * Model for a group_activity of users.
  */
 @ParseClassName("UnanimusGroup")
-public class UnanimusGroup extends ParseObject {
-    private final FriendPickerActivity.FpaContainer fpaContainer;
-    private final GroupSettingsPickerActivity.GspaContainer gspaContainer;
-    private final PlacePickActivity.PpaContainer ppaContainer;
+public class UnanimusGroup extends ParseObject implements  IDependencyContainer {
+    private FpaContainer fpaContainer;
+    private GspaContainer gspaContainer;
+    private PpaContainer ppaContainer;
 
     public UnanimusGroup() {
-        gspaContainer = new GroupSettingsPickerActivity.GspaContainer();
-        fpaContainer = new FriendPickerActivity.FpaContainer();
-        ppaContainer = new PlacePickActivity.PpaContainer();
+        super();
+
+        if (! has(FriendPickerActivity.FPA)
+                || ! has(GroupSettingsPickerActivity.GSPA)
+                || ! has(PlacePickActivity.PPA))
+            return;
+
+        fpaContainer = (FpaContainer) get(FriendPickerActivity.FPA);
+        gspaContainer = (GspaContainer) get(GroupSettingsPickerActivity.GSPA);
+        ppaContainer = (PpaContainer) get(PlacePickActivity.PPA);
     }
 
-    public static ParseQuery<UnanimusGroup> getQuery() {
+    static ParseQuery<UnanimusGroup> getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
     }
 
-    public ArrayList<String> getMembers() {
-        Object o_members = get("members");
+    int getMaxRestaurants() {
+        return 15;
+    }
 
-        if (null == o_members)
-            throw new NullPointerException();
+    @Nullable GspaContainer getGspaContainer() {
+        return gspaContainer;
+    }
 
-        if (!(o_members instanceof ArrayList))
-            throw new ClassCastException();
+    void setGspaContainer(Bundle bundle) throws NotSetException {
+        this.gspaContainer = new GspaContainer();
+        gspaContainer.setFromBundle(bundle);
+    }
 
-        ArrayList al_members = (ArrayList) o_members;
+    @Nullable FpaContainer getFpaContainer() {
+        return fpaContainer;
+    }
 
-        ArrayList<String> al_p_members = new ArrayList<>();
-        for (Object o : al_members)
-            if (o instanceof String)
-                al_p_members.add((String) o);
+    void setFpaContainer(Bundle bundle) throws NotSetException {
+        this.fpaContainer = new FpaContainer();
+        fpaContainer.setFromBundle(bundle);
+    }
 
-        return al_p_members;
+    @Nullable PpaContainer getPpaContainer() {
+        return ppaContainer;
+    }
+
+    void setPpaContainer(Bundle bundle) throws NotSetException {
+        this.ppaContainer = new PpaContainer();
+        ppaContainer.setFromBundle(bundle);
     }
 
     @Deprecated
@@ -129,35 +151,80 @@ public class UnanimusGroup extends ParseObject {
         }
     }
 
-    GroupSettingsPickerActivity.GspaContainer getGspaContainer() {
-        return gspaContainer;
+    @Deprecated
+    public ArrayList<String> getMembers() {
+        Object o_members = get("members");
+
+        if (null == o_members)
+            throw new NullPointerException();
+
+        if (!(o_members instanceof ArrayList))
+            throw new ClassCastException();
+
+        ArrayList al_members = (ArrayList) o_members;
+
+        ArrayList<String> al_p_members = new ArrayList<>();
+        for (Object o : al_members)
+            if (o instanceof String)
+                al_p_members.add((String) o);
+
+        return al_p_members;
     }
 
-    public void setGspaContainer(Bundle bundle) {
-        gspaContainer.setFromBundle(bundle);
+    @Override
+    public Bundle getAsBundle() throws NotSetException {
+        if (! isSet())
+            throw new NotSetException();
+
+        Bundle bundle = new Bundle();
+
+        bundle.putBundle(GroupSettingsPickerActivity.GSPA, gspaContainer.getAsBundle());
+        bundle.putBundle(FriendPickerActivity.FPA, fpaContainer.getAsBundle());
+        bundle.putBundle(PlacePickActivity.PPA, ppaContainer.getAsBundle());
+
+        bundle.putString(ParseCache.OBJECT_ID, getObjectId());
+
+        return bundle;
     }
 
-    FriendPickerActivity.FpaContainer getFpaContainer() {
-        return fpaContainer;
+    @Override
+    public void commit() throws NotSetException {
+        gspaContainer.commit();
+        fpaContainer.commit();
+        ppaContainer.commit();
+
+        put(GroupSettingsPickerActivity.GSPA, gspaContainer);
+        put(FriendPickerActivity.FPA, fpaContainer);
+        put(PlacePickActivity.PPA, ppaContainer);
     }
 
-    public void setFpaContainer(Bundle bundle) {
-        fpaContainer.setFromBundle(bundle);
+    @Override
+    public void setDefault() throws NotSetException {
+        gspaContainer = new GspaContainer();
+        gspaContainer.setDefault();
+
+        fpaContainer = new FpaContainer();
+        fpaContainer.setDefault();
+
+        ppaContainer = new PpaContainer();
+        ppaContainer.setDefault();
     }
 
-    PlacePickActivity.PpaContainer getPpaContainer() {
-        return ppaContainer;
+    @Override
+    public void setFromBundle(Bundle bundle) throws NotSetException {
+        setGspaContainer(bundle.getBundle(GroupSettingsPickerActivity.GSPA));
+        setFpaContainer(bundle.getBundle(FriendPickerActivity.FPA));
+        setPpaContainer(bundle.getBundle(PlacePickActivity.PPA));
+
+        setObjectId(bundle.getString(ParseCache.OBJECT_ID));
+        commit();
     }
 
-    public void setPpaContainer(Bundle bundle) {
-        ppaContainer.setFromBundle(bundle);
-    }
-
+    @Override
     public boolean isSet() {
-        return (ppaContainer.isSet() && fpaContainer.isSet() && gspaContainer.isSet());
-    }
-
-    public int getMaxRestaurants() {
-        return 15;
+        return (ppaContainer != null
+                && fpaContainer != null
+                && gspaContainer != null
+        );
     }
 }

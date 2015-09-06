@@ -113,8 +113,12 @@ public class PlacePickActivity
         Intent returnIntent = new Intent();
         final int resultCode;
         if (ppaContainer.isSet()) {
+            try {
+                returnIntent.putExtra(PPA, ppaContainer.getAsBundle());
+            } catch (IDependencyContainer.NotSetException e) {
+                log(ELog.e, e.getMessage(), e);
+            }
             resultCode = RESULT_OK;
-            returnIntent.putExtra(PPA, ppaContainer.getAsBundle());
         } else {
             resultCode = RESULT_CANCELED;
         }
@@ -238,7 +242,7 @@ public class PlacePickActivity
     }
 
     private void setByLatLng(LatLng latLng) {
-        this.ppaContainer.setLatLng(latLng.latitude, latLng.longitude);
+        this.ppaContainer.setFromLatLng(latLng);
         updatePlacePreview(latLng);
     }
 
@@ -297,53 +301,6 @@ public class PlacePickActivity
                 )
         );
         locationSource.update(latLng);
-    }
-
-    static class PpaContainer extends CreateGroupActivity.ADependencyContainer {
-        private static final String LAT = "lat";
-        private static final String LNG = "lng";
-
-        private LatLng latLng;
-
-        @Override
-        public Bundle getAsBundle() {
-            Bundle bundle = new Bundle();
-            bundle.putDouble(LAT, latLng.latitude);
-            bundle.putDouble(LNG, latLng.longitude);
-            return bundle;
-        }
-
-        @Override
-        public void setDefault() {
-            latLng = new LatLng(0D, 0D);
-        }
-
-        @Override
-        public void setFromBundle(Bundle bundle) {
-            setFromLatLng(
-                    new LatLng(
-                            bundle.getDouble(LAT),
-                            bundle.getDouble(LNG)
-                    )
-            );
-        }
-
-        @Override
-        boolean isSet() {
-            return null != latLng;
-        }
-
-        private void setLatLng(Double lat, Double lng) {
-            setFromLatLng(new LatLng(lat, lng));
-        }
-
-        private void setFromLatLng(LatLng latLng) {
-            this.latLng = latLng;
-        }
-
-        LatLng getLatLng() {
-            return latLng;
-        }
     }
 
     private static class MapLocationSource implements LocationSource {

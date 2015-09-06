@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.text.DateFormat;
@@ -30,10 +30,10 @@ import java.util.Locale;
  * Created by sam on 8/9/15.
  */
 public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
-    public final static String GSPA = "GspaContainer";
-    private final static int radiusMax = 10;
-    private final static int radiusStartProgress = radiusMax / 2;
-    private final static GspaContainer.EPriceLevel startPriceLevel = GspaContainer.EPriceLevel.$$;
+    final static String GSPA = "GspaContainer";
+    final static GspaContainer.EPriceLevel PRICE_LEVEL_DEFAULT = GspaContainer.EPriceLevel.$$;
+    final static int RADIUS_MAX = 10;
+    final static int RADIUS_PROGRESS_DEFAULT = RADIUS_MAX / 2;
 
     private final GspaContainer gspaContainer = new GspaContainer();
 
@@ -52,7 +52,11 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
             log(ELog.e, e.getMessage(), e);
         }
 
-        gspaContainer.setDefault();
+        try {
+            gspaContainer.setDefault();
+        } catch (IDependencyContainer.NotSetException e) {
+            log(ELog.e, e.getMessage(), e);
+        }
 
         Button dateButton = (Button) findViewById(R.id.gspa_date);
         dateButton.setOnClickListener(
@@ -77,7 +81,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         updateTimeText();
 
         final SeekBar radiusBar = (SeekBar) findViewById(R.id.gspa_radius_slider);
-        radiusBar.setMax(radiusMax);
+        radiusBar.setMax(RADIUS_MAX);
         radiusBar.setProgress(gspaContainer.getRadius());
         radiusBar.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener() {
@@ -120,19 +124,29 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                int result;
-                if (gspaContainer.isSet()) {
-                    intent.putExtra(GSPA, gspaContainer.getAsBundle());
-                    result = RESULT_OK;
-                } else {
-                    result = RESULT_CANCELED;
-                }
-                setResult(result, intent);
                 finish();
             }
         });
     }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        int result;
+        if (gspaContainer.isSet()) {
+            try {
+                intent.putExtra(GSPA, gspaContainer.getAsBundle());
+            } catch (IDependencyContainer.NotSetException e) {
+                log(ELog.e, e.getMessage(), e);
+            }
+            result = RESULT_OK;
+        } else {
+            result = RESULT_CANCELED;
+        }
+        setResult(result, intent);
+        super.finish();
+    }
+
 
     private Date getDate() {
         final Calendar calendar = new GregorianCalendar(
@@ -150,9 +164,9 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
     }
 
     private void setDate(int day, int month, int year) {
-        gspaContainer.year = year;
-        gspaContainer.month = month;
-        gspaContainer.day = day;
+        gspaContainer.setYear(year);
+        gspaContainer.setMonth(month);
+        gspaContainer.setDay(day);
     }
 
     private String getDateString() {
@@ -210,8 +224,8 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
             int hourOfDay,
             int minute
     ) {
-        gspaContainer.hourOfDay = hourOfDay;
-        gspaContainer.minute = minute;
+        gspaContainer.setHourOfDay(hourOfDay);
+        gspaContainer.setMinute(minute);
     }
 
     private String getTimeString() {
@@ -265,7 +279,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
     }
 
     private void setRadius(int radius) {
-        gspaContainer.radius = radius;
+        gspaContainer.setRadius(radius);
     }
 
     private void showRadius() {
@@ -282,7 +296,10 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
 
     private void setPriceLevel(int len) {
         try {
-            gspaContainer.priceLevel = GspaContainer.EPriceLevel.getPriceLevelFromInt(len);
+            gspaContainer.setPriceLevel(
+                    GspaContainer.EPriceLevel
+                            .getPriceLevelFromInt(len)
+            );
         } catch (UnsupportedOperationException e) {
             log(ELog.e, e.getMessage(), e);
         }
@@ -300,153 +317,4 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         ).show();
     }
 
-    protected static class GspaContainer extends CreateGroupActivity.ADependencyContainer {
-        public final static String YEAR = "year";
-        public final static String MONTH = "month";
-        public final static String DAY = "day";
-        public final static String HOUR_OF_DAY = "hourOfDay";
-        public final static String MINUTE = "minute";
-        public final static String RADIUS = "radius";
-        public final static String PRICE_LEVEL = "priceLevel";
-
-        private int year, month, day, hourOfDay, minute;
-        private int radius;
-        private EPriceLevel priceLevel;
-        private boolean hasBeenSet = false;
-
-        @Override
-        public void setDefault() {
-            final Calendar c = Calendar.getInstance();
-            year = c.get(Calendar.YEAR);
-            month = c.get(Calendar.MONTH);
-            day = c.get(Calendar.DAY_OF_MONTH);
-            hourOfDay = c.get(Calendar.HOUR_OF_DAY);
-            minute = c.get(Calendar.MINUTE);
-
-            radius = radiusStartProgress;
-
-            priceLevel = startPriceLevel;
-
-            hasBeenSet = true;
-        }
-
-        @Override
-        public Bundle getAsBundle() {
-            Bundle bundle = new Bundle();
-            bundle.putInt(YEAR, year);
-            bundle.putInt(MONTH, month);
-            bundle.putInt(DAY, day);
-            bundle.putInt(HOUR_OF_DAY, hourOfDay);
-            bundle.putInt(MINUTE, minute);
-
-            bundle.putInt(RADIUS, radius);
-
-            bundle.putInt(PRICE_LEVEL, priceLevel.getNum());
-
-            try {
-                super.getAsBundle();
-            } catch (NotSetException e) {
-                Log.e("Unanimus", e.getMessage(), e);
-                return null;
-            }
-
-            return bundle;
-        }
-
-        @Override
-        public void setFromBundle(Bundle bundle) {
-            this.year = bundle.getInt(YEAR);
-            this.month = bundle.getInt(MONTH);
-            this.day = bundle.getInt(DAY);
-            this.hourOfDay = bundle.getInt(HOUR_OF_DAY);
-            this.minute = bundle.getInt(MINUTE);
-            this.radius = bundle.getInt(RADIUS);
-            this.priceLevel = EPriceLevel.getPriceLevelFromInt(bundle.getInt(PRICE_LEVEL));
-
-            this.hasBeenSet = true;
-        }
-
-        @Override
-        boolean isSet() {
-            return hasBeenSet;
-        }
-
-        @Deprecated
-        public int getYear() {
-            return year;
-        }
-
-        @Deprecated
-        public int getMonth() {
-            return month;
-        }
-
-        @Deprecated
-        public int getDay() {
-            return day;
-        }
-
-        @Deprecated
-        public int getHourOfDay() {
-            return hourOfDay;
-        }
-
-        @Deprecated
-        public int getMinute() {
-            return minute;
-        }
-
-        public int getRadius() {
-            return radius;
-        }
-
-        public EPriceLevel getPriceLevel() {
-            return priceLevel;
-        }
-
-        public Date getDate() {
-            final Calendar calender = new GregorianCalendar(
-                    year,
-                    month,
-                    day,
-                    hourOfDay,
-                    minute
-            );
-
-            return calender.getTime();
-        }
-
-        public enum EPriceLevel {
-            // funny as shit right?
-            $(1),
-            $$(2),
-            $$$(3),
-            $$$$(4);
-
-            final int num;
-
-            EPriceLevel(int num) {
-                this.num = num;
-            }
-
-            public static EPriceLevel getPriceLevelFromInt(int len) {
-                switch (len) {
-                    case 1:
-                        return GspaContainer.EPriceLevel.$;
-                    case 2:
-                        return GspaContainer.EPriceLevel.$$;
-                    case 3:
-                        return GspaContainer.EPriceLevel.$$$;
-                    case 4:
-                        return GspaContainer.EPriceLevel.$$$$;
-                    default:
-                        throw new UnsupportedOperationException();
-                }
-            }
-
-            public int getNum() {
-                return num;
-            }
-        }
-    }
 }

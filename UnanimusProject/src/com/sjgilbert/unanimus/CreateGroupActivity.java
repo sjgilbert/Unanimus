@@ -20,7 +20,8 @@ import static com.sjgilbert.unanimus.PlacePickActivity.PPA;
  * Activity for creating group.  Calls 3 other activities for input to build group.
  */
 public class CreateGroupActivity extends UnanimusActivityTitle {
-    private static final String CGA = "cga";
+    public static final String CGA = "cgaContainer";
+    private static final String TAG = "cga";
     private final int NO_REQUEST = -1;
     private final int FPA_REQUEST = 1;
     private final int PPA_REQUEST = 2;
@@ -29,7 +30,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     private final UnanimusGroup unanimusGroup = new UnanimusGroup();
 
     public CreateGroupActivity() {
-        super(CGA);
+        super(TAG);
     }
 
     @Override
@@ -66,18 +67,22 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                switch (requestCode) {
-                    case GSPA_REQUEST:
-                        processGspaResult(data);
-                        break;
-                    case FPA_REQUEST:
-                        processFpaResult(data);
-                        break;
-                    case PPA_REQUEST:
-                        processPpaResult(data);
-                        break;
-                    default:
-                        throw new IllegalArgumentException();
+                try {
+                    switch (requestCode) {
+                        case GSPA_REQUEST:
+                            processGspaResult(data);
+                            break;
+                        case FPA_REQUEST:
+                            processFpaResult(data);
+                            break;
+                        case PPA_REQUEST:
+                            processPpaResult(data);
+                            break;
+                        default:
+                            throw new IllegalArgumentException();
+                    }
+                } catch (IDependencyContainer.NotSetException e) {
+                    log(ELog.e, e.getMessage(), e);
                 }
 
                 return null;
@@ -87,12 +92,14 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
             protected void onPostExecute(Void result) {
                 if (!unanimusGroup.isSet()) return;
 
+                unanimusGroup.commit();
+
                 UnanimusGroup2.Builder builder;
 
                 try {
                     builder = new UnanimusGroup2.Builder(unanimusGroup);
-                } catch (ParseException e) {
-                    log(ELog.e, e.getMessage(), e);
+                } catch (ParseException e1) {
+                    log(ELog.e, e1.getMessage(), e1);
                     finish();
                     return;
                 }
@@ -143,15 +150,15 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     private void launchNext(int requestCode) {
         if (
                 requestCode != GSPA_REQUEST
-                && ! unanimusGroup.getGspaContainer().isSet())
+                && unanimusGroup.getGspaContainer() == null)
             startGspaForResult();
         else if (
                 requestCode != PPA_REQUEST
-                && ! unanimusGroup.getPpaContainer().isSet())
+                && unanimusGroup.getPpaContainer() == null)
             startPpaForResult();
         else if (
                 requestCode != FPA_REQUEST
-                && ! unanimusGroup.getFpaContainer().isSet())
+                && unanimusGroup.getFpaContainer() == null)
             startFpaForResult();
     }
 
@@ -162,11 +169,11 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         );
     }
 
-    private void setGspaContainer(Bundle bundle) {
+    private void setGspaContainer(Bundle bundle) throws IDependencyContainer.NotSetException {
         unanimusGroup.setGspaContainer(bundle);
     }
 
-    private void processGspaResult(Intent data) {
+    private void processGspaResult(Intent data) throws IDependencyContainer.NotSetException {
         final Bundle gspaBundle = data.getBundleExtra(GroupSettingsPickerActivity.GSPA);
         setGspaContainer(gspaBundle);
     }
@@ -178,11 +185,11 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         );
     }
 
-    private void setFpaContainer(Bundle bundle) {
+    private void setFpaContainer(Bundle bundle) throws IDependencyContainer.NotSetException {
         unanimusGroup.setFpaContainer(bundle);
     }
 
-    private void processFpaResult(Intent data) {
+    private void processFpaResult(Intent data) throws IDependencyContainer.NotSetException {
         Bundle fpaBundle = data.getBundleExtra(FPA);
         setFpaContainer(fpaBundle);
     }
@@ -194,33 +201,13 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
         );
     }
 
-    private void setPpaContainer(Bundle bundle) {
+    private void setPpaContainer(Bundle bundle) throws IDependencyContainer.NotSetException {
         unanimusGroup.setPpaContainer(bundle);
     }
 
-    private void processPpaResult(Intent data) {
+    private void processPpaResult(Intent data) throws IDependencyContainer.NotSetException {
         Bundle ppaBundle = data.getBundleExtra(PPA);
         setPpaContainer(ppaBundle);
     }
 
-    static abstract class ADependencyContainer {
-        Bundle getAsBundle() throws NotSetException {
-            if (!isSet())
-                throw new NotSetException();
-            return null;
-        }
-
-        abstract void setDefault();
-
-        @Deprecated
-        abstract void setFromBundle(Bundle bundle);
-
-        abstract boolean isSet();
-
-        public static class NotSetException extends Exception {
-            private NotSetException() {
-                // Private instantiation
-            }
-        }
-    }
 }

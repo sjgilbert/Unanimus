@@ -1,6 +1,7 @@
 package com.sjgilbert.unanimus;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 /**
@@ -13,14 +14,19 @@ public class Vote extends ParseObject {
 
     final int vote;
 
-    public Vote() {
+    public Vote() throws ParseException {
+        super();
+
+        if (! has(SINGLE_VOTE_KEY))
+            throw new ParseException(ParseException.OTHER_CAUSE, "Used parameter-less constructor, but missing keys");
+
         vote = getInt(SINGLE_VOTE_KEY);
     }
 
     private Vote(EVote vote) {
         this.vote = vote.num;
 
-        put(SINGLE_VOTE_KEY, vote);
+        put(SINGLE_VOTE_KEY, this.vote);
     }
 
     public static Vote getUpVote() {

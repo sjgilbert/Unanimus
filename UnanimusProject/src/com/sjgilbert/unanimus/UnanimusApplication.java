@@ -29,10 +29,16 @@ public class UnanimusApplication extends Application {
         defaultACL.setPublicReadAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
 
+        ParseObject.registerSubclass(GspaContainer.class);
+        ParseObject.registerSubclass(PpaContainer.class);
+        ParseObject.registerSubclass(FpaContainer.class);
+
         ParseObject.registerSubclass(UnanimusGroup.class);
-        ParseObject.registerSubclass(VotingActivity.VaContainer.class);
-        ParseObject.registerSubclass(UnanimusGroup2.class);
+
+        ParseObject.registerSubclass(Vote.class);
         ParseObject.registerSubclass(VoteContainer.class);
+
+        ParseObject.registerSubclass(UnanimusGroup2.class);
 
         Parse.initialize(
                 this,
