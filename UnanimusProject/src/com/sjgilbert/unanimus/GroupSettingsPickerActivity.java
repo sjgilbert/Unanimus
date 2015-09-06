@@ -117,7 +117,7 @@ public class GroupSettingsPickerActivity extends UnanimusActivityTitle {
         );
     }
 
-    protected void gspa_viewSubmit(View view) {
+    public void gspa_viewSubmit(View view) {
         Intent intent = new Intent();
         int result;
         if (gspaContainer.isSet()) {

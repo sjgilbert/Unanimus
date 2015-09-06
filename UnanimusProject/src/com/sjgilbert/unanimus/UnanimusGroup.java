@@ -76,32 +76,32 @@ public class UnanimusGroup extends ParseObject {
         saveInBackground();
     }
 
-    @Deprecated
-    private ArrayList<Integer> voteTally() {
-        ArrayList<Integer> voteSum = new ArrayList<>();
-        for (int x = 0; x < VotingActivity.NUMBER_OF_RESTAURANTS; x++) {
-            voteSum.add(0);
-        }
-        JSONArray array = getJSONArray("voteArrays");
-        for (int i = 0; i < array.length(); i++) {
-            ArrayList<Integer> oneUsersVotes;
-            try {
-                JSONArray vA = array.getJSONArray(i);
-                ArrayList<Integer> vAL = new ArrayList<>();
-                for (int k = 0; k < VotingActivity.NUMBER_OF_RESTAURANTS; k++) {
-                    vAL.add(vA.getInt(k));
-                }
-                oneUsersVotes = vAL;
-                for (int j = 0; j < getRestaurants().size(); j++) {
-                    voteSum.set(j, (voteSum.get(j) + oneUsersVotes.get(j)));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return voteSum;
-    }
+//    @Deprecated
+//    private ArrayList<Integer> voteTally() {
+//        ArrayList<Integer> voteSum = new ArrayList<>();
+//        for (int x = 0; x < VotingActivity.NUMBER_OF_RESTAURANTS; x++) {
+//            voteSum.add(0);
+//        }
+//        JSONArray array = getJSONArray("voteArrays");
+//        for (int i = 0; i < array.length(); i++) {
+//            ArrayList<Integer> oneUsersVotes;
+//            try {
+//                JSONArray vA = array.getJSONArray(i);
+//                ArrayList<Integer> vAL = new ArrayList<>();
+//                for (int k = 0; k < VotingActivity.NUMBER_OF_RESTAURANTS; k++) {
+//                    vAL.add(vA.getInt(k));
+//                }
+//                oneUsersVotes = vAL;
+//                for (int j = 0; j < getRestaurants().size(); j++) {
+//                    voteSum.set(j, (voteSum.get(j) + oneUsersVotes.get(j)));
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//        return voteSum;
+//    }
 
     @Deprecated
     private String getBestRestaurant(ArrayList<Integer> talliedVotes) {
@@ -115,19 +115,19 @@ public class UnanimusGroup extends ParseObject {
         return getRestaurants().get(winIndex);
     }
 
-    @Deprecated
-    public void checkIfComplete() {
-        if ((getJSONArray("voteArrays").length() == getMembers().size())) {
-            String recommendation = getBestRestaurant(voteTally());
-            put("recommendation", recommendation);
-            saveInBackground();
-        } else {
-            Log.i(
-                    "Unanimus",
-                    "Voting not complete"
-            );
-        }
-    }
+//    @Deprecated
+//    public void checkIfComplete() {
+//        if ((getJSONArray("voteArrays").length() == getMembers().size())) {
+//            String recommendation = getBestRestaurant(voteTally());
+//            put("recommendation", recommendation);
+//            saveInBackground();
+//        } else {
+//            Log.i(
+//                    "Unanimus",
+//                    "Voting not complete"
+//            );
+//        }
+//    }
 
     GroupSettingsPickerActivity.GspaContainer getGspaContainer() {
         return gspaContainer;
