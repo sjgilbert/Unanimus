@@ -18,17 +18,17 @@ import com.sjgilbert.unanimus.parsecache.ParseCache;
 
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by sam on 9/1/15.
  */
 @ParseClassName("UnanimusGroup2")
 public class UnanimusGroup2 extends ParseObject {
-    private static final String VOTE_CONTAINER_IDS = "voteContainerIds";
+    private static final String VOTE_CONTAINERS = "voteContainerIds";
     private static final String USER_IDS = "userIds";
     private static final String RESTAURANT_IDS = "restaurantIds";
 
@@ -36,7 +36,7 @@ public class UnanimusGroup2 extends ParseObject {
     private final List<String> restaurantIds;
 
     public UnanimusGroup2() throws ParseException {
-        final List<String> voteIds = getList(VOTE_CONTAINER_IDS);
+        final List<VoteContainer> voteIds = getList(VOTE_CONTAINERS);
         final List<String> userIds = getList(USER_IDS);
         final List<String> parseRestaurantIds = getList(RESTAURANT_IDS);
 
@@ -47,28 +47,9 @@ public class UnanimusGroup2 extends ParseObject {
 
         userIdsVc = new Hashtable<>(numUsers);
 
-        for (int i = 0; numUsers > i; ++i) {
-            final String vId = voteIds.get(i);
+        for (int i = 0; numUsers > i; ++i) userIdsVc.put(userIds.get(i), voteIds.get(i));
 
-            final ParseQuery parseQuery;
-            if (ParseCache.parseCache.containsKey(vId)) {
-                parseQuery = ParseCache.parseCache.get(vId);
-            } else {
-                parseQuery = ParseQuery.getQuery(VoteContainer.class);
-                parseQuery.whereEqualTo("objectId", vId);
-                ParseCache.parseCache.put(vId, (ParseQuery<ParseObject>) parseQuery);
-            }
-
-            VoteContainer voteContainer = (VoteContainer) parseQuery.getFirst();
-
-            userIdsVc.put(userIds.get(i), voteContainer);
-        }
-
-        final int numRestaurants = parseRestaurantIds.size();
-
-        this.restaurantIds = new ImmutableList<>(numRestaurants);
-
-        for (int i = 0; numRestaurants > i; ++i) restaurantIds.set(i, parseRestaurantIds.get(i));
+        this.restaurantIds = new ImmutableList<>(parseRestaurantIds);
     }
 
     private UnanimusGroup2(
@@ -78,7 +59,7 @@ public class UnanimusGroup2 extends ParseObject {
         this.userIdsVc = userIdsVc;
         this.restaurantIds = restaurantIds;
 
-        addAll(VOTE_CONTAINER_IDS, userIdsVc.values());
+        addAll(VOTE_CONTAINERS, userIdsVc.values());
         addAll(USER_IDS, userIdsVc.keySet());
         addAll(RESTAURANT_IDS, restaurantIds);
     }
@@ -94,14 +75,13 @@ public class UnanimusGroup2 extends ParseObject {
     public static class Builder {
         private final UnanimusGroup unanimusGroup;
 
-        public Builder(String parseCacheKey) throws ParseException {
-            this.unanimusGroup =
-                    (UnanimusGroup) ParseCache.parseCache.get(parseCacheKey).getFirst();
+        public Builder(UnanimusGroup unanimusGroup) throws ParseException {
+            this.unanimusGroup = unanimusGroup;
             if (! unanimusGroup.isSet())
                 throw new IllegalArgumentException("UnanimusGroup is not set");
         }
 
-        public void getInBackground(final Callback callback) {
+        public UnanimusGroup2 getInBackground(final Callback callback) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -124,18 +104,23 @@ public class UnanimusGroup2 extends ParseObject {
                     final Map<String, VoteContainer> userIdsVc;
                     final List<String> restaurantIds;
 
-                    userIdsVc = new Hashtable<>(maxRestaurants);
+                    userIdsVc = new Hashtable<>(userIdPairs.length);
                     restaurantIds = new ImmutableList<>(maxRestaurants);
 
-                    for (int i = 0; maxRestaurants > i; ++i) {
-                        final String voterId = userIdPairs[i].parseUserId;
+                    for (int i = 0; restaurantIds.size() > i; ++i)
+                        restaurantIds.set(i, BOOT_STRAP[i]);
+
+                    final AtomicInteger atomicInteger = new AtomicInteger(userIdPairs.length);
+
+                    for (UserIdPair userIdPair : userIdPairs) {
+                        final String voterId = userIdPair.parseUserId;
                         final List<String> readers = new LinkedList<>();
 
-                        Iterator<String> iterator = readers.iterator();
-
-                        while (iterator.hasNext())
-                            if (iterator.next().contentEquals(voterId))
-                                iterator.remove();
+                        for (UserIdPair idPair : userIdPairs) {
+                            final String id = idPair.parseUserId;
+                            if (id.contentEquals(voterId)) continue;
+                            readers.add(id);
+                        }
 
                         final VoteContainer voteContainer = new VoteContainer(
                                 maxRestaurants,
@@ -153,15 +138,14 @@ public class UnanimusGroup2 extends ParseObject {
                                 }
 
                                 userIdsVc.put(voterId, voteContainer);
+                                if (atomicInteger.decrementAndGet() == 0)
+                                    callback.done(new UnanimusGroup2(userIdsVc, restaurantIds));
                             }
                         });
-
-                        restaurantIds.set(i, BOOT_STRAP[i]);
                     }
-
-                    callback.done(new UnanimusGroup2(userIdsVc, restaurantIds));
                 }
             }).run();
+            return null;
         }
 
         private static final String[] BOOT_STRAP = new String[] {

@@ -30,7 +30,7 @@ public /* static */ final class ParseCache<K extends CharSequence, V extends Par
         parseCache = null;
     }
 
-    public static boolean isInit() {
+    static boolean isInit() {
         return (parseCache != null);
     }
 

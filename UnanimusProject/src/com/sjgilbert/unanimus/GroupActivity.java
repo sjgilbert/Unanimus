@@ -17,7 +17,10 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
+import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import org.json.JSONException;
@@ -29,7 +32,7 @@ import java.util.ArrayList;
  * eventually allow the user to indicate preferences/view recommendations.
  */
 public class GroupActivity extends UnanimusActivityTitle {
-    private static final String GROUP_ID = "GROUP_ID";
+    static final String GROUP_ID = "GROUP_ID";
     private static final String GA = "ga";
     private String groupName;
     private UnanimusGroup group;
@@ -62,13 +65,30 @@ public class GroupActivity extends UnanimusActivityTitle {
         groupNameTextView.setText("GROUP ID: " + groupName);
 
         //Query for the group_activity's data
-        ParseQuery<UnanimusGroup> query = UnanimusGroup.getQuery();
-        query.include("members");
-        query.include("user");
+        ParseQuery query = ParseQuery.getQuery(UnanimusGroup.class);
+        query.whereEqualTo("objectId", groupName);
+        ParseCache.parseCache.put(groupName, (ParseQuery<ParseObject>) query);
         try {
-            group = query.get(groupName);
+            group = (UnanimusGroup) query.getFirst();
         } catch (ParseException e) {
             System.out.println(e.getMessage());
+        }
+
+        try {
+            UnanimusGroup2.Builder builder = new UnanimusGroup2.Builder(group);
+            builder.getInBackground(new UnanimusGroup2.Builder.Callback() {
+                @Override
+                public void done(UnanimusGroup2 unanimusGroup2) {
+                    unanimusGroup2.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) log(ELog.e, e.getMessage(), e);
+                        }
+                    });
+                }
+            });
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
         //Setting owner of group_activity

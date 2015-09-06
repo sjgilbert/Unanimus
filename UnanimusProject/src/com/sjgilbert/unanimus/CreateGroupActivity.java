@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.Locale;
@@ -80,7 +83,52 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
 
             @Override
             protected void onPostExecute(Void result) {
-                if (unanimusGroup.isSet()) finish();
+                if (!unanimusGroup.isSet()) return;
+
+                UnanimusGroup2.Builder builder;
+
+                try {
+                    builder = new UnanimusGroup2.Builder(unanimusGroup);
+                } catch (ParseException e) {
+                    log(ELog.e, e.getMessage(), e);
+                    finish();
+                    return;
+                }
+
+                builder.getInBackground(new UnanimusGroup2.Builder.Callback() {
+                    @Override
+                    public void done(final UnanimusGroup2 unanimusGroup2) {
+                        log(
+                                ELog.i,
+                                String.format(
+                                        Locale.getDefault(),
+                                        "%s: %d\n",
+                                        "Successfully built a UnanimusGroup2 at",
+                                        unanimusGroup2.hashCode()
+                                )
+                        );
+
+                        unanimusGroup2.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null) {
+                                    log(ELog.e, e.getMessage(), e);
+                                    return;
+                                }
+
+                                log(ELog.i, "Successfully saved");
+
+                                try {
+                                    UnanimusGroup2 unanimusGroup21 = ParseQuery.getQuery(UnanimusGroup2.class)
+                                            .get(unanimusGroup2.getObjectId());
+                                } catch (ParseException e1) {
+                                    e1.printStackTrace();
+                                }
+
+                            }
+                        });
+                    }
+                });
             }
         }.execute();
 
