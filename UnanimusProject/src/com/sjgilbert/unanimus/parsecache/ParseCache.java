@@ -12,7 +12,10 @@ import java.util.Queue;
  * isabellcowan@gmail.com
  */
 public /* static */ final class ParseCache<K extends CharSequence, V extends ParseObject> {
+    public static final String OBJECT_ID = "objectId";
+
     public static ParseCache<String, ParseObject> parseCache = new ParseCache<>();
+
     private final QueueMap<String, ParseQuery<V>> queueMap = new QueueMap<>();
     private final Queue<Map.Entry<String, ParseQuery<V>>> entryQueue = queueMap.asQueue;
     private final Map<String, ParseQuery<V>> queryMap = queueMap.asMap;
