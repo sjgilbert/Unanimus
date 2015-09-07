@@ -22,6 +22,8 @@ import com.parse.ParseQuery;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.concurrent.ExecutionException;
 
@@ -47,6 +49,9 @@ public class VotingActivity
 
     private UnanimusGroup group;
     private String groupKey;
+
+    private Iterator<Place> placeIterator;
+    private PlaceBuffer placeBuffer;
 
     private int i;
     private TextView counter;
@@ -106,14 +111,8 @@ public class VotingActivity
 //        }
 
         counter = (TextView) findViewById(R.id.va_voting_counter);
-        restaurantIterator = group.getRestaurantIterator();
 
-
-        while (restaurantIterator.hasNext()) {
-
-        }
-
-        ParseQuery.clearAllCachedResults();
+        googleApiClientWorker.execute();
     }
 
     @Override
@@ -139,18 +138,18 @@ public class VotingActivity
     private void incrementRestaurant() {
         i++;
         counter.setText(String.format("%d/15", i + 1));
-
-        TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
-//        restaurant.setText(restaurantIterator.get(i));
     }
 
     public void va_viewVoteNo(View view) {
 //        setNoVote();
 //                showVotes();
-        if (i < NUMBER_OF_RESTAURANTS - 1) {
-            incrementRestaurant();
+        if (placeIterator.hasNext()) {
+            setRestaurantView(placeIterator.next());
+            setNoVote(i);
+            i++;
         } else {
 //                    group.checkIfComplete();
+            placeBuffer.release();
             finish();
         }
     }
@@ -158,27 +157,43 @@ public class VotingActivity
     public void va_viewVoteYes(View view) {
 //        setYesVote();
 //                showVotes();
-        if (i < NUMBER_OF_RESTAURANTS - 1) {
-            incrementRestaurant();
+        if (placeIterator.hasNext()) {
+            setRestaurantView(placeIterator.next());
+            setNoVote(i);
+            i++;
         } else {
 //                    group.checkIfComplete();
+            placeBuffer.release();
             finish();
         }
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        Places.GeoDataApi.getPlaceById(googleApiClient, "ChIJg-eOlowq9ocRrjQq2PKvNlc")
+        ArrayList<String> list = new ArrayList<>(3);
+        list.add("ChIJg-eOlowq9ocRrjQq2PKvNlc");
+        list.add("ChIJHQRGthoq9ocRIzv4-kbWuQQ");
+        list.add("ChIJ_RHaDDAq9ocRaC4eEpJ3gII");
+        Places.GeoDataApi.getPlaceById(googleApiClient, list.toArray(new String[list.size()]))
                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
                     @Override
                     public void onResult(PlaceBuffer places) {
                         if (places.getStatus().isSuccess()) {
-                            final Place myPlace = places.get(0);
-                            Log.i(null, "Place found: " + myPlace.getName());
+                            placeBuffer = places;
+                            placeIterator = places.iterator();
+                            setRestaurantView(placeIterator.next());
+                            for (Place place : places) {
+                                log(ELog.i, "Place found: " + place.getName());
+                            }
                         }
-                        places.release();
+                        else {log(ELog.e, "Places not found");}
                     }
                 });
+    }
+
+    private void setRestaurantView(Place place) {
+        TextView textView = (TextView) findViewById(R.id.va_voting_restaurant_view);
+        textView.setText(place.getName() + "\n" + place.getAddress() + "\n" + place.getPhoneNumber());
     }
 
     @Override
@@ -224,7 +239,7 @@ public class VotingActivity
                     .Builder(context)
                     .addConnectionCallbacks(callbacks)
                     .addOnConnectionFailedListener(connectionFailedListener)
-                    .addApi(LocationServices.API)
+                    .addApi(Places.GEO_DATA_API)
                     .build();
         }
 
