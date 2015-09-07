@@ -59,7 +59,6 @@ public class GroupActivity extends UnanimusActivityTitle {
             throw new IllegalArgumentException();
         }
 
-
         assert groupName != null;
         //Setting the group_activity name at top
         TextView groupNameTextView = (TextView) findViewById(R.id.ga_name);
@@ -93,19 +92,28 @@ public class GroupActivity extends UnanimusActivityTitle {
                         if (e != null) log(ELog.e, e.getMessage(), e);
                     }
                 });
+
+                CgaContainer cgaContainer = unanimusGroup.getCgaContainer();
+                FpaContainer fpaContainer = cgaContainer.getFpaContainer();
+
+                FpaContainer.UserIdPair[] userIdPairs = fpaContainer.getUserIdPairs();
+
+                setData(userIdPairs);
             }
         });
 
         //Setting owner of group_activity
         TextView createdBy = (TextView) findViewById(R.id.ga_created_by);
         createdBy.setText("Created by " + Profile.getCurrentProfile().getName());
+    }
 
-        //Setting members of group_activity
-        ArrayList<String> members = group.getMembers();
-        final ArrayList<String> usernames = new ArrayList<>();
-        GraphRequest[] requests = new GraphRequest[members.size()];
-        for (int i = 0; i < members.size(); i++) {
-            String user = members.get(i);
+    private void setData(final FpaContainer.UserIdPair[] userIdPairs) {
+        final int length = userIdPairs.length;
+
+        final ArrayList<String> usernames = new ArrayList<>(length);
+        GraphRequest[] requests = new GraphRequest[length];
+        for (int i = 0; i < length; i++) {
+            String user = userIdPairs[i].parseUserId;
             requests[i] = new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
                     String.format("/%s", user),
@@ -133,8 +141,8 @@ public class GroupActivity extends UnanimusActivityTitle {
         });
 
         requestBatch.executeAsync();
-    }
 
+    }
     @SuppressWarnings("unused")
     public void ga_viewStartVotingActivity(@SuppressWarnings("UnusedParameters") View view) {
         Intent intent = new Intent(GroupActivity.this, VotingActivity.class);
