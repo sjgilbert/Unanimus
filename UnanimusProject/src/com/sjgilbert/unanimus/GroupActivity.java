@@ -15,6 +15,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -149,7 +150,7 @@ public class GroupActivity extends UnanimusActivityTitle {
     @SuppressWarnings("unused")
     public void ga_viewStartVotingActivity(@SuppressWarnings("UnusedParameters") View view) {
         Intent intent = new Intent(GroupActivity.this, VotingActivity.class);
-        intent.putExtra(GROUP_ID, unanimusGroupId);
+        intent.putExtra(ParseCache.OBJECT_ID, unanimusGroupId);
         startActivity(intent);
     }
 

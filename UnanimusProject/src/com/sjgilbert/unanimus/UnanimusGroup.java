@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
@@ -33,6 +34,10 @@ public class UnanimusGroup extends ParseObject {
 
     private Map<String, VotesList> userIdsVc;
     private List<String> restaurantIds;
+
+    public static ParseQuery getQuery() {
+        return ParseQuery.getQuery(UnanimusGroup.class);
+    }
 
     public CgaContainer getCgaContainer() {
         return cgaContainer;

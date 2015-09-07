@@ -66,6 +66,7 @@ public class VotingActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.voting_activity);
+
         try {
             setTitleBar(R.string.voting_activity_title, (ViewGroup) findViewById(R.id.voting_activity));
         } catch (ClassCastException e) {
@@ -74,37 +75,19 @@ public class VotingActivity
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            cgaContainer.setFromBundle(extras.getBundle("UnanimusGroup"));
-            UnanimusGroup.Builder builder = new UnanimusGroup.Builder(cgaContainer);
-            builder.getInBackground(new UnanimusGroup.Builder.Callback() {
-                @Override
-                public void done(UnanimusGroup unanimusGroup) {
-                    group = unanimusGroup;
-                    restaurantIds = group.getList(UnanimusGroup.RESTAURANT_IDS);
+            groupKey = extras.getString(ParseCache.OBJECT_ID);
+            ParseQuery parseQuery = ParseCache.parseCache.get(groupKey);
+            if (parseQuery == null) {
+                parseQuery = UnanimusGroup.getQuery()
+                        .whereEqualTo(ParseCache.OBJECT_ID, groupKey);
 
-                    final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
-
-                }
-            });
-//            groupKey = extras.getString(GroupActivity.GROUP_ID);
+                ParseCache.parseCache.put(groupKey, (ParseQuery<ParseObject>) parseQuery);
+            }
+            
         } else {
-            Toast.makeText(VotingActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
+            log(ELog.w, "Extras null, this is treated as an illegal argument exception.");
+            throw new IllegalArgumentException();
         }
-
-//        ParseQuery<ParseObject> query = ParseCache.parseKey);
-//        if (query == null) {
-//            log(ELog.e, "messed up");
-//            finish();
-//        }
-//
-//        assert query != null;
-//
-//        try {
-//            group = (UnanimusGroup) query.getFirst();
-//        } catch (ClassCastException | ParseException e) {
-//            log(ELog.e, e.getMessage(), e);
-//            finish();
-//        }
 
         counter = (TextView) findViewById(R.id.va_voting_counter);
 
