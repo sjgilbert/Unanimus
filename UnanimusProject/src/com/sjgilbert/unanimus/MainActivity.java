@@ -92,6 +92,12 @@ public class MainActivity extends UnanimusActivityTitle {
         onPause();
     }
 
+    @Override
+    protected void onPause() {
+        groupQueryAdapter.setAutoload(false);
+        super.onPause();
+    }
+
     private void doListQuery() {
         groupQueryAdapter.loadObjects();
     }
@@ -102,10 +108,5 @@ public class MainActivity extends UnanimusActivityTitle {
         doListQuery();
 
         super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        groupQueryAdapter.setAutoload(false);
     }
 }
