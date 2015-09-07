@@ -324,7 +324,7 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
                             integer = completedQueries;
                         }
 
-                        userIdPairs[i] = new FpaContainer.UserIdPair(facebookId, puId);
+                        userIdPairs[i] = new FpaContainer.UserIdPair(puId, facebookId);
 
                         integer.incrementAndGet();
                         publishProgress();

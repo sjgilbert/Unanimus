@@ -34,6 +34,10 @@ public class UnanimusGroup extends ParseObject {
     private Map<String, VotesList> userIdsVc;
     private List<String> restaurantIds;
 
+    public CgaContainer getCgaContainer() {
+        return cgaContainer;
+    }
+
     private CgaContainer cgaContainer;
 
     public UnanimusGroup() {

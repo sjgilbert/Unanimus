@@ -37,13 +37,13 @@ public class FpaContainer extends ParseObject implements IContainer {
 
     @Override
     public void commit() throws NotSetException {
-        final List<String> facebookIds = new ArrayList<>();
         final List<String> parseIds = new ArrayList<>();
+        final List<String> facebookIds = new ArrayList<>();
 
         setLists(parseIds, facebookIds);
 
-        put(FACEBOOK_IDS, facebookIds);
         put(PARSE_IDS, parseIds);
+        put(FACEBOOK_IDS, facebookIds);
     }
 
 
@@ -59,8 +59,8 @@ public class FpaContainer extends ParseObject implements IContainer {
         if (!has(FACEBOOK_IDS) || !has(PARSE_IDS))
             return;
 
-        final List<String> facebookIds = getList(FACEBOOK_IDS);
         final List<String> parseIds = getList(PARSE_IDS);
+        final List<String> facebookIds = getList(FACEBOOK_IDS);
 
         if (null == facebookIds || null == parseIds)
             return;
@@ -73,7 +73,7 @@ public class FpaContainer extends ParseObject implements IContainer {
         this.userIdPairs = new UserIdPair[size];
 
         for (int i = 0; size > i; ++i)
-            userIdPairs[i] = new UserIdPair(facebookIds.get(i), parseIds.get(i));
+            userIdPairs[i] = new UserIdPair(parseIds.get(i), facebookIds.get(i));
     }
 
     @Override
@@ -83,13 +83,13 @@ public class FpaContainer extends ParseObject implements IContainer {
 
         Bundle bundle = new Bundle();
 
-        final ArrayList<String> facebookUserIds = new ArrayList<>();
         final ArrayList<String> parseUserIds = new ArrayList<>();
+        final ArrayList<String> facebookUserIds = new ArrayList<>();
 
         setLists(parseUserIds, facebookUserIds);
 
-        bundle.putStringArrayList(FACEBOOK_IDS, facebookUserIds);
         bundle.putStringArrayList(PARSE_IDS, parseUserIds);
+        bundle.putStringArrayList(FACEBOOK_IDS, facebookUserIds);
 
         bundle.putString(ParseCache.OBJECT_ID, getObjectId());
 
@@ -101,13 +101,13 @@ public class FpaContainer extends ParseObject implements IContainer {
         final String userFacebookID = ParseUser.getCurrentUser().getString(FriendPickerActivity.FACEBOOK_ID);
         final String userParseId = ParseUser.getCurrentUser().getObjectId();
 
-        userIdPairs = new UserIdPair[]{new UserIdPair(userFacebookID, userParseId)};
+        userIdPairs = new UserIdPair[]{new UserIdPair(userParseId, userFacebookID)};
     }
 
     @Override
     public void setFromBundle(Bundle bundle) throws NotSetException {
-        final ArrayList<String> facebookIds = bundle.getStringArrayList(FACEBOOK_IDS);
         final ArrayList<String> parseUserIds = bundle.getStringArrayList(PARSE_IDS);
+        final ArrayList<String> facebookIds = bundle.getStringArrayList(FACEBOOK_IDS);
 
         assert parseUserIds != null;
         assert facebookIds != null;
@@ -118,7 +118,7 @@ public class FpaContainer extends ParseObject implements IContainer {
         userIdPairs = new UserIdPair[facebookIds.size()];
 
         for (int i = 0; userIdPairs.length > i; ++i)
-            userIdPairs[i] = new UserIdPair(facebookIds.get(i), parseUserIds.get(i));
+            userIdPairs[i] = new UserIdPair(parseUserIds.get(i), facebookIds.get(i));
 
         setObjectId(bundle.getString(ParseCache.OBJECT_ID));
         commit();
@@ -144,7 +144,7 @@ public class FpaContainer extends ParseObject implements IContainer {
         public final String facebookUserId;
         public final String parseUserId;
 
-        UserIdPair(String facebookUserId, String parseUserId) {
+        UserIdPair(String parseUserId, String facebookUserId) {
             this.facebookUserId = facebookUserId;
             this.parseUserId = parseUserId;
         }
