@@ -6,14 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphRequestBatch;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -22,17 +15,13 @@ import com.parse.ParseUser;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
-import org.json.JSONException;
-
-import java.util.ArrayList;
-
 /**
  * This class shows the groups a user is a part of, as well as allows the
  * user to access the make and join group_activity activities.
  */
 public class MainActivity extends UnanimusActivityTitle {
     //    private final GroupQueryWorker groupQueryWorker = new GroupQueryWorker();
-    private ParseQueryAdapter<CgaContainer> groupQueryAdapter;
+    private GroupQueryAdapter groupQueryAdapter;
 
     public MainActivity() {
         super("ma");
@@ -54,11 +43,11 @@ public class MainActivity extends UnanimusActivityTitle {
         profilePictureView.setProfileId(ParseUser.getCurrentUser().getString("facebookID"));
 
         //Shows all the groups user is a member of
-        ParseQueryAdapter.QueryFactory<CgaContainer> factory =
-                new ParseQueryAdapter.QueryFactory<CgaContainer>() {
+        ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
+                new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
                     @Override
-                    public ParseQuery<CgaContainer> create() {
-                        ParseQuery<CgaContainer> query = ParseQuery.getQuery(CgaContainer.class);
+                    public ParseQuery<UnanimusGroup> create() {
+                        ParseQuery<UnanimusGroup> query = ParseQuery.getQuery(UnanimusGroup.class);
                         query.include(ParseCache.OBJECT_ID);
 //                        query.whereEqualTo("members", Profile.getCurrentProfile().getId());
                         query.orderByDescending("createdAt");
@@ -80,7 +69,7 @@ public class MainActivity extends UnanimusActivityTitle {
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final CgaContainer selectedGroup = groupQueryAdapter.getItem(position);
+                final UnanimusGroup selectedGroup = groupQueryAdapter.getItem(position);
                 try {
                     selectedGroup.load();
                 } catch (ParseException e) {

@@ -33,6 +33,10 @@ public class Vote extends ParseObject {
         vote = getInt(VOTE);
     }
 
+    public static Vote getEmptyVote() {
+        return new Vote(EVote.empty);
+    }
+
     public static Vote getUpVote() {
         return new Vote(EVote.up);
     }
@@ -48,7 +52,8 @@ public class Vote extends ParseObject {
     private enum EVote {
         up(1),
         down(-1),
-        skip(0);
+        skip(0),
+        empty(Integer.MIN_VALUE);
 
         final int num;
 

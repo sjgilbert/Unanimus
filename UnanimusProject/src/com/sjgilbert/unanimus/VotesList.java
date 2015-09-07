@@ -1,6 +1,7 @@
 package com.sjgilbert.unanimus;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.parse.ParseACL;
 import com.parse.ParseClassName;
@@ -42,6 +43,10 @@ public class VotesList extends ParseObject implements List<Vote> {
 
         votes = new ImmutableList<>(voteLength);
 
+        for (int i = 0; voteLength > i; ++i) {
+            votes.set(i, Vote.getEmptyVote());
+        }
+
         ParseACL parseACL = new ParseACL(admin);
 
         parseACL.setPublicReadAccess(false);
@@ -64,8 +69,6 @@ public class VotesList extends ParseObject implements List<Vote> {
     }
 
     void load() throws ParseException {
-        fetchIfNeeded();
-
         if (!has(VOTES_LIST))
             throw new IllegalStateException();
 
@@ -75,7 +78,12 @@ public class VotesList extends ParseObject implements List<Vote> {
         votes = new ImmutableList<>(size);
 
         for (int i = 0; size > i; ++i) {
-            votes.set(i, list.get(i));
+            final Vote vote = list.get(i);
+
+            if (vote == null)
+                continue;
+
+            votes.set(i, vote);
             votes.get(i).load();
         }
     }

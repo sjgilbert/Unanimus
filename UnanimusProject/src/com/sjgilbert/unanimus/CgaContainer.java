@@ -123,11 +123,6 @@ public class CgaContainer extends ParseObject implements IContainer {
 
     @Override
     public void setDefault() throws NotSetException {
-        gspaContainer = new GspaContainer();
-        fpaContainer = new FpaContainer();
-        ppaContainer = new PpaContainer();
-
-        ownerId = ParseUser.getCurrentUser().getObjectId();
     }
 
     @Override
