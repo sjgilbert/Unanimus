@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -32,13 +31,13 @@ import java.util.ArrayList;
  */
 public class GroupActivity extends UnanimusActivityTitle {
     public static final String GROUP_ID = "GROUP_ID";
-    private static final String GA = "ga";
+    private static final String TAG = "ga";
     private String groupName;
     private CgaContainer group;
 
 
     public GroupActivity() {
-        super(GA);
+        super(TAG);
     }
 
     @Override

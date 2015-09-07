@@ -1,7 +1,6 @@
 package com.sjgilbert.unanimus;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.parse.ParseACL;
 import com.parse.ParseClassName;
@@ -20,10 +19,10 @@ import java.util.ListIterator;
  */
 @SuppressWarnings("WeakerAccess")
 @ParseClassName("VotesList")
-public class VotesList extends ParseObject implements List<Vote> {
+public class VotesList extends ParseObject implements List<Integer> {
     private static final String VOTES_LIST = "votesList";
 
-    private ImmutableList<Vote> votes;
+    private ImmutableList<Integer> votes;
 
     static ParseQuery<VotesList> getQuery() {
         return ParseQuery.getQuery(VotesList.class);
@@ -44,13 +43,10 @@ public class VotesList extends ParseObject implements List<Vote> {
         votes = new ImmutableList<>(voteLength);
 
         for (int i = 0; voteLength > i; ++i) {
-            votes.set(i, Vote.getEmptyVote());
+            votes.set(i, VotesList.getEmptyVote());
         }
 
         ParseACL parseACL = new ParseACL(admin);
-
-        parseACL.setPublicReadAccess(false);
-        parseACL.setPublicWriteAccess(false);
 
         parseACL.setWriteAccess(admin, true);
         parseACL.setReadAccess(admin, true);
@@ -68,24 +64,28 @@ public class VotesList extends ParseObject implements List<Vote> {
         commit();
     }
 
+    public static Integer getUpVote() {
+        return 1;
+    }
+
+    public static Integer getDownVote() {
+        return -1;
+    }
+
+    public static Integer getEmptyVote() {
+        return Integer.MIN_VALUE;
+    }
+
     void load() throws ParseException {
         if (!has(VOTES_LIST))
             throw new IllegalStateException();
 
-        final List<Vote> list = getList(VOTES_LIST);
+        final List<Integer> list = getList(VOTES_LIST);
         final int size = list.size();
 
         votes = new ImmutableList<>(size);
 
-        for (int i = 0; size > i; ++i) {
-            final Vote vote = list.get(i);
-
-            if (vote == null)
-                continue;
-
-            votes.set(i, vote);
-            votes.get(i).load();
-        }
+        for (int i = 0; size > i; ++i) votes.set(i, list.get(i));
     }
 
     private void commit() {
@@ -93,27 +93,27 @@ public class VotesList extends ParseObject implements List<Vote> {
     }
 
     @Override
-    public void add(int location, Vote object) {
+    public void add(int location, Integer object) {
         votes.add(location, object);
         commit();
     }
 
     @Override
-    public boolean add(Vote object) {
+    public boolean add(Integer object) {
         boolean ret = votes.add(object);
         commit();
         return ret;
     }
 
     @Override
-    public boolean addAll(int location, @NonNull Collection<? extends Vote> collection) {
+    public boolean addAll(int location, @NonNull Collection<? extends Integer> collection) {
         boolean ret = votes.addAll(location, collection);
         commit();
         return ret;
     }
 
     @Override
-    public boolean addAll(@NonNull Collection<? extends Vote> collection) {
+    public boolean addAll(@NonNull Collection<? extends Integer> collection) {
         boolean ret = votes.addAll(collection);
         commit();
         return ret;
@@ -136,7 +136,7 @@ public class VotesList extends ParseObject implements List<Vote> {
     }
 
     @Override
-    public Vote get(int location) {
+    public Integer get(int location) {
         return votes.get(location);
     }
 
@@ -152,7 +152,7 @@ public class VotesList extends ParseObject implements List<Vote> {
 
     @NonNull
     @Override
-    public Iterator<Vote> iterator() {
+    public Iterator<Integer> iterator() {
         return votes.iterator();
     }
 
@@ -162,19 +162,19 @@ public class VotesList extends ParseObject implements List<Vote> {
     }
 
     @Override
-    public ListIterator<Vote> listIterator() {
+    public ListIterator<Integer> listIterator() {
         return votes.listIterator();
     }
 
     @NonNull
     @Override
-    public ListIterator<Vote> listIterator(int location) {
+    public ListIterator<Integer> listIterator(int location) {
         return votes.listIterator();
     }
 
     @Override
-    public Vote remove(int location) {
-        Vote ret = votes.remove(location);
+    public Integer remove(int location) {
+        Integer ret = votes.remove(location);
         commit();
         return ret;
     }
@@ -201,8 +201,8 @@ public class VotesList extends ParseObject implements List<Vote> {
     }
 
     @Override
-    public Vote set(int location, Vote object) {
-        Vote ret = votes.set(location, object);
+    public Integer set(int location, Integer object) {
+        Integer ret = votes.set(location, object);
         commit();
         return ret;
     }
@@ -214,7 +214,7 @@ public class VotesList extends ParseObject implements List<Vote> {
 
     @NonNull
     @Override
-    public List<Vote> subList(int start, int end) {
+    public List<Integer> subList(int start, int end) {
         return votes.subList(start, end);
     }
 
@@ -230,5 +230,4 @@ public class VotesList extends ParseObject implements List<Vote> {
         //noinspection SuspiciousToArrayCall
         return votes.toArray(array);
     }
-
 }
