@@ -6,14 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphRequestBatch;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -22,17 +15,13 @@ import com.parse.ParseUser;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
-import org.json.JSONException;
-
-import java.util.ArrayList;
-
 /**
  * This class shows the groups a user is a part of, as well as allows the
  * user to access the make and join group_activity activities.
  */
 public class MainActivity extends UnanimusActivityTitle {
     //    private final GroupQueryWorker groupQueryWorker = new GroupQueryWorker();
-    private ParseQueryAdapter<CgaContainer> groupQueryAdapter;
+    private GroupQueryAdapter groupQueryAdapter;
 
     public MainActivity() {
         super("ma");
@@ -54,11 +43,11 @@ public class MainActivity extends UnanimusActivityTitle {
         profilePictureView.setProfileId(ParseUser.getCurrentUser().getString("facebookID"));
 
         //Shows all the groups user is a member of
-        ParseQueryAdapter.QueryFactory<CgaContainer> factory =
-                new ParseQueryAdapter.QueryFactory<CgaContainer>() {
+        ParseQueryAdapter.QueryFactory<UnanimusGroup> factory =
+                new ParseQueryAdapter.QueryFactory<UnanimusGroup>() {
                     @Override
-                    public ParseQuery<CgaContainer> create() {
-                        ParseQuery<CgaContainer> query = ParseQuery.getQuery(CgaContainer.class);
+                    public ParseQuery<UnanimusGroup> create() {
+                        ParseQuery<UnanimusGroup> query = ParseQuery.getQuery(UnanimusGroup.class);
                         query.include(ParseCache.OBJECT_ID);
 //                        query.whereEqualTo("members", Profile.getCurrentProfile().getId());
                         query.orderByDescending("createdAt");
@@ -66,81 +55,21 @@ public class MainActivity extends UnanimusActivityTitle {
                     }
                 };
 
-        groupQueryAdapter = new ParseQueryAdapter<CgaContainer>(this, factory) {
-            @Override
-            public View getItemView(CgaContainer cgaContainer, View view, ViewGroup parent) {
-                try {
-                    cgaContainer.load();
-                } catch (ParseException e) {
-                    log(ELog.e, e.getMessage(), e);
-                    return view;
-                }
+        ListView groupListView = (ListView) findViewById(R.id.ma_groups_list_view);
 
-                if (view == null) {
-                    view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
-                }
-                final TextView groupView = (TextView) view.findViewById(R.id.uga_groupID_view);
-//                final ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
-                try {
-                    final FpaContainer fpaContainer = cgaContainer.getFpaContainer();
-                    final FpaContainer.UserIdPair[] userIdPairs = fpaContainer.getUserIdPairs();
-                    final int length = userIdPairs.length;
-                    final ArrayList<String> usernames = new ArrayList<>();
-                    final GraphRequest[] requests = new GraphRequest[length];
-                    for (int i = 0; i < length; i++) {
-                        final String user = userIdPairs[i].facebookUserId;
-                        requests[i] = new GraphRequest(
-                                AccessToken.getCurrentAccessToken(),
-                                String.format("/%s", user),
-                                null,
-                                HttpMethod.GET,
-                                new GraphRequest.Callback() {
-                                    public void onCompleted(GraphResponse response) {
-                                        if (response.getError() != null) {
-                                            log(
-                                                    ELog.e,
-                                                    response.getError().getErrorMessage(),
-                                                    response.getError().getException()
-                                            );
-                                            return;
-                                        }
-                                        try {
-                                            usernames.add(response.getJSONObject().getString("name"));
-                                            ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
-                                            profilePictureView.setProfileId(user);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-                        );
-                    }
-                    GraphRequestBatch requestBatch = new GraphRequestBatch(requests);
-                    requestBatch.addCallback(new GraphRequestBatch.Callback() {
-                        @Override
-                        public void onBatchCompleted(GraphRequestBatch graphRequestBatch) {
-                            // groupView.setText(usernames.get(0));
-                        }
-                    });
-
-                    requestBatch.executeAsync();
-
-//                    groupView.setText(cgaContainer.getMembers().toString());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-                return view;
-            }
-        };
+        groupQueryAdapter = new GroupQueryAdapter(
+                groupListView.getContext(),
+                factory,
+                R.layout.unanimus_group_abstract
+        );
 
         groupQueryAdapter.setAutoload(false);
 
-        ListView groupListView = (ListView) findViewById(R.id.ma_groups_list_view);
         groupListView.setAdapter(groupQueryAdapter);
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final CgaContainer selectedGroup = groupQueryAdapter.getItem(position);
+                final UnanimusGroup selectedGroup = groupQueryAdapter.getItem(position);
                 try {
                     selectedGroup.load();
                 } catch (ParseException e) {

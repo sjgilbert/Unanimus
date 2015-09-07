@@ -72,7 +72,8 @@ public class GroupActivity extends UnanimusActivityTitle {
         try {
             group = (CgaContainer) query.getFirst();
         } catch (ParseException e) {
-            System.out.println(e.getMessage());
+            log(ELog.e, e.getMessage(), e);
+            return;
         }
 
         try {
@@ -129,12 +130,13 @@ public class GroupActivity extends UnanimusActivityTitle {
                             try {
                                 usernames.add(response.getJSONObject().getString("name"));
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                log(ELog.e, e.getMessage(), e);
                             }
                         }
                     }
             );
         }
+
         GraphRequestBatch requestBatch = new GraphRequestBatch(requests);
         requestBatch.addCallback(new GraphRequestBatch.Callback() {
             @Override

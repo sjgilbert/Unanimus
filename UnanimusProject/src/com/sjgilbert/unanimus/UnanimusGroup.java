@@ -45,8 +45,6 @@ public class UnanimusGroup extends ParseObject {
     }
 
     void load() throws ParseException {
-        fetchIfNeeded();
-
         if (!has(CreateGroupActivity.CGA)
                 || !has(VOTE_CONTAINERS)
                 || !has(USER_IDS)
@@ -68,7 +66,17 @@ public class UnanimusGroup extends ParseObject {
         userIdsVc = new Hashtable<>(numUsers);
 
         for (int i = 0; numUsers > i; ++i) {
-            voteIds.get(i).load();
+            final VotesList votesList;
+            try {
+                votesList = voteIds.get(i);
+            } catch (NullPointerException e) {
+                Log.i(UnanimusApplication.UNANIMUS, "Null voteList");
+                Log.d(UnanimusApplication.UNANIMUS, e.getMessage(), e);
+                continue;
+            }
+
+            votesList.load();
+
             userIdsVc.put(userIds.get(i), voteIds.get(i));
         }
 
