@@ -86,7 +86,7 @@ public class VotesList extends ParseObject implements List<Integer> {
     }
 
     private void commit() {
-        super.addAll(VOTES_LIST, votes);
+        put(VOTES_LIST, votes);
     }
 
     @Override

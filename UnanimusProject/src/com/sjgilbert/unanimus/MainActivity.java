@@ -62,8 +62,6 @@ public class MainActivity extends UnanimusActivityTitle {
                 R.layout.unanimus_group_abstract
         );
 
-        groupQueryAdapter.setAutoload(false);
-
         groupListView.setAdapter(groupQueryAdapter);
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -90,6 +88,13 @@ public class MainActivity extends UnanimusActivityTitle {
                         CreateGroupActivity.class
                 )
         );
+        onPause();
+    }
+
+    @Override
+    protected void onPause() {
+        groupQueryAdapter.setAutoload(false);
+        super.onPause();
     }
 
     private void doListQuery() {
@@ -98,8 +103,9 @@ public class MainActivity extends UnanimusActivityTitle {
 
     @Override
     protected void onResume() {
-        super.onResume();
+        groupQueryAdapter.setAutoload(true);
         doListQuery();
+        super.onResume();
     }
 
 }

@@ -16,6 +16,7 @@ import com.sjgilbert.unanimus.parsecache.ParseCache;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -33,13 +34,18 @@ public class UnanimusGroup extends ParseObject {
     public static final String RESTAURANT_IDS = "restaurantIds";
 
     private Map<String, VotesList> userIdsVc;
+
+    List<String> getRestaurantIds() {
+        return restaurantIds;
+    }
+
     private List<String> restaurantIds;
 
-    public static ParseQuery getQuery() {
+    static ParseQuery getQuery() {
         return ParseQuery.getQuery(UnanimusGroup.class);
     }
 
-    public CgaContainer getCgaContainer() {
+    CgaContainer getCgaContainer() {
         return cgaContainer;
     }
 
