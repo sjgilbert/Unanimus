@@ -15,7 +15,6 @@ import com.sjgilbert.unanimus.parsecache.ParseCache;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -37,12 +36,18 @@ public class UnanimusGroup extends ParseObject {
 
     private CgaContainer cgaContainer;
 
-    public UnanimusGroup() throws ParseException {
+    public UnanimusGroup() {
+        super();
+    }
+
+    void load() throws ParseException {
+        fetchIfNeeded();
+
         if (!has(CreateGroupActivity.CGA)
                 || !has(VOTE_CONTAINERS)
                 || !has(USER_IDS)
                 || !has(RESTAURANT_IDS))
-            return;
+            throw new IllegalStateException();
 
         this.cgaContainer = (CgaContainer) get(CreateGroupActivity.CGA);
         final List<VotesList> voteIds = getList(VOTE_CONTAINERS);
@@ -52,14 +57,16 @@ public class UnanimusGroup extends ParseObject {
         final int numUsers = userIds.size();
 
         if ((voteIds.size() != numUsers) || (userIds.size() != numUsers))
-            throw new ParseException(
-                    ParseException.OTHER_CAUSE,
+            throw new IllegalStateException(
                     "Received invalid data while attempting to initialize UnanimusGroup"
             );
 
         userIdsVc = new Hashtable<>(numUsers);
 
-        for (int i = 0; numUsers > i; ++i) userIdsVc.put(userIds.get(i), voteIds.get(i));
+        for (int i = 0; numUsers > i; ++i) {
+            voteIds.get(i).load();
+            userIdsVc.put(userIds.get(i), voteIds.get(i));
+        }
 
         this.restaurantIds = new ImmutableList<>(parseRestaurantIds);
     }
@@ -151,9 +158,10 @@ public class UnanimusGroup extends ParseObject {
         private final CgaContainer cgaContainer;
 
         public Builder(CgaContainer cgaContainer) {
-            this.cgaContainer = cgaContainer;
             if (!cgaContainer.isSet())
                 throw new IllegalArgumentException("CgaContainer is not set");
+
+            this.cgaContainer = cgaContainer;
         }
 
         public void getInBackground(final Callback callback) {

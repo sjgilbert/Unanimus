@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
@@ -24,6 +25,36 @@ public class FpaContainer extends ParseObject implements IContainer {
 
     public FpaContainer() {
         super();
+    }
+
+    UserIdPair[] getUserIdPairs() {
+        return userIdPairs;
+    }
+
+    void setUserIdPairs(UserIdPair[] userIdPairs) {
+        this.userIdPairs = userIdPairs;
+    }
+
+    @Override
+    public void commit() throws NotSetException {
+        final List<String> facebookIds = new ArrayList<>();
+        final List<String> parseIds = new ArrayList<>();
+
+        setLists(parseIds, facebookIds);
+
+        put(FACEBOOK_IDS, facebookIds);
+        put(PARSE_IDS, parseIds);
+    }
+
+
+    @Override
+    public boolean isSet() {
+        return (userIdPairs != null && 0 < userIdPairs.length);
+    }
+
+    @Override
+    public void load() throws ParseException {
+        fetchIfNeeded();
 
         if (!has(FACEBOOK_IDS) || !has(PARSE_IDS))
             return;
@@ -43,31 +74,6 @@ public class FpaContainer extends ParseObject implements IContainer {
 
         for (int i = 0; size > i; ++i)
             userIdPairs[i] = new UserIdPair(facebookIds.get(i), parseIds.get(i));
-    }
-
-    UserIdPair[] getUserIdPairs() {
-        return userIdPairs;
-    }
-
-    void setUserIdPairs(UserIdPair[] userIdPairs) {
-        this.userIdPairs = userIdPairs;
-    }
-
-    @Override
-    public void commit() throws NotSetException {
-        final List<String> facebookIds = new ArrayList<>();
-        final List<String> parseIds = new ArrayList<>();
-
-        setLists(facebookIds, parseIds);
-
-        put(FACEBOOK_IDS, facebookIds);
-        put(PARSE_IDS, parseIds);
-    }
-
-
-    @Override
-    public boolean isSet() {
-        return (userIdPairs != null && 0 < userIdPairs.length);
     }
 
     @Override

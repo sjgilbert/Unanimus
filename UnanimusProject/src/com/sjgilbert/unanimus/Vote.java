@@ -12,21 +12,25 @@ import com.parse.ParseObject;
 public class Vote extends ParseObject {
     private static final String VOTE = "vote";
 
-    final int vote;
+    int vote;
 
-    public Vote() throws ParseException {
+    public Vote() {
         super();
-
-        if (!has(VOTE))
-            throw new ParseException(ParseException.OTHER_CAUSE, "Used parameter-less constructor, but missing keys");
-
-        vote = getInt(VOTE);
     }
 
     private Vote(EVote vote) {
         this.vote = vote.num;
 
         put(VOTE, this.vote);
+    }
+
+    void load() throws ParseException {
+        fetchIfNeeded();
+
+        if (!has(VOTE))
+            throw new IllegalStateException();
+
+        vote = getInt(VOTE);
     }
 
     public static Vote getUpVote() {

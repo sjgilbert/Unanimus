@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 
@@ -20,14 +21,6 @@ public class PpaContainer extends ParseObject implements IContainer {
 
     public PpaContainer() {
         super();
-
-        if (!has(LAT) || !has(LNG))
-            return;
-
-        int lat = getInt(LAT);
-        int lng = getInt(LNG);
-
-        this.latLng = new LatLng(lat, lng);
     }
 
     @Override
@@ -74,6 +67,19 @@ public class PpaContainer extends ParseObject implements IContainer {
     @Override
     public boolean isSet() {
         return null != latLng;
+    }
+
+    @Override
+    public void load() throws ParseException {
+        fetchIfNeeded();
+
+        if (!has(LAT) || !has(LNG))
+            return;
+
+        int lat = getInt(LAT);
+        int lng = getInt(LNG);
+
+        this.latLng = new LatLng(lat, lng);
     }
 
     void setFromLatLng(LatLng latLng) {

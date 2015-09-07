@@ -15,6 +15,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -68,6 +69,13 @@ public class MainActivity extends UnanimusActivityTitle {
         groupQueryAdapter = new ParseQueryAdapter<CgaContainer>(this, factory) {
             @Override
             public View getItemView(CgaContainer group, View view, ViewGroup parent) {
+                try {
+                    group.load();
+                } catch (ParseException e) {
+                    log(ELog.e, e.getMessage(), e);
+                    return view;
+                }
+
                 if (view == null) {
                     view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
                 }
@@ -109,7 +117,7 @@ public class MainActivity extends UnanimusActivityTitle {
                     requestBatch.addCallback(new GraphRequestBatch.Callback() {
                         @Override
                         public void onBatchCompleted(GraphRequestBatch graphRequestBatch) {
-                            groupView.setText(usernames.get(0));
+                            // groupView.setText(usernames.get(0));
                         }
                     });
 
@@ -131,9 +139,14 @@ public class MainActivity extends UnanimusActivityTitle {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final CgaContainer selectedGroup = groupQueryAdapter.getItem(position);
+                try {
+                    selectedGroup.load();
+                } catch (ParseException e) {
+                    log(ELog.e, e.getMessage(), e);
+                }
                 String groupID = selectedGroup.getObjectId();
                 Intent intent = new Intent(MainActivity.this, GroupActivity.class);
-                intent.putExtra(GroupActivity.GROUP_ID, groupID);
+                intent.putExtra(ParseCache.OBJECT_ID, groupID);
                 startActivity(intent);
             }
         });

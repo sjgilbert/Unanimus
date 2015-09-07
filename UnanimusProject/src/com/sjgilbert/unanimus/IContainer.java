@@ -2,6 +2,8 @@ package com.sjgilbert.unanimus;
 
 import android.os.Bundle;
 
+import com.parse.ParseException;
+
 /**
  * 9/6/15 (c) Isabell Cowan
  * isabellcowan@gmail.com
@@ -16,6 +18,8 @@ interface IContainer {
     void setFromBundle(Bundle bundle) throws NotSetException;
 
     boolean isSet();
+
+    void load() throws ParseException;
 
     class NotSetException extends IllegalStateException {
         NotSetException() {

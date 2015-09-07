@@ -54,23 +54,33 @@ public class GroupActivity extends UnanimusActivityTitle {
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupName = extras.getString(GROUP_ID);
+            groupName = extras.getString(ParseCache.OBJECT_ID);
         } else {
-            Toast.makeText(GroupActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
+            throw new IllegalArgumentException();
         }
 
+
+        assert groupName != null;
         //Setting the group_activity name at top
         TextView groupNameTextView = (TextView) findViewById(R.id.ga_name);
         groupNameTextView.setText("GROUP ID: " + groupName);
 
         //Query for the group_activity's data
         ParseQuery query = ParseQuery.getQuery(CgaContainer.class);
-        query.whereEqualTo("objectId", groupName);
+        query.whereEqualTo(ParseCache.OBJECT_ID, groupName);
+
         ParseCache.parseCache.put(groupName, (ParseQuery<ParseObject>) query);
         try {
             group = (CgaContainer) query.getFirst();
         } catch (ParseException e) {
             System.out.println(e.getMessage());
+        }
+
+        try {
+            group.load();
+        } catch (ParseException e) {
+            log(ELog.e, e.getMessage(), e);
+            return;
         }
 
         UnanimusGroup.Builder builder = new UnanimusGroup.Builder(group);

@@ -1,5 +1,7 @@
 package com.sjgilbert.unanimus.parsecache;
 
+import android.support.annotation.NonNull;
+
 import com.izzette.queuemap.QueueMap;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -48,7 +50,7 @@ public /* static */ final class ParseCache<K extends CharSequence, V extends Par
         return queryMap.remove(key.toString());
     }
 
-    public ParseQuery<V> put(K key, ParseQuery<V> query) {
+    public ParseQuery<V> put(@NonNull K key, ParseQuery<V> query) {
         return queryMap.put(key.toString(), query);
     }
 

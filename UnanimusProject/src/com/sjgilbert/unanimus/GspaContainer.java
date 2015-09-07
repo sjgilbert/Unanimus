@@ -3,6 +3,7 @@ package com.sjgilbert.unanimus;
 import android.os.Bundle;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 
@@ -33,28 +34,6 @@ public class GspaContainer extends ParseObject implements IContainer {
     private int radius = -1;
 
     private EPriceLevel priceLevel;
-
-    public GspaContainer() {
-        super();
-
-        if (!has(YEAR)
-                || !has(MONTH)
-                || !has(DAY)
-                || !has(MINUTE)
-                || !has(RADIUS)
-                || !has(PRICE_LEVEL))
-            return;
-
-        this.year = getInt(YEAR);
-        this.month = getInt(MONTH);
-        this.day = getInt(DAY);
-        this.hourOfDay = getInt(HOUR_OF_DAY);
-        this.minute = getInt(MINUTE);
-
-        this.radius = getInt(RADIUS);
-
-        this.priceLevel = EPriceLevel.getPriceLevelFromInt(getInt(PRICE_LEVEL));
-    }
 
     @Override
     public void setDefault() throws NotSetException {
@@ -133,6 +112,29 @@ public class GspaContainer extends ParseObject implements IContainer {
                 && (radius >= 0)
                 && (priceLevel != null)
         );
+    }
+
+    @Override
+    public void load() throws ParseException {
+        fetchIfNeeded();
+
+        if (!has(YEAR)
+                || !has(MONTH)
+                || !has(DAY)
+                || !has(MINUTE)
+                || !has(RADIUS)
+                || !has(PRICE_LEVEL))
+            return;
+
+        this.year = getInt(YEAR);
+        this.month = getInt(MONTH);
+        this.day = getInt(DAY);
+        this.hourOfDay = getInt(HOUR_OF_DAY);
+        this.minute = getInt(MINUTE);
+
+        this.radius = getInt(RADIUS);
+
+        this.priceLevel = EPriceLevel.getPriceLevelFromInt(getInt(PRICE_LEVEL));
     }
 
     @Deprecated

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.parse.ParseACL;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -21,21 +22,15 @@ import java.util.ListIterator;
 public class VotesList extends ParseObject implements List<Vote> {
     private static final String VOTES_LIST = "votesList";
 
-    private final ImmutableList<Vote> votes;
-
-    public VotesList() {
-        final List<Vote> list = getList(VOTES_LIST);
-        final int size = list.size();
-
-        votes = new ImmutableList<>(size);
-
-        for (int i = 0; size > i; ++i) votes.set(i, list.get(i));
-    }
+    private ImmutableList<Vote> votes;
 
     static ParseQuery<VotesList> getQuery() {
         return ParseQuery.getQuery(VotesList.class);
     }
 
+    public VotesList() {
+        super();
+    }
 
     VotesList(
             int voteLength,
@@ -66,6 +61,23 @@ public class VotesList extends ParseObject implements List<Vote> {
         setACL(parseACL);
 
         commit();
+    }
+
+    void load() throws ParseException {
+        fetchIfNeeded();
+
+        if (!has(VOTES_LIST))
+            throw new IllegalStateException();
+
+        final List<Vote> list = getList(VOTES_LIST);
+        final int size = list.size();
+
+        votes = new ImmutableList<>(size);
+
+        for (int i = 0; size > i; ++i) {
+            votes.set(i, list.get(i));
+            votes.get(i).load();
+        }
     }
 
     private void commit() {
@@ -210,4 +222,5 @@ public class VotesList extends ParseObject implements List<Vote> {
         //noinspection SuspiciousToArrayCall
         return votes.toArray(array);
     }
+
 }
