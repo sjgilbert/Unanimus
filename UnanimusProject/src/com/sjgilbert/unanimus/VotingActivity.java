@@ -129,10 +129,10 @@ public class VotingActivity
     }
 
     private void setYesVote(int index) {
-        group.vote(index, Vote.getUpVote(), null);
+        group.vote(index, VotesList.getUpVote(), null);
     }
 
-    private void setNoVote(int index) {group.vote(index, Vote.getDownVote(), null);
+    private void setNoVote(int index) {group.vote(index, VotesList.getDownVote(), null);
     }
 
     private void incrementRestaurant() {

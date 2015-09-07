@@ -101,7 +101,7 @@ public class UnanimusGroup extends ParseObject {
 
     void vote(
             final int index,
-            @NonNull final Vote vote,
+            @NonNull final Integer vote,
             @Nullable final SaveCallback saveCallback
     ) {
         final VotesList votesList = userIdsVc.get(

@@ -35,7 +35,6 @@ public class UnanimusApplication extends Application {
 
         ParseObject.registerSubclass(CgaContainer.class);
 
-        ParseObject.registerSubclass(Vote.class);
         ParseObject.registerSubclass(VotesList.class);
 
         ParseObject.registerSubclass(UnanimusGroup.class);
