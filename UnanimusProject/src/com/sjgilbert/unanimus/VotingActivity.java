@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.ExecutionException;
 
@@ -34,9 +36,7 @@ public class VotingActivity
         extends UnanimusActivityTitle
         implements
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
-
-    public static final int NUMBER_OF_RESTAURANTS = 15;
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String VA = "va";
 
@@ -55,7 +55,7 @@ public class VotingActivity
 
     private int i;
     private TextView counter;
-    private ListIterator<String> restaurantIterator;
+    private List<String> restaurantIds;
 
     public VotingActivity() {
         super(VA);
@@ -80,14 +80,10 @@ public class VotingActivity
                 @Override
                 public void done(UnanimusGroup unanimusGroup) {
                     group = unanimusGroup;
-                    restaurantIterator = group.getRestaurantIterator();
+                    restaurantIds = group.getList(UnanimusGroup.RESTAURANT_IDS);
 
                     final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
 
-                    while (restaurantIterator.hasNext()) {
-                        String restaurantId = restaurantIterator.next();
-                        restaurant.setText(restaurantId);
-                    }
                 }
             });
 //            groupKey = extras.getString(GroupActivity.GROUP_ID);
@@ -117,6 +113,7 @@ public class VotingActivity
 
     @Override
     protected void onStop() {
+        placeBuffer.release();
         super.onStop();
     }
 
@@ -136,17 +133,15 @@ public class VotingActivity
     }
 
     private void incrementRestaurant() {
+        setRestaurantView(placeIterator.next());
         i++;
-        counter.setText(String.format("%d/15", i + 1));
+        counter.setText(String.format("%d/%d", i + 1, restaurantIds.size()));
     }
 
     public void va_viewVoteNo(View view) {
-//        setNoVote();
-//                showVotes();
+        setNoVote(i);
         if (placeIterator.hasNext()) {
-            setRestaurantView(placeIterator.next());
-            setNoVote(i);
-            i++;
+            incrementRestaurant();
         } else {
 //                    group.checkIfComplete();
             placeBuffer.release();
@@ -155,12 +150,9 @@ public class VotingActivity
     }
 
     public void va_viewVoteYes(View view) {
-//        setYesVote();
-//                showVotes();
+        setYesVote(i);
         if (placeIterator.hasNext()) {
-            setRestaurantView(placeIterator.next());
-            setNoVote(i);
-            i++;
+            incrementRestaurant();
         } else {
 //                    group.checkIfComplete();
             placeBuffer.release();
@@ -170,11 +162,7 @@ public class VotingActivity
 
     @Override
     public void onConnected(Bundle bundle) {
-        ArrayList<String> list = new ArrayList<>(3);
-        list.add("ChIJg-eOlowq9ocRrjQq2PKvNlc");
-        list.add("ChIJHQRGthoq9ocRIzv4-kbWuQQ");
-        list.add("ChIJ_RHaDDAq9ocRaC4eEpJ3gII");
-        Places.GeoDataApi.getPlaceById(googleApiClient, list.toArray(new String[list.size()]))
+        Places.GeoDataApi.getPlaceById(googleApiClient, restaurantIds.toArray(new String[restaurantIds.size()]))
                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
                     @Override
                     public void onResult(PlaceBuffer places) {
@@ -193,7 +181,7 @@ public class VotingActivity
 
     private void setRestaurantView(Place place) {
         TextView textView = (TextView) findViewById(R.id.va_voting_restaurant_view);
-        textView.setText(place.getName() + "\n" + place.getAddress() + "\n" + place.getPhoneNumber());
+        textView.setText(place.getName() + "\n" + place.getAddress().toString().split(",")[0] + "\n" + place.getPhoneNumber().toString().split(" ")[1]);
     }
 
     @Override

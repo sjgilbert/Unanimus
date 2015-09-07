@@ -28,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:background="#52D57E"
+        android:layout_below="@id/va_voting_counter"
+        android:background="#a1887f"
         android:gravity="center_horizontal"
         android:textSize="40sp" />
 

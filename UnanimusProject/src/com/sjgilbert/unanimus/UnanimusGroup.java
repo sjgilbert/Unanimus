@@ -29,7 +29,7 @@ import java.util.Map;
 public class UnanimusGroup extends ParseObject {
     private static final String VOTE_CONTAINERS = "voteContainerIds";
     private static final String USER_IDS = "userIds";
-    private static final String RESTAURANT_IDS = "restaurantIds";
+    public static final String RESTAURANT_IDS = "restaurantIds";
 
     private Map<String, VotesList> userIdsVc;
     private List<String> restaurantIds;
@@ -143,21 +143,21 @@ public class UnanimusGroup extends ParseObject {
 
     public static class Builder {
         private static final String[] BOOT_STRAP = new String[]{
-                "0",
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "11",
-                "12",
-                "13",
-                "14"
+                "ChIJh2E4tQIq9ocRmxkXDVB0zZQ",  //blue door
+                "ChIJSzSBIxAq9ocRU4zWpADCY2Y",  //neighborhood cafe
+                "ChIJsbkY_hgq9ocRN8kZv60pQ6M",  //shish
+                "ChIJrSAGxzwq9ocRMEzwa0u133g",  //st clair broiler
+                "ChIJ93g6CRcq9ocRAWNTEjCS9Rk",  //st paul cheese shop
+                "ChIJw_ls8zwq9ocR6VGmxMFu3mc",  //acme deli
+                "ChIJSRkmGRkq9ocRT_kk4bSL3cQ",  //pad thai
+                "ChIJgxIuKRkq9ocRwyw6ewF1Z2U",  //indochin
+                "ChIJMW0S6RAq9ocRecs9YO5xjjM",  //buffalo wild wings
+                "ChIJHQRGthoq9ocRIzv4-kbWuQQ",  //lulus deli
+                "ChIJcdWmk4oq9ocRhV33nxJoU8s",  //chipotle
+                "ChIJ894-6Ioq9ocRO1KIwauCOzE",  //cafe latte
+                "ChIJnSuhY4sq9ocRuLdNgPgCHRA",  //brasa
+                "ChIJAVDk_xgq9ocRkuAk36qyZKw",  //french meadow
+                "ChIJQ5mqDBcq9ocRy0X2LCioShw"   //jamba juice
         };
         private final CgaContainer cgaContainer;
 
