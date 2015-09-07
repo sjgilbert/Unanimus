@@ -77,8 +77,8 @@ public class VotesList extends ParseObject implements List<Integer> {
     }
 
     void load() throws ParseException {
-        if (!has(VOTES_LIST))
-            throw new IllegalStateException();
+        if (!has(VOTES_LIST)){
+            throw new IllegalStateException();}
 
         final List<Integer> list = getList(VOTES_LIST);
         final int size = list.size();

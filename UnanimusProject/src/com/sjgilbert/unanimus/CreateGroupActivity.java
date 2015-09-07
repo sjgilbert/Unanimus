@@ -153,17 +153,17 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
 
     private void launchNext(int requestCode) {
         if (
-                requestCode != GSPA_REQUEST
-                        && cgaContainer.getGspaContainer() == null)
-            startGspaForResult();
+                requestCode != FPA_REQUEST
+                        && cgaContainer.getFpaContainer() == null)
+            startFpaForResult();
         else if (
                 requestCode != PPA_REQUEST
                         && cgaContainer.getPpaContainer() == null)
             startPpaForResult();
         else if (
-                requestCode != FPA_REQUEST
-                        && cgaContainer.getFpaContainer() == null)
-            startFpaForResult();
+                requestCode != GSPA_REQUEST
+                        && cgaContainer.getGspaContainer() == null)
+            startGspaForResult();
     }
 
     private void startGspaForResult() {

@@ -13,11 +13,13 @@ import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
  * Created by sam on 8/23/15.
  */
 public class RecommendationActivity extends UnanimusActivityTitle {
+    private static final String RECA = "reca";
+
     private String groupName;
     private CgaContainer group;
 
     public RecommendationActivity() {
-        super("reca");
+        super(RECA);
     }
 
     @Override
@@ -33,7 +35,7 @@ public class RecommendationActivity extends UnanimusActivityTitle {
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupName = extras.getString("GROUP_ID");
+            groupName = extras.getString(GroupActivity.GROUP_ID);
         } else {
             Toast.makeText(RecommendationActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
