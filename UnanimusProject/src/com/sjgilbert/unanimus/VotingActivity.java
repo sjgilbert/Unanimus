@@ -43,6 +43,7 @@ public class VotingActivity
 
     private GoogleApiClient googleApiClient = null;
 
+    private final CgaContainer cgaContainer = new CgaContainer();
 
     private UnanimusGroup group;
     private String groupKey;
@@ -68,44 +69,45 @@ public class VotingActivity
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupKey = extras.getString(GroupActivity.GROUP_ID);
+            cgaContainer.setFromBundle(extras.getBundle("UnanimusGroup"));
+            UnanimusGroup.Builder builder = new UnanimusGroup.Builder(cgaContainer);
+            builder.getInBackground(new UnanimusGroup.Builder.Callback() {
+                @Override
+                public void done(UnanimusGroup unanimusGroup) {
+                    group = unanimusGroup;
+                    restaurantIterator = group.getRestaurantIterator();
+
+                    final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
+
+                    while (restaurantIterator.hasNext()) {
+                        String restaurantId = restaurantIterator.next();
+                        restaurant.setText(restaurantId);
+                    }
+                }
+            });
+//            groupKey = extras.getString(GroupActivity.GROUP_ID);
         } else {
             Toast.makeText(VotingActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
         }
 
-        ParseQuery<ParseObject> query = ParseCache.parseCache.get(groupKey);
-        if (query == null) {
-            log(ELog.e, "messed up");
-            finish();
-        }
-
-        assert query != null;
-
-        try {
-            group = (UnanimusGroup) query.getFirst();
-        } catch (ClassCastException | ParseException e) {
-            log(ELog.e, e.getMessage(), e);
-            finish();
-        }
+//        ParseQuery<ParseObject> query = ParseCache.parseKey);
+//        if (query == null) {
+//            log(ELog.e, "messed up");
+//            finish();
+//        }
+//
+//        assert query != null;
+//
+//        try {
+//            group = (UnanimusGroup) query.getFirst();
+//        } catch (ClassCastException | ParseException e) {
+//            log(ELog.e, e.getMessage(), e);
+//            finish();
+//        }
 
         counter = (TextView) findViewById(R.id.va_voting_counter);
         restaurantIterator = group.getRestaurantIterator();
 
-        Places.GeoDataApi.getPlaceById(googleApiClient, "ChIJg-eOlowq9ocRrjQq2PKvNlc")
-                .setResultCallback(new ResultCallback<PlaceBuffer>() {
-                    @Override
-                    public void onResult(PlaceBuffer places) {
-                        if (places.getStatus().isSuccess()) {
-                            final Place myPlace = places.get(0);
-                            Log.i(null, "Place found: " + myPlace.getName());
-                        }
-                        places.release();
-                    }
-                });
-
-
-
-        final TextView restaurant = (TextView) findViewById(R.id.va_voting_restaurant_view);
 
         while (restaurantIterator.hasNext()) {
 
@@ -166,7 +168,17 @@ public class VotingActivity
 
     @Override
     public void onConnected(Bundle bundle) {
-
+        Places.GeoDataApi.getPlaceById(googleApiClient, "ChIJg-eOlowq9ocRrjQq2PKvNlc")
+                .setResultCallback(new ResultCallback<PlaceBuffer>() {
+                    @Override
+                    public void onResult(PlaceBuffer places) {
+                        if (places.getStatus().isSuccess()) {
+                            final Place myPlace = places.get(0);
+                            Log.i(null, "Place found: " + myPlace.getName());
+                        }
+                        places.release();
+                    }
+                });
     }
 
     @Override
