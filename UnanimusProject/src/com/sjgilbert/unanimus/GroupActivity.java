@@ -13,13 +13,10 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphRequestBatch;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Profile;
 import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
@@ -36,7 +33,6 @@ public class GroupActivity extends UnanimusActivityTitle {
     private static final String TAG = "ga";
     private String unanimusGroupId;
     private UnanimusGroup unanimusGroup;
-
 
     public GroupActivity() {
         super(TAG);

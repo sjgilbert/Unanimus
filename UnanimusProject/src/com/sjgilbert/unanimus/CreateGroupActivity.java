@@ -101,10 +101,6 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
 
                 cgaContainer.commit();
 
-                Intent intent = new Intent(CreateGroupActivity.this, VotingActivity.class);
-                intent.putExtra("UnanimusGroup", cgaContainer.getAsBundle());
-                startActivity(intent);
-
                 UnanimusGroup.Builder builder;
 
                 builder = new UnanimusGroup.Builder(cgaContainer);

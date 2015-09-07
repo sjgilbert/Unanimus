@@ -3,17 +3,13 @@ package com.sjgilbert.unanimus;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
@@ -24,10 +20,8 @@ import com.parse.ParseQuery;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,17 +38,13 @@ public class VotingActivity
 
     private final BuildGoogleApiClientWorker googleApiClientWorker
             = new BuildGoogleApiClientWorker(this);
-
+    private final AtomicInteger groupIsLoaded = new AtomicInteger(0);
+    private final AtomicInteger isSynchronouslyExecuting = new AtomicInteger(0);
+    private final AtomicInteger startedRestaurantSearch = new AtomicInteger(0);
     private GoogleApiClient googleApiClient = null;
-
-    private final CgaContainer cgaContainer = new CgaContainer();
-
-    private UnanimusGroup group;
     private String groupKey;
-
     private Iterator<Place> placeIterator;
     private PlaceBuffer placeBuffer;
-
     private int i;
     private TextView counter;
     private List<String> restaurantIds;
@@ -108,30 +98,46 @@ public class VotingActivity
 
     @Override
     public void finish() {
-        if (group == null) setResult(RESULT_CANCELED);
+        if (unanimusGroup == null) setResult(RESULT_CANCELED);
         else setResult(RESULT_OK);
 
         super.finish();
     }
 
-    private final AtomicInteger groupIsLoaded = new AtomicInteger(0);
-    private final AtomicInteger isSynchronouslyExecuting = new AtomicInteger(0);
-
-    private void checkDependenciesFufilled() {
+    private void checkDependenciesFulfilled() {
         executeSynchronous(new Runnable() {
             @Override
             public void run() {
                 if (googleApiClientWorker.getStatus() == AsyncTask.Status.FINISHED
                         && googleApiClient.isConnected()
                         && unanimusGroup != null
-                        && groupIsLoaded.get() != 0)
-                    startVoting();
+                        && groupIsLoaded.get() != 0
+                        && startedRestaurantSearch.getAndIncrement() == 0)
+                    setPlaces();
             }
         });
     }
 
-    private void startVoting() {
-        
+    private void setPlaces() {
+        Places.GeoDataApi.getPlaceById(
+                googleApiClient,
+                restaurantIds.toArray(
+                        new String[ restaurantIds.size() ]))
+                .setResultCallback(new ResultCallback<PlaceBuffer>() {
+                    @Override
+                    public void onResult(PlaceBuffer places) {
+                        if (places.getStatus().isSuccess()) {
+                            placeBuffer = places;
+                            placeIterator = places.iterator();
+
+                            if (placeIterator.hasNext())
+                                setRestaurantView(placeIterator.next());
+
+                            for (Place place : places)
+                                log(ELog.i, "Place found: " + place.getName());
+                        } else log(ELog.e, "Places not found");
+                    }
+                });
     }
 
     private synchronized void executeSynchronous(Runnable runnable) {
@@ -143,10 +149,11 @@ public class VotingActivity
     }
 
     private void setYesVote(int index) {
-        group.vote(index, VotesList.getUpVote(), null);
+        unanimusGroup.vote(index, VotesList.getUpVote(), null);
     }
 
-    private void setNoVote(int index) {group.vote(index, VotesList.getDownVote(), null);
+    private void setNoVote(int index) {
+        unanimusGroup.vote(index, VotesList.getDownVote(), null);
     }
 
     private void incrementRestaurant() {
@@ -177,20 +184,7 @@ public class VotingActivity
 
     @Override
     public void onConnected(Bundle bundle) {
-        Places.GeoDataApi.getPlaceById(googleApiClient, restaurantIds.toArray(new String[restaurantIds.size()]))
-                .setResultCallback(new ResultCallback<PlaceBuffer>() {
-                    @Override
-                    public void onResult(PlaceBuffer places) {
-                        if (places.getStatus().isSuccess()) {
-                            placeBuffer = places;
-                            placeIterator = places.iterator();
-                            setRestaurantView(placeIterator.next());
-                            for (Place place : places)
-                                log(ELog.i, "Place found: " + place.getName());
-                        }
-                        else log(ELog.e, "Places not found");
-                    }
-                });
+        checkDependenciesFulfilled();
     }
 
     private void setRestaurantView(Place place) {
@@ -206,6 +200,16 @@ public class VotingActivity
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         log(ELog.w, connectionResult.toString());
+    }
+
+    private void setGoogleApiClient(BuildGoogleApiClientWorker buildGoogleApiClientAsyncTask) {
+        try {
+            googleApiClient = buildGoogleApiClientAsyncTask.get();
+        } catch (InterruptedException | ExecutionException e) {
+            log(ELog.e, e.getMessage(), e);
+            return;
+        }
+        googleApiClient.connect();
     }
 
     private static abstract class VotingActivityAsyncTask<T1, T2, T3>
@@ -253,16 +257,6 @@ public class VotingActivity
 
     }
 
-    private void setGoogleApiClient(BuildGoogleApiClientWorker buildGoogleApiClientAsyncTask) {
-        try {
-            googleApiClient = buildGoogleApiClientAsyncTask.get();
-        } catch (InterruptedException | ExecutionException e) {
-            log(ELog.e, e.getMessage(), e);
-            return;
-        }
-        googleApiClient.connect();
-    }
-
     private class GroupQueryGetCallback implements GetCallback<UnanimusGroup> {
         @Override
         public void done(UnanimusGroup unanimusGroup, ParseException e) {
@@ -282,9 +276,11 @@ public class VotingActivity
 
             VotingActivity.this.unanimusGroup = unanimusGroup;
 
+            VotingActivity.this.restaurantIds = unanimusGroup.getRestaurantIds();
+
             groupIsLoaded.getAndIncrement();
 
-            checkDependenciesFufilled();
+            checkDependenciesFulfilled();
         }
     }
 }
