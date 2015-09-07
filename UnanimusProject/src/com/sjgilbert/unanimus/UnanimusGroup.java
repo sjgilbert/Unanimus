@@ -45,6 +45,8 @@ public class UnanimusGroup extends ParseObject {
     }
 
     void load() throws ParseException {
+        fetchIfNeeded();
+
         if (!has(CreateGroupActivity.CGA)
                 || !has(VOTE_CONTAINERS)
                 || !has(USER_IDS)
@@ -52,6 +54,9 @@ public class UnanimusGroup extends ParseObject {
             throw new IllegalStateException();
 
         this.cgaContainer = (CgaContainer) get(CreateGroupActivity.CGA);
+
+        cgaContainer.load();
+
         final List<VotesList> voteIds = getList(VOTE_CONTAINERS);
         final List<String> userIds = getList(USER_IDS);
         final List<String> parseRestaurantIds = getList(RESTAURANT_IDS);

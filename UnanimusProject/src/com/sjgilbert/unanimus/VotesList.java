@@ -22,7 +22,7 @@ import java.util.ListIterator;
 public class VotesList extends ParseObject implements List<Integer> {
     private static final String VOTES_LIST = "votesList";
 
-    private ImmutableList<Integer> votes;
+    private List<Integer> votes;
 
     static ParseQuery<VotesList> getQuery() {
         return ParseQuery.getQuery(VotesList.class);
@@ -77,19 +77,16 @@ public class VotesList extends ParseObject implements List<Integer> {
     }
 
     void load() throws ParseException {
-        if (!has(VOTES_LIST)){
-            throw new IllegalStateException();}
+        fetchIfNeeded();
 
-        final List<Integer> list = getList(VOTES_LIST);
-        final int size = list.size();
+        if (!has(VOTES_LIST))
+            throw new IllegalStateException();
 
-        votes = new ImmutableList<>(size);
-
-        for (int i = 0; size > i; ++i) votes.set(i, list.get(i));
+        votes = getList(VOTES_LIST);
     }
 
     private void commit() {
-        put(VOTES_LIST, votes);
+        super.addAll(VOTES_LIST, votes);
     }
 
     @Override

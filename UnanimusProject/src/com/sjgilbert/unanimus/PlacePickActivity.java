@@ -109,6 +109,12 @@ public class PlacePickActivity
     }
 
     @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        super.finish();
+    }
+    
+    @Override
     public void finish() {
         Intent returnIntent = new Intent();
         final int resultCode;

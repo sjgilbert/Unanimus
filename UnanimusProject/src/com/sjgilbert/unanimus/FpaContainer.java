@@ -54,6 +54,8 @@ public class FpaContainer extends ParseObject implements IContainer {
 
     @Override
     public void load() throws ParseException {
+        fetchIfNeeded();
+
         if (!has(FACEBOOK_IDS) || !has(PARSE_IDS))
             throw new IllegalStateException();
 

@@ -60,6 +60,7 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
                         resultCode
                 )
         );
+
         if (RESULT_OK != resultCode) {
             log(
                     ELog.w,

@@ -152,6 +152,8 @@ public class CgaContainer extends ParseObject implements IContainer {
 
     @Override
     public void load() throws ParseException {
+        fetchIfNeeded();
+
         if (!has(FriendPickerActivity.FPA)
                 || !has(GroupSettingsPickerActivity.GSPA)
                 || !has(PlacePickActivity.PPA))
