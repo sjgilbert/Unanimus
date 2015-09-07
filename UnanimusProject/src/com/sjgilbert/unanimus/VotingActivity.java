@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -28,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The activity for voting on restaurantIterator
@@ -56,6 +58,7 @@ public class VotingActivity
     private int i;
     private TextView counter;
     private List<String> restaurantIds;
+    private UnanimusGroup unanimusGroup;
 
     public VotingActivity() {
         super(VA);
@@ -75,21 +78,24 @@ public class VotingActivity
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            groupKey = extras.getString(ParseCache.OBJECT_ID);
+            this.groupKey = extras.getString(ParseCache.OBJECT_ID);
+
             ParseQuery parseQuery = ParseCache.parseCache.get(groupKey);
+
             if (parseQuery == null) {
                 parseQuery = UnanimusGroup.getQuery()
                         .whereEqualTo(ParseCache.OBJECT_ID, groupKey);
 
                 ParseCache.parseCache.put(groupKey, (ParseQuery<ParseObject>) parseQuery);
             }
-            
+
+            ((ParseQuery<UnanimusGroup>) parseQuery).getFirstInBackground(new GroupQueryGetCallback());
         } else {
             log(ELog.w, "Extras null, this is treated as an illegal argument exception.");
             throw new IllegalArgumentException();
         }
 
-        counter = (TextView) findViewById(R.id.va_voting_counter);
+        this.counter = (TextView) findViewById(R.id.va_voting_counter);
 
         googleApiClientWorker.execute();
     }
@@ -106,6 +112,34 @@ public class VotingActivity
         else setResult(RESULT_OK);
 
         super.finish();
+    }
+
+    private final AtomicInteger groupIsLoaded = new AtomicInteger(0);
+    private final AtomicInteger isSynchronouslyExecuting = new AtomicInteger(0);
+
+    private void checkDependenciesFufilled() {
+        executeSynchronous(new Runnable() {
+            @Override
+            public void run() {
+                if (googleApiClientWorker.getStatus() == AsyncTask.Status.FINISHED
+                        && googleApiClient.isConnected()
+                        && unanimusGroup != null
+                        && groupIsLoaded.get() != 0)
+                    startVoting();
+            }
+        });
+    }
+
+    private void startVoting() {
+        
+    }
+
+    private synchronized void executeSynchronous(Runnable runnable) {
+        isSynchronouslyExecuting.getAndIncrement();
+
+        runnable.run();
+
+        isSynchronouslyExecuting.getAndDecrement();
     }
 
     private void setYesVote(int index) {
@@ -126,7 +160,6 @@ public class VotingActivity
         if (placeIterator.hasNext()) {
             incrementRestaurant();
         } else {
-//                    group.checkIfComplete();
             placeBuffer.release();
             finish();
         }
@@ -137,7 +170,6 @@ public class VotingActivity
         if (placeIterator.hasNext()) {
             incrementRestaurant();
         } else {
-//                    group.checkIfComplete();
             placeBuffer.release();
             finish();
         }
@@ -153,11 +185,10 @@ public class VotingActivity
                             placeBuffer = places;
                             placeIterator = places.iterator();
                             setRestaurantView(placeIterator.next());
-                            for (Place place : places) {
+                            for (Place place : places)
                                 log(ELog.i, "Place found: " + place.getName());
-                            }
                         }
-                        else {log(ELog.e, "Places not found");}
+                        else log(ELog.e, "Places not found");
                     }
                 });
     }
@@ -176,14 +207,6 @@ public class VotingActivity
     public void onConnectionFailed(ConnectionResult connectionResult) {
         log(ELog.w, connectionResult.toString());
     }
-
-//    private void showVotes() {
-//        Toast.makeText(
-//                VotingActivity.this,
-//                voteContainer.getVotes().toString(),
-//                Toast.LENGTH_LONG
-//        ).show();
-//    }
 
     private static abstract class VotingActivityAsyncTask<T1, T2, T3>
             extends AsyncTask<T1, T2, T3> {
@@ -238,5 +261,30 @@ public class VotingActivity
             return;
         }
         googleApiClient.connect();
+    }
+
+    private class GroupQueryGetCallback implements GetCallback<UnanimusGroup> {
+        @Override
+        public void done(UnanimusGroup unanimusGroup, ParseException e) {
+            if (e != null) {
+                log(ELog.e, e.getMessage(), e);
+                finish();
+                return;
+            }
+
+            try {
+                unanimusGroup.load();
+            } catch (ParseException e1) {
+                log(ELog.e, e1.getMessage(), e1);
+                finish();
+                return;
+            }
+
+            VotingActivity.this.unanimusGroup = unanimusGroup;
+
+            groupIsLoaded.getAndIncrement();
+
+            checkDependenciesFufilled();
+        }
     }
 }
