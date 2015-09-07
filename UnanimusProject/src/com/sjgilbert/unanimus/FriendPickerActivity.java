@@ -77,6 +77,12 @@ public class FriendPickerActivity extends UnanimusActivityTitle {
     }
 
     @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        super.finish();
+    }
+
+    @Override
     public void finish() {
         Intent intent = new Intent();
         int result;
