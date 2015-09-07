@@ -68,9 +68,9 @@ public class MainActivity extends UnanimusActivityTitle {
 
         groupQueryAdapter = new ParseQueryAdapter<CgaContainer>(this, factory) {
             @Override
-            public View getItemView(CgaContainer group, View view, ViewGroup parent) {
+            public View getItemView(CgaContainer cgaContainer, View view, ViewGroup parent) {
                 try {
-                    group.load();
+                    cgaContainer.load();
                 } catch (ParseException e) {
                     log(ELog.e, e.getMessage(), e);
                     return view;
@@ -82,11 +82,13 @@ public class MainActivity extends UnanimusActivityTitle {
                 final TextView groupView = (TextView) view.findViewById(R.id.uga_groupID_view);
 //                final ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
                 try {
-                    ArrayList<String> members = group.getMembers();
+                    final FpaContainer fpaContainer = cgaContainer.getFpaContainer();
+                    final FpaContainer.UserIdPair[] userIdPairs = fpaContainer.getUserIdPairs();
+                    final int length = userIdPairs.length;
                     final ArrayList<String> usernames = new ArrayList<>();
-                    final GraphRequest[] requests = new GraphRequest[members.size()];
-                    for (int i = 0; i < members.size(); i++) {
-                        final String user = members.get(i);
+                    final GraphRequest[] requests = new GraphRequest[length];
+                    for (int i = 0; i < length; i++) {
+                        final String user = userIdPairs[i].facebookUserId;
                         requests[i] = new GraphRequest(
                                 AccessToken.getCurrentAccessToken(),
                                 String.format("/%s", user),
@@ -123,7 +125,7 @@ public class MainActivity extends UnanimusActivityTitle {
 
                     requestBatch.executeAsync();
 
-//                    groupView.setText(group.getMembers().toString());
+//                    groupView.setText(cgaContainer.getMembers().toString());
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }

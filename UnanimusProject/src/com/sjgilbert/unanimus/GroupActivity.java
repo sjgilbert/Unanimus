@@ -113,7 +113,7 @@ public class GroupActivity extends UnanimusActivityTitle {
         final ArrayList<String> usernames = new ArrayList<>(length);
         GraphRequest[] requests = new GraphRequest[length];
         for (int i = 0; i < length; i++) {
-            String user = userIdPairs[i].parseUserId;
+            String user = userIdPairs[i].facebookUserId;
             requests[i] = new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
                     String.format("/%s", user),
@@ -121,6 +121,11 @@ public class GroupActivity extends UnanimusActivityTitle {
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
                         public void onCompleted(GraphResponse response) {
+                            if (response.getError() != null) {
+                                log(ELog.e, response.getError().getErrorMessage());
+                                return;
+                            }
+
                             try {
                                 usernames.add(response.getJSONObject().getString("name"));
                             } catch (JSONException e) {
