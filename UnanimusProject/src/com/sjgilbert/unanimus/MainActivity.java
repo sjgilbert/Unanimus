@@ -66,76 +66,16 @@ public class MainActivity extends UnanimusActivityTitle {
                     }
                 };
 
-        groupQueryAdapter = new ParseQueryAdapter<CgaContainer>(this, factory) {
-            @Override
-            public View getItemView(CgaContainer cgaContainer, View view, ViewGroup parent) {
-                try {
-                    cgaContainer.load();
-                } catch (ParseException e) {
-                    log(ELog.e, e.getMessage(), e);
-                    return view;
-                }
+        ListView groupListView = (ListView) findViewById(R.id.ma_groups_list_view);
 
-                if (view == null) {
-                    view = View.inflate(getContext(), R.layout.unanimus_group_abstract, null);
-                }
-                final TextView groupView = (TextView) view.findViewById(R.id.uga_groupID_view);
-//                final ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
-                try {
-                    final FpaContainer fpaContainer = cgaContainer.getFpaContainer();
-                    final FpaContainer.UserIdPair[] userIdPairs = fpaContainer.getUserIdPairs();
-                    final int length = userIdPairs.length;
-                    final ArrayList<String> usernames = new ArrayList<>();
-                    final GraphRequest[] requests = new GraphRequest[length];
-                    for (int i = 0; i < length; i++) {
-                        final String user = userIdPairs[i].facebookUserId;
-                        requests[i] = new GraphRequest(
-                                AccessToken.getCurrentAccessToken(),
-                                String.format("/%s", user),
-                                null,
-                                HttpMethod.GET,
-                                new GraphRequest.Callback() {
-                                    public void onCompleted(GraphResponse response) {
-                                        if (response.getError() != null) {
-                                            log(
-                                                    ELog.e,
-                                                    response.getError().getErrorMessage(),
-                                                    response.getError().getException()
-                                            );
-                                            return;
-                                        }
-                                        try {
-                                            usernames.add(response.getJSONObject().getString("name"));
-                                            ProfilePictureView profilePictureView = (ProfilePictureView) findViewById(R.id.uga_invited_by);
-                                            profilePictureView.setProfileId(user);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-                        );
-                    }
-                    GraphRequestBatch requestBatch = new GraphRequestBatch(requests);
-                    requestBatch.addCallback(new GraphRequestBatch.Callback() {
-                        @Override
-                        public void onBatchCompleted(GraphRequestBatch graphRequestBatch) {
-                            // groupView.setText(usernames.get(0));
-                        }
-                    });
-
-                    requestBatch.executeAsync();
-
-//                    groupView.setText(cgaContainer.getMembers().toString());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-                return view;
-            }
-        };
+        groupQueryAdapter = new GroupQueryAdapter(
+                groupListView.getContext(),
+                factory,
+                R.layout.unanimus_group_abstract
+        );
 
         groupQueryAdapter.setAutoload(false);
 
-        ListView groupListView = (ListView) findViewById(R.id.ma_groups_list_view);
         groupListView.setAdapter(groupQueryAdapter);
         groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

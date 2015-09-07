@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
@@ -28,7 +29,9 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     private final int PPA_REQUEST = 2;
     private final int GSPA_REQUEST = 3;
 
-    private final CgaContainer cgaContainer = new CgaContainer();
+    private final ParseUser parseUser = ParseUser.getCurrentUser();
+
+    private final CgaContainer cgaContainer = new CgaContainer(parseUser.getObjectId());
 
     public CreateGroupActivity() {
         super(TAG);
@@ -37,6 +40,8 @@ public class CreateGroupActivity extends UnanimusActivityTitle {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        cgaContainer.setDefault();
 
         launchNext(NO_REQUEST);
     }

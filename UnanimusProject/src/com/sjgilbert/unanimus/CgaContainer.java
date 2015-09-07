@@ -2,12 +2,12 @@ package com.sjgilbert.unanimus;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 
 import java.util.ArrayList;
@@ -17,9 +17,21 @@ import java.util.ArrayList;
  */
 @ParseClassName("CgaContainer")
 public class CgaContainer extends ParseObject implements IContainer {
+    static final String OWNER_ID = "ownerId";
+
+    private String ownerId;
+
     private FpaContainer fpaContainer;
     private GspaContainer gspaContainer;
     private PpaContainer ppaContainer;
+
+    public CgaContainer() {
+        super();
+    }
+
+    CgaContainer(String ownerId) {
+        this.ownerId = ownerId;
+    }
 
     static ParseQuery<CgaContainer> getQuery() {
         return ParseQuery.getQuery(CgaContainer.class);
@@ -59,6 +71,14 @@ public class CgaContainer extends ParseObject implements IContainer {
         ppaContainer.setFromBundle(bundle);
     }
 
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
     @Deprecated
     public ArrayList<String> getMembers() {
         FpaContainer.UserIdPair[] userIdPairs = fpaContainer.getUserIdPairs();
@@ -83,6 +103,8 @@ public class CgaContainer extends ParseObject implements IContainer {
 
         bundle.putString(ParseCache.OBJECT_ID, getObjectId());
 
+        bundle.putString(OWNER_ID, ownerId);
+
         return bundle;
     }
 
@@ -95,18 +117,17 @@ public class CgaContainer extends ParseObject implements IContainer {
         put(GroupSettingsPickerActivity.GSPA, gspaContainer);
         put(FriendPickerActivity.FPA, fpaContainer);
         put(PlacePickActivity.PPA, ppaContainer);
+
+        put(OWNER_ID, ownerId);
     }
 
     @Override
     public void setDefault() throws NotSetException {
         gspaContainer = new GspaContainer();
-        gspaContainer.setDefault();
-
         fpaContainer = new FpaContainer();
-        fpaContainer.setDefault();
-
         ppaContainer = new PpaContainer();
-        ppaContainer.setDefault();
+
+        ownerId = ParseUser.getCurrentUser().getObjectId();
     }
 
     @Override
@@ -116,32 +137,40 @@ public class CgaContainer extends ParseObject implements IContainer {
         setPpaContainer(bundle.getBundle(PlacePickActivity.PPA));
 
         setObjectId(bundle.getString(ParseCache.OBJECT_ID));
+
+        setOwnerId(bundle.getString(OWNER_ID));
+
         commit();
     }
 
     @Override
     public boolean isSet() {
         return (ppaContainer != null
+                && ppaContainer.isSet()
                 && fpaContainer != null
+                && fpaContainer.isSet()
                 && gspaContainer != null
+                && gspaContainer.isSet()
+                && ownerId != null
         );
     }
 
     @Override
     public void load() throws ParseException {
-        fetchIfNeeded();
-
         if (!has(FriendPickerActivity.FPA)
                 || !has(GroupSettingsPickerActivity.GSPA)
                 || !has(PlacePickActivity.PPA))
             throw new IllegalStateException();
 
-        fpaContainer = (FpaContainer) get(FriendPickerActivity.FPA);
-        gspaContainer = (GspaContainer) get(GroupSettingsPickerActivity.GSPA);
-        ppaContainer = (PpaContainer) get(PlacePickActivity.PPA);
+        fpaContainer = (FpaContainer) getParseObject(FriendPickerActivity.FPA);
+        gspaContainer = (GspaContainer) getParseObject(GroupSettingsPickerActivity.GSPA);
+        ppaContainer = (PpaContainer) getParseObject(PlacePickActivity.PPA);
+
+        ownerId = getString(OWNER_ID);
 
         fpaContainer.load();
         gspaContainer.load();
         ppaContainer.load();
     }
+
 }
