@@ -13,6 +13,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Hashtable;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by sam on 9/1/15.
@@ -32,6 +34,13 @@ public class UnanimusGroup extends ParseObject {
     private static final String VOTE_CONTAINERS = "voteContainerIds";
     private static final String USER_IDS = "userIds";
     public static final String RESTAURANT_IDS = "restaurantIds";
+    private static final String RECOMMENDATION = "recommendation";
+
+    public List<String> getRecommendation() {
+        return recommendation;
+    }
+
+    @NonNull private List<String> recommendation = new ArrayList<>();
 
     private Map<String, VotesList> userIdsVc;
 
@@ -97,6 +106,8 @@ public class UnanimusGroup extends ParseObject {
         }
 
         this.restaurantIds = new ImmutableList<>(parseRestaurantIds);
+
+        this.recommendation = getList(RECOMMENDATION);
     }
 
     private UnanimusGroup(
@@ -113,6 +124,10 @@ public class UnanimusGroup extends ParseObject {
 
     ListIterator<String> getRestaurantIterator() {
         return restaurantIds.listIterator();
+    }
+
+    public Collection<VotesList> getUserIdsVs() {
+        return userIdsVc.values();
     }
 
     void vote(
@@ -161,6 +176,7 @@ public class UnanimusGroup extends ParseObject {
         addAll(VOTE_CONTAINERS, userIdsVc.values());
         addAll(USER_IDS, userIdsVc.keySet());
         addAll(RESTAURANT_IDS, restaurantIds);
+        addAll(RECOMMENDATION, recommendation);
 
         put(CreateGroupActivity.CGA, cgaContainer);
     }

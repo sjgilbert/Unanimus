@@ -48,8 +48,8 @@ public class MainActivity extends UnanimusActivityTitle {
                     @Override
                     public ParseQuery<UnanimusGroup> create() {
                         ParseQuery<UnanimusGroup> query = ParseQuery.getQuery(UnanimusGroup.class);
-//                        query.whereEqualTo("members", Profile.getCurrentProfile().getId());
                         query.orderByDescending("createdAt");
+                        query.whereEqualTo("userIds", ParseUser.getCurrentUser().getObjectId());
                         return query;
                     }
                 };

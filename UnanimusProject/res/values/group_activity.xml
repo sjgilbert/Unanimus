@@ -2,7 +2,6 @@
 <resources>
     <string name="ga_title">Group</string>
     <string name="ga_members_tag"><u>Members</u></string>
-    <string name="ga_group_name_tag">Group Name</string>
     <string name="ga_creator_tag">Created By</string>
     <string name="ga_play_game_button">Play</string>
     <string name="ga_view_recs_button">View Recs</string>

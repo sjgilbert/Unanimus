@@ -37,7 +37,6 @@ public class GroupActivity extends UnanimusActivityTitle {
     private String unanimusGroupId;
     private UnanimusGroup unanimusGroup;
 
-
     public GroupActivity() {
         super(TAG);
     }
@@ -61,9 +60,6 @@ public class GroupActivity extends UnanimusActivityTitle {
         }
 
         assert unanimusGroupId != null;
-        //Setting the group_activity name at top
-        TextView unanimusGroupIdTextView = (TextView) findViewById(R.id.ga_name);
-        unanimusGroupIdTextView.setText("GROUP ID: " + unanimusGroupId);
 
         //Query for the group_activity's data
         ParseQuery query = ParseQuery.getQuery(UnanimusGroup.class);
@@ -128,7 +124,7 @@ public class GroupActivity extends UnanimusActivityTitle {
 
                             //Setting owner of group_activity
                             TextView createdBy = (TextView) findViewById(R.id.ga_created_by);
-                            createdBy.setText("Created by " + userName);
+                            createdBy.setText("Created by: " + usernames.get(0));
                         }
                     }
             );
@@ -141,6 +137,7 @@ public class GroupActivity extends UnanimusActivityTitle {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(GroupActivity.this, R.layout.members_fragment, usernames);
                 ListView membersList = (ListView) findViewById(R.id.ga_members_list);
                 membersList.setAdapter(adapter);
+                membersList.setScrollContainer(false);
             }
         });
 

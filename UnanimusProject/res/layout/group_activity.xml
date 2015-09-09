@@ -6,14 +6,6 @@
     <include layout="@layout/activity_title" />
 
     <TextView
-        android:id="@+id/ga_name"
-        style="@style/TextView"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/zero"
-        android:gravity="center"
-        android:text="@string/ga_group_name_tag" />
-
-    <TextView
         android:id="@+id/ga_created_by"
         style="@style/TextView"
         android:layout_gravity="center"
