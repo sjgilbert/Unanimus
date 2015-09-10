@@ -3,8 +3,8 @@
     android:shape="rectangle">
     <gradient
         android:angle="270"
-        android:endColor="@color/button_color"
-        android:startColor="@color/button_color" />
+        android:endColor="@color/button_shaded"
+        android:startColor="@color/button_shaded" />
     <corners android:radius="3dp" />
     <stroke
         android:width="3px"

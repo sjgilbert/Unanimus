@@ -126,6 +126,13 @@ public class UnanimusGroup extends ParseObject {
         return restaurantIds.listIterator();
     }
 
+    public boolean hasNotVoted() {
+        return getMyVotes().contains(Integer.MIN_VALUE);
+    }
+
+    public VotesList getMyVotes() {
+        return userIdsVc.get(ParseUser.getCurrentUser().getObjectId());
+    }
     public Collection<VotesList> getUserIdsVs() {
         return userIdsVc.values();
     }
@@ -179,6 +186,14 @@ public class UnanimusGroup extends ParseObject {
         addAll(RECOMMENDATION, recommendation);
 
         put(CreateGroupActivity.CGA, cgaContainer);
+    }
+
+    public boolean allHaveVoted() {
+        for (VotesList v : userIdsVc.values())
+            if (v.contains(Integer.MIN_VALUE))
+                return false;
+
+        return true;
     }
 
     public static class Builder {
