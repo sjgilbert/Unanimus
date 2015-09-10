@@ -3,6 +3,7 @@ package com.sjgilbert.unanimus;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,20 +54,19 @@ public class RecommendationActivity
         }
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
-        if (extras != null) {
-            groupName = extras.getString(GroupActivity.GROUP_ID);
-        } else {
+        if (extras == null) {
             Toast.makeText(RecommendationActivity.this, "NULL OBJ ID", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
+        groupName = extras.getString(GroupActivity.GROUP_ID);
+        googleApiClientWorker.execute();
 
-        ParseQuery<CgaContainer> query = CgaContainer.getQuery();
-        query.include("members");
-        query.include("user");
-        try {
-            group = query.get(groupName);
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
+//        try {
+//            group = query.get(groupName);
+//        } catch (ParseException e) {
+//            System.out.println(e.getMessage());
+//        }
     }
 
     @Override
@@ -77,8 +77,10 @@ public class RecommendationActivity
                     public void onResult(PlaceBuffer places) {
                         if (places.getStatus().isSuccess()) {
                             TextView recommendation = (TextView) findViewById(R.id.reca_recommendation);
+                            recommendation.setVisibility(View.VISIBLE);
                             recommendation.setText(places.get(0).getName() + "\n" + places.get(0).getAddress().toString().split(",")[0] + "\n" + places.get(0).getPhoneNumber().toString().split(" ")[1]);
                             log(ELog.i, "Place found: " + places.get(0).getName());
+                            places.release();
                         } else log(ELog.e, "Places not found");
                     }
                 });

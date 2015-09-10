@@ -19,6 +19,8 @@ import java.util.ArrayList;
 public class CgaContainer extends ParseObject implements IContainer {
     static final String OWNER_ID = "ownerId";
 
+    private static final int MAX_RESTAURANTS = 5;
+
     private String ownerId;
 
     private FpaContainer fpaContainer;
@@ -37,8 +39,8 @@ public class CgaContainer extends ParseObject implements IContainer {
         return ParseQuery.getQuery(CgaContainer.class);
     }
 
-    int getMaxRestaurants() {
-        return 15;
+    static int getMaxRestaurants() {
+        return MAX_RESTAURANTS;
     }
 
     @Nullable

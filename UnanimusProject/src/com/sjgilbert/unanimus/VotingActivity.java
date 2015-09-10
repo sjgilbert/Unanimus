@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -135,6 +136,16 @@ public class VotingActivity
                             placeBuffer = places;
                             placeIterator = places.iterator();
                             if (placeIterator.hasNext()) {
+                                counter.setText(String.format("1/%d", CgaContainer.getMaxRestaurants()));
+
+                                Button yesButton = (Button) findViewById(R.id.va_voting_yes_button);
+                                Button noButton = (Button) findViewById(R.id.va_voting_no_button);
+                                yesButton.setEnabled(true);
+                                noButton.setEnabled(true);
+
+                                TextView textView = (TextView) findViewById(R.id.va_voting_restaurant_view);
+                                textView.setVisibility(View.VISIBLE);
+
                                 setRestaurantView(placeIterator.next());
                             }
                             for (Place place : places)

@@ -10,20 +10,32 @@
         style="@style/Margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.facebook.login.widget.ProfilePictureView
-            android:id="@+id/ma_prof_pic"
-            style="@style/Padding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:orientation="horizontal"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/ma_facebook_name"
             style="@style/TextView"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/large_font" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:textSize="@dimen/large_font"
+            android:text="@string/ma_groups"
+            android:layout_gravity="center_vertical"/>
+
+        <com.facebook.login.widget.ProfilePictureView
+            android:id="@+id/ma_prof_pic"
+            style="@style/Padding"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="end" />
+
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/unanimus" />
 
     <ListView
         android:id="@+id/ma_groups_list_view"

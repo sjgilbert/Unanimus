@@ -55,7 +55,7 @@ class UnanimusActivity extends Activity {
 
     static boolean setTitleBar(String title, TextView textView) {
         try {
-            textView.setText("Unanimus: " + title);
+            textView.setText(title);
             return false;
         } catch (NullPointerException e) {
             Log.e("Unanimus", e.getMessage(), e);

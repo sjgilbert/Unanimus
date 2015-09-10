@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:text="@string/untitled"
             android:layout_weight=".75"
-            android:textSize="@dimen/large_font" />
+            android:textSize="@dimen/medium_font" />
 
         <ImageView
             style="@style/Padding"

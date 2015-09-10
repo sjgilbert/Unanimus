@@ -3,12 +3,15 @@
     android:id="@+id/recommendation_activity"
     style="@style/RootLayout">
 
+    <include layout="@layout/activity_title" />
+
     <TextView
         android:id="@+id/reca_recommendation"
         style="@style/TextView"
         android:layout_gravity="center_vertical"
-        android:background="#52D57E"
+        android:background="#ffd54f"
         android:gravity="center_horizontal"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        android:visibility="invisible"/>
 
 </LinearLayout>

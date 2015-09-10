@@ -111,7 +111,6 @@ public class GroupActivity extends UnanimusActivityTitle {
                                 log(ELog.e, response.getError().getErrorMessage());
                                 return;
                             }
-
                             final String userName;
                             try {
                                 userName = response.getJSONObject().getString("name");
@@ -153,7 +152,7 @@ public class GroupActivity extends UnanimusActivityTitle {
 
     @SuppressWarnings("unused")
     public void ga_viewStartRecommendationActivity(@SuppressWarnings("UnusedParameters") View view) {
-        if (unanimusGroup.get("recommendation") != null) {
+        if (!unanimusGroup.getRecommendation().isEmpty()) {
             Intent intent = new Intent(GroupActivity.this, RecommendationActivity.class);
             intent.putExtra(GROUP_ID, unanimusGroupId);
             startActivity(intent);
