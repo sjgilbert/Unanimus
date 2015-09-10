@@ -196,7 +196,7 @@ public class GroupActivity extends UnanimusActivityTitle {
                 final Button recsButton = (Button) findViewById(R.id.ga_view_recs_button);
 
                 final boolean playable = unanimusGroup.hasNotVoted();
-                final boolean recsReady = unanimusGroup.allHaveVoted();
+                final boolean recsReady = unanimusGroup.allVotesIn();
 
                 final Resources resources = getResources();
 
@@ -209,11 +209,7 @@ public class GroupActivity extends UnanimusActivityTitle {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        playButton.setBackgroundColor(playColor);
-                        playButton.setClickable(playable);
 
-                        recsButton.setBackgroundColor(recsColor);
-                        recsButton.setClickable(recsReady);
                     }
                 });
                 return null;
@@ -234,8 +230,6 @@ public class GroupActivity extends UnanimusActivityTitle {
 
     @SuppressWarnings("unused")
     public void ga_viewStartRecommendationActivity(@SuppressWarnings("UnusedParameters") View view) {
-        if (unanimusGroup.getRecommendation().isEmpty())
-            return;
 
         Intent intent = new Intent(GroupActivity.this, RecommendationActivity.class);
         intent.putExtra(GROUP_ID, unanimusGroupId);

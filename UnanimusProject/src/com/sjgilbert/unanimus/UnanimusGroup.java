@@ -179,7 +179,7 @@ public class UnanimusGroup extends ParseObject {
         return userIdsVc.keySet();
     }
 
-    private void commit() {
+    void commit() {
         addAll(VOTE_CONTAINERS, userIdsVc.values());
         addAll(USER_IDS, userIdsVc.keySet());
         addAll(RESTAURANT_IDS, restaurantIds);
@@ -188,7 +188,7 @@ public class UnanimusGroup extends ParseObject {
         put(CreateGroupActivity.CGA, cgaContainer);
     }
 
-    public boolean allHaveVoted() {
+    public boolean allVotesIn() {
         for (VotesList v : userIdsVc.values())
             if (v.contains(Integer.MIN_VALUE))
                 return false;

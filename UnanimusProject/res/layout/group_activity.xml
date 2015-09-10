@@ -34,21 +34,21 @@
         <Button
             android:id="@+id/ga_play_button"
             style="@style/Button"
-            android:background="@drawable/button_shaded"
+            android:background="@drawable/button"
             android:layout_width="@dimen/zero"
             android:layout_weight="0.5"
             android:onClick="ga_viewStartVotingActivity"
-            android:clickable="false"
+            android:clickable="true"
             android:text="@string/ga_play_game_button" />
 
         <Button
             android:id="@+id/ga_view_recs_button"
             style="@style/Button"
-            android:background="@drawable/button_shaded"
+            android:background="@drawable/button"
             android:layout_width="@dimen/zero"
             android:layout_weight="0.5"
             android:onClick="ga_viewStartRecommendationActivity"
-            android:clickable="false"
+            android:clickable="true"
             android:text="@string/ga_view_recs_button" />
     </LinearLayout>
 </LinearLayout>

@@ -15,7 +15,6 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -25,10 +24,10 @@ import com.sjgilbert.unanimus.unanimus_activity.UnanimusActivityTitle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import bolts.Bolts;
 import bolts.Continuation;
 import bolts.Task;
 
@@ -49,7 +48,6 @@ public class VotingActivity
     private final AtomicInteger isSynchronouslyExecuting = new AtomicInteger(0);
     private final AtomicInteger startedRestaurantSearch = new AtomicInteger(0);
     private GoogleApiClient googleApiClient = null;
-    private String groupKey;
     private Iterator<Place> placeIterator;
     private PlaceBuffer placeBuffer;
     private int i;
@@ -75,7 +73,7 @@ public class VotingActivity
 
         Bundle extras = getIntent().getExtras();    //The GROUP_ID of the selected group_activity
         if (extras != null) {
-            this.groupKey = extras.getString(ParseCache.OBJECT_ID);
+            String groupKey = extras.getString(ParseCache.OBJECT_ID);
 
             ParseQuery parseQuery = ParseCache.parseCache.get(groupKey);
 
@@ -195,51 +193,41 @@ public class VotingActivity
         }
     }
 
-    private Continuation<ParseObject, Boolean> isLast() {
-        return new Continuation<ParseObject, Boolean>() {
-            @Override
-            public Boolean then(Task<ParseObject> task) throws Exception {
-                UnanimusGroup unanimusGroup = (UnanimusGroup) task.getResult();
-                for (VotesList vl : unanimusGroup.getUserIdsVs()) {
-                    if (vl.contains(Integer.MIN_VALUE)) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        };
-    }
-
     private Task<Void> endTask() {
         placeBuffer.release();
-        Task<Void> ret = unanimusGroup.fetchInBackground().onSuccess(new Continuation<ParseObject, ParseObject>() {
+        Task<Void> ret = unanimusGroup.fetchInBackground().onSuccessTask(new Continuation<ParseObject, Task<Void>>() {
             @Override
-            public ParseObject then(Task<ParseObject> task) throws Exception {
-                UnanimusGroup unanimusGroup = (UnanimusGroup) task.getResult();
+            public Task<Void> then(Task<ParseObject> task) throws Exception {
+                final UnanimusGroup unanimusGroup = (UnanimusGroup) task.getResult();
+                VotingActivity.this.unanimusGroup = unanimusGroup;
                 unanimusGroup.load();
-                return unanimusGroup;
-            }
-        }).onSuccess(isLast()).onSuccess(isRecommendationEmpty(unanimusGroup)).continueWith(new Continuation<List<String>, List<String>>() {
-            @Override
-            public List<String> then(Task<List<String>> task) throws Exception {
-                List<String> recommendation = task.getResult();
+
+                if (!unanimusGroup.allVotesIn())
+                    throw new CancellationException();
+
+                final List<String> recommendation = unanimusGroup.getRecommendation();
+
                 if (!recommendation.isEmpty())
-                    return null;
-                List<String> bootstrapRec = new ArrayList<String>();
+                    throw new CancellationException();
+
+                List<String> bootstrapRec = new ArrayList<>();
                 bootstrapRec.add("ChIJh2E4tQIq9ocRmxkXDVB0zZQ");
                 recommendation.addAll(bootstrapRec);
-                return recommendation;
-            }
-        }).onSuccessTask(new Continuation<List<String>, Task<Void>>() {
-            @Override
-            public Task<Void> then(Task<List<String>> task) throws Exception {
-                return unanimusGroup.saveInBackground();
 
+                unanimusGroup.commit();
+                return unanimusGroup.saveInBackground();
             }
         }).continueWith(new Continuation<Void, Void>() {
             @Override
             public Void then(Task<Void> task) throws Exception {
+                finish();
+
                 Exception e = task.getError();
+                if (e instanceof CancellationException) {
+                    log(ELog.d, "Caught Cancellation Exception", e);
+                    return null;
+                }
+
                 if (e != null)
                     log(ELog.e, e.getMessage(), e);
 
@@ -247,7 +235,6 @@ public class VotingActivity
             }
         });
 
-        finish();
         return ret;
     }
 
@@ -259,18 +246,6 @@ public class VotingActivity
     private void setRestaurantView(Place place) {
         TextView textView = (TextView) findViewById(R.id.va_voting_restaurant_view);
         textView.setText(place.getName() + "\n" + place.getAddress().toString().split(",")[0] + "\n" + place.getPhoneNumber().toString().split(" ")[1]);
-    }
-
-    private Continuation<Boolean, List<String>> isRecommendationEmpty(final UnanimusGroup unanimusGroup) {
-        return new Continuation<Boolean, List<String>>() {
-            @Override
-            public List<String> then(Task<Boolean> task) throws Exception {
-                if (!task.getResult()) {
-                    throw new NullPointerException();
-                }
-                return unanimusGroup.getRecommendation();
-            }
-        };
     }
 
     @Override
