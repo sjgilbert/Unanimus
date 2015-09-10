@@ -10,6 +10,8 @@
         style="@style/Margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:gravity="start|center_vertical"
         android:orientation="horizontal">
 
         <com.facebook.login.widget.ProfilePictureView
@@ -21,10 +23,35 @@
         <TextView
             android:id="@+id/ma_facebook_name"
             style="@style/TextView"
+            android:layout_gravity="start|center_vertical"
+            android:gravity="start|center_vertical"
             android:layout_height="match_parent"
+            android:text="@string/unknown_caps"
             android:textSize="@dimen/large_font" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="@integer/one">
+
+        <TextView
+            style="@style/TextView"
+            android:textSize="@dimen/large_font"
+            android:layout_width="@dimen/zero"
+            android:layout_weight="@integer/one"
+            android:layout_gravity="start|center_vertical"
+            android:text="@string/ma_groups"/>
+
+        <Button
+            style="@style/Button"
+            android:layout_width="100sp"
+            android:layout_weight="@integer/zero"
+            android:layout_gravity="end|center_vertical"
+            android:onClick="ma_viewDoQuery"
+            android:text="@string/refresh" />
+    </LinearLayout>
     <include layout="@layout/unanimus_group_abstract"/>
 
     <Button
