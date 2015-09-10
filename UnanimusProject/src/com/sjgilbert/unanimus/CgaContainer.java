@@ -7,7 +7,6 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.sjgilbert.unanimus.parsecache.ParseCache;
 
 import java.util.ArrayList;
@@ -171,5 +170,4 @@ public class CgaContainer extends ParseObject implements IContainer {
         gspaContainer.load();
         ppaContainer.load();
     }
-
 }
