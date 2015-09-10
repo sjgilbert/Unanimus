@@ -25,11 +25,7 @@
             android:textSize="@dimen/large_font" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/ma_groups_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+    <include layout="@layout/unanimus_group_abstract"/>
 
     <Button
         android:id="@+id/ma_create_group_button"
