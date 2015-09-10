@@ -210,9 +210,9 @@ public class VotingActivity
         };
     }
 
-    private Task<Task<Void>> endTask() {
+    private Task<Void> endTask() {
         placeBuffer.release();
-        Task<Task<Void>> ret = unanimusGroup.fetchInBackground().onSuccess(new Continuation<ParseObject, ParseObject>() {
+        Task<Void> ret = unanimusGroup.fetchInBackground().onSuccess(new Continuation<ParseObject, ParseObject>() {
             @Override
             public ParseObject then(Task<ParseObject> task) throws Exception {
                 UnanimusGroup unanimusGroup = (UnanimusGroup) task.getResult();
@@ -222,32 +222,31 @@ public class VotingActivity
         }).onSuccess(isLast()).onSuccess(isRecommendationEmpty(unanimusGroup)).continueWith(new Continuation<List<String>, List<String>>() {
             @Override
             public List<String> then(Task<List<String>> task) throws Exception {
-                Exception e = task.getError();
-                if (e != null) {
-                    throw e;
-                }
                 List<String> recommendation = task.getResult();
-                if (recommendation.isEmpty()) {
-                    return recommendation;
-                }
-                throw new NullPointerException();
-            }
-        }).onSuccess(new Continuation<List<String>, List<String>>() {
-            @Override
-            public List<String> then(Task<List<String>> task) throws Exception {
-                List<String> recommendation = task.getResult();
+                if (!recommendation.isEmpty())
+                    return null;
                 List<String> bootstrapRec = new ArrayList<String>();
                 bootstrapRec.add("ChIJh2E4tQIq9ocRmxkXDVB0zZQ");
                 recommendation.addAll(bootstrapRec);
                 return recommendation;
             }
-        }).onSuccess(new Continuation<List<String>, Task<Void>>() {
+        }).onSuccessTask(new Continuation<List<String>, Task<Void>>() {
             @Override
             public Task<Void> then(Task<List<String>> task) throws Exception {
                 return unanimusGroup.saveInBackground();
 
             }
+        }).continueWith(new Continuation<Void, Void>() {
+            @Override
+            public Void then(Task<Void> task) throws Exception {
+                Exception e = task.getError();
+                if (e != null)
+                    log(ELog.e, e.getMessage(), e);
+
+                return null;
+            }
         });
+
         finish();
         return ret;
     }

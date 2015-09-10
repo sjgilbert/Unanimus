@@ -214,6 +214,6 @@ public class MainActivity extends UnanimusActivityTitle {
     }
 
     public void ma_viewDoQuery(View view) {
-
+        doQuery(factory);
     }
 }
